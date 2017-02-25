@@ -7,7 +7,7 @@ interface LocaleHelperInterface
     /**
      * Set Locale.
      *
-     * @param string                         $locale
+     * @param string                                                      $locale
      * @param \LaravelRocket\Foundation\Models\Traits\LocaleStorable|null $user
      *
      * @return string

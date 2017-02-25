@@ -10,8 +10,8 @@ namespace LaravelRocket\Foundation\Models\Traits;
  * @method static \Illuminate\Database\Query\Builder|\LaravelRocket\Foundation\Models\Traits\LocaleStorable whereLocale($value)
  */
 
-trait LocaleStorable {
-
+trait LocaleStorable
+{
     public function getLocale()
     {
         return $this->locale;

@@ -53,7 +53,7 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param \LaravelRocket\Foundation\Models\Base $model
-     * @param array            $input
+     * @param array                                 $input
      *
      * @return \LaravelRocket\Foundation\Models\Base
      */

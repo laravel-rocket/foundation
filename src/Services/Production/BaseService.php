@@ -7,4 +7,3 @@ use LaravelRocket\Foundation\Services\BaseServiceInterface;
 class BaseService implements BaseServiceInterface
 {
 }
-

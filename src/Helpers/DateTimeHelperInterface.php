@@ -44,7 +44,7 @@ interface DateTimeHelperInterface
     /**
      * Convert Unix TimeStamp to Carbon(DateTime).
      *
-     * @param int $timeStamp
+     * @param int           $timeStamp
      * @param \DateTimeZone $timezone
      *
      * @return \Carbon\Carbon
@@ -54,7 +54,7 @@ interface DateTimeHelperInterface
     /**
      * Get DateTime Object from string.
      *
-     * @param string $dateTimeStr
+     * @param string        $dateTimeStr
      * @param \DateTimeZone $timezoneFrom
      * @param \DateTimeZone $timezoneTo
      *
@@ -63,7 +63,7 @@ interface DateTimeHelperInterface
     public function dateTime($dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null);
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime     $dateTime
      * @param \DateTimeZone $timezone
      *
      * @return string
@@ -71,7 +71,7 @@ interface DateTimeHelperInterface
     public function formatDate($dateTime, \DateTimeZone $timezone = null);
 
     /**
-     * @param \DateTime $dateTime
+     * @param \DateTime     $dateTime
      * @param \DateTimeZone $timezone
      *
      * @return string
@@ -80,8 +80,8 @@ interface DateTimeHelperInterface
 
     /**
      * @param \DateTime|null $dateTime
-     * @param string $format
-     * @param \DateTimeZone $timezone
+     * @param string         $format
+     * @param \DateTimeZone  $timezone
      *
      * @return string
      */
