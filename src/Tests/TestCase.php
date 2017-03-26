@@ -30,7 +30,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if( file_exists(__DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php')) {
             $app = require __DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php';
         }else {
-            $app = require __DIR__.'/../../../../laravel/laravel/bootstrap/app.php';
+            $app = require __DIR__.'/../../../../../laravel/laravel/bootstrap/app.php';
         }
         $this->setUpHttpKernel($app);
         $app->register(\Illuminate\Database\DatabaseServiceProvider::class);
