@@ -2,7 +2,7 @@
 
 namespace Tests\Helpers;
 
-use Tests\TestCase;
+use LaravelRocket\Foundation\Tests\TestCase;
 
 class URLHelperTest extends TestCase
 {

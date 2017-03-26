@@ -2,7 +2,7 @@
 
 namespace LaravelRocket\Foundation\Tests\Helpers;
 
-use Tests\TestCase;
+use LaravelRocket\Foundation\Tests\TestCase;
 
 class CollectionHelperTest extends TestCase
 {
