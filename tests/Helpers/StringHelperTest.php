@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Helpers;
+namespace LaravelRocket\Foundation\Tests\Helpers;
 
-use Tests\TestCase;
+use LaravelRocket\Foundation\Tests\TestCase;
 
 class StringHelperTest extends TestCase
 {

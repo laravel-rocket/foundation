@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace LaravelRocket\Foundation\Tests;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;

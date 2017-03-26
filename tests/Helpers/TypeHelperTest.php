@@ -1,6 +1,8 @@
-<?php namespace Tests\Helpers;
+<?php
 
-use Tests\TestCase;
+namespace LaravelRocket\Foundation\Tests\Helpers;
+
+use LaravelRocket\Foundation\Tests\TestCase;
 
 class TypeHelperTest extends TestCase
 {
