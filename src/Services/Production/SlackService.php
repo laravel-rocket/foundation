@@ -2,6 +2,7 @@
 
 namespace LaravelRocket\Foundation\Services\Production;
 
+use LaravelRocket\Foundation\Services\SlackServiceInterface;
 use Maknz\Slack\Client;
 use Maknz\Slack\Attachment;
 
@@ -26,19 +27,19 @@ class SlackService extends BaseService implements SlackServiceInterface
             }
         };
 
-        $addToField('Environment', \App::environment(), true);
+        $addToField('Environment', app()->environment(), true);
         $addToField('Exception', get_class($e), true);
         $addToField('Http code', $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500, true);
         $addToField('Code', $e->getCode(), true);
         $addToField('File', $e->getFile(), true);
         $addToField('Line', $e->getLine(), true);
-        $addToField('Request url', \Request::url(), true);
-        $addToField('Request method', \Request::method(), true);
-        $addToField('Request param', json_encode(\Request::all()), true);
+        $addToField('Request url', request()->url(), true);
+        $addToField('Request method', request()->method(), true);
+        $addToField('Request param', json_encode(request()->all()), true);
 
-        $message = ':bug: Error Occurs on '.\App::environment();
+        $message = ':bug: Error Occurs on '.app()->environment();
         $type = 'serious-alert';
-        $pretext = 'Error Occurs on '.\App::environment();
+        $pretext = 'Error Occurs on '.app()->environment();
         $attachment = [
             'color' => 'danger',
             'title' => $e->getMessage(),

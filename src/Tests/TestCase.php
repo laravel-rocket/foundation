@@ -45,14 +45,15 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         /** @var $app \Illuminate\Foundation\Application */
-        if( file_exists(__DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php')) {
+        if ( file_exists(__DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php')) {
             $app = require __DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php';
-        }else {
+        } else {
             $app = require __DIR__.'/../../../../../bootstrap/app.php';
         }
         $this->setUpHttpKernel($app);
         $app->register(\Illuminate\Database\DatabaseServiceProvider::class);
         $app->register(\LaravelRocket\Foundation\Providers\ServiceProvider::class);
+
         return $app;
     }
 
@@ -65,13 +66,13 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
-
     /**
      * @return Router
      */
     protected function getRouter()
     {
         $router = new Router(new Dispatcher());
+
         return $router;
     }
 }

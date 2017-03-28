@@ -75,7 +75,7 @@ class ImageService extends BaseService implements ImageServiceInterface
 
     /**
      * @param \Imagick $image
-     * @param string $format
+     * @param string   $format
      *
      * @return \Imagick
      */
@@ -93,8 +93,8 @@ class ImageService extends BaseService implements ImageServiceInterface
 
     /**
      * @param  \Imagick $image
-     * @param  array $size
-     * @param  bool $needExactSize
+     * @param  array    $size
+     * @param  bool     $needExactSize
      * @return \Imagick
      */
     private function setImageSize($image, $size, $needExactSize = false)

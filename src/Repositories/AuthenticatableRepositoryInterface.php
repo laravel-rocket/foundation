@@ -17,7 +17,6 @@ use LaravelRocket\Foundation\Models\AuthenticatableBase;
  * @method \LaravelRocket\Foundation\Models\AuthenticatableBase save($model);
  */
 
-
 interface AuthenticatableRepositoryInterface extends SingleKeyModelRepositoryInterface
 {
     /**
