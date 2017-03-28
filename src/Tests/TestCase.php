@@ -10,6 +10,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     use WithoutMiddleware;
 
+    /** @var bool */
+    protected $useDatabase = false;
+
     /**
      * Setup DB before each test.
      */
@@ -17,6 +20,21 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         parent::setUp();
         $this->app->boot();
+        if ($this->useDatabase) {
+            \DB::disableQueryLog();
+            $this->artisan('migrate');
+            $this->artisan('db:seed');
+        }
+    }
+
+    public function tearDown()
+    {
+        if ($this->useDatabase) {
+            $this->artisan('migrate:reset');
+            \DB::disconnect();
+        }
+
+        parent::tearDown();
     }
 
     /**

@@ -1,0 +1,36 @@
+<?php
+
+namespace LaravelRocket\Foundation\Services\Production;
+
+use LaravelRocket\Foundation\Services\MailServiceInterface;
+
+class MailService extends BaseService implements MailServiceInterface
+{
+    public function sendMail($title, $from, $to, $template, $data)
+    {
+        if (config('app.offline_mode')) {
+            return true;
+        }
+
+        if (app()->environment() != 'production') {
+            $title = '['.app()->environment().'] '.$title;
+            $to = [
+                'address' => config('mail.tester'),
+                'name'    => app()->environment().' Original: '.$to['address'],
+            ];
+        }
+
+        try {
+            \Mail::send($template, $data, function($m) use ($from, $to, $title) {
+                $m->from($from['address'], $from['name']);
+
+                $m->to($to['address'], $to['name'])->subject($title);
+            });
+
+        } catch (\Exception $e) {
+            echo $e->getMessage(), "\n";
+        }
+
+        return true;
+    }
+}

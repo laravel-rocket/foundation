@@ -12,6 +12,7 @@
     "require": {
         "php": ">=7.0",
         "icanboogie/inflector": "^1.4",
+        "maknz/slack": "^1.7",
         "laravel/framework": "5.4.*"
     },
     "require-dev": {

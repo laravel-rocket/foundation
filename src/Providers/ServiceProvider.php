@@ -19,6 +19,19 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
+        /* Services */
+        $this->app->singleton(\LaravelRocket\Foundation\Services\MailServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\MailService::class);
+
+        $this->app->singleton(\LaravelRocket\Foundation\Services\ImageServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\ImageService::class);
+
+        $this->app->singleton(\LaravelRocket\Foundation\Services\LanguageServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\LanguageService::class);
+
+        $this->app->singleton(\LaravelRocket\Foundation\Services\SlackServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\SlackService::class);
+
         /* Helpers */
         $this->app->singleton(\LaravelRocket\Foundation\Helpers\DateTimeHelperInterface::class,
             \LaravelRocket\Foundation\Helpers\Production\DateTimeHelper::class);

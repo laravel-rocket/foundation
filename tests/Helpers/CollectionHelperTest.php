@@ -6,8 +6,6 @@ use LaravelRocket\Foundation\Tests\TestCase;
 
 class CollectionHelperTest extends TestCase
 {
-    protected $useDatabase = true;
-
     public function testGetInstance()
     {
         /** @var  \LaravelRocket\Foundation\Helpers\CollectionHelperInterface $helper */
