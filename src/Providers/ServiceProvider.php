@@ -32,6 +32,16 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->singleton(\LaravelRocket\Foundation\Services\SlackServiceInterface::class,
             \LaravelRocket\Foundation\Services\Production\SlackService::class);
 
+        $this->app->singleton(\LaravelRocket\Foundation\Services\FileUploadServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\FileUploadService::class);
+
+        $this->app->singleton(\LaravelRocket\Foundation\Services\FileUploadS3ServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\FileUploadS3Service::class);
+
+        $this->app->singleton(\LaravelRocket\Foundation\Services\FileUploadLocalServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\FileUploadLocalService::class);
+
+
         /* Helpers */
         $this->app->singleton(\LaravelRocket\Foundation\Helpers\DateTimeHelperInterface::class,
             \LaravelRocket\Foundation\Helpers\Production\DateTimeHelper::class);
