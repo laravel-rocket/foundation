@@ -10,6 +10,8 @@ use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 class TestCase extends BaseTestCase
 {
     use WithoutMiddleware;
+    
+    public $baseUrl = 'http://localhost';
 
     /** @var bool */
     protected $useDatabase = false;
