@@ -35,6 +35,9 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         return [
             'success' => $success,
             'url'     => $url,
+            'bucket'  => $bucket,
+            'key'     => $key,
+            'region'  => $region,
         ];
     }
 
