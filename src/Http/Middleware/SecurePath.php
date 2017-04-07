@@ -16,7 +16,9 @@ class SecurePath
      */
     public function handle($request, Closure $next)
     {
-        if ( app()->environment('production') && !request()->secure()) {
+        $ua = $request->header('User-Agent');
+        if (app()->environment('production') && !request()->secure() && strpos($ua, 'ELB-HealthChecker') === false) {
+            // The environment is production
             return redirect()->secure(request()->path());
         }
 
