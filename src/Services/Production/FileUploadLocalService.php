@@ -1,25 +1,23 @@
 <?php
-
 namespace LaravelRocket\Foundation\Services\Production;
 
 use LaravelRocket\Foundation\Services\FileUploadLocalServiceInterface;
 
 class FileUploadLocalService extends FileUploadService implements FileUploadLocalServiceInterface
 {
-
     public function upload($srcPath, $mediaType, $filename, $attributes)
     {
         $uploadDirectory = array_get($attributes, 'uploadDirectory', config('storage.local.path'));
-        $key = array_get($attributes, 'key');
-        $baseUrl = array_get($attributes, 'baseUrl', config('storage.local.url'));
+        $key             = array_get($attributes, 'key');
+        $baseUrl         = array_get($attributes, 'baseUrl', config('storage.local.url'));
 
-        $url = '';
+        $url     = '';
         $success = false;
 
         if (file_exists($srcPath)) {
             $dstPath = $uploadDirectory.'/'.$key;
             copy($srcPath, $dstPath);
-            $url = $baseUrl.'/'.$key;
+            $url     = $baseUrl.'/'.$key;
             $success = true;
         }
 
@@ -32,7 +30,7 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
     public function delete($attributes)
     {
         $uploadDirectory = array_get($attributes, 'uploadDirectory', config('storage.local.path'));
-        $key = array_get($attributes, 'key');
+        $key             = array_get($attributes, 'key');
 
         $filePath = $uploadDirectory.'/'.$key;
 
@@ -83,8 +81,8 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
                 'key'    => array_get($config, 'key'),
                 'secret' => array_get($config, 'secret'),
             ],
-            'region'      => $region,
-            'version'     => 'latest',
+            'region'  => $region,
+            'version' => 'latest',
         ]);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Http\Middleware;
 
 class SecurityHeaders

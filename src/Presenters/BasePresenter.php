@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Presenters;
 
 class BasePresenter
@@ -41,5 +40,4 @@ class BasePresenter
 
         return $this->entity->$property;
     }
-
 }

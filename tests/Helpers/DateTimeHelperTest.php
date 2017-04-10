@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Tests\Helpers;
 
 use LaravelRocket\Foundation\Tests\TestCase;
@@ -8,17 +7,18 @@ class DateTimeHelperTest extends TestCase
 {
     public function testGetInstance()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\DateTimeHelperInterface::class);
         $this->assertNotNull($helper);
     }
 
     public function testTimeZoneForPresentation()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface $helper */
         $helper = app()->make('LaravelRocket\Foundation\Helpers\DateTimeHelperInterface');
 
-        $this->assertEquals(config('app.default_presentation_timezone', 'UTC'), $helper->getPresentationTimeZoneString());
+        $this->assertEquals(config('app.default_presentation_timezone', 'UTC'),
+            $helper->getPresentationTimeZoneString());
 
         $timeZone = $helper->timezoneForPresentation();
         $this->assertEquals(config('app.default_presentation_timezone', 'UTC'), $timeZone->getName());
@@ -40,7 +40,8 @@ class DateTimeHelperTest extends TestCase
         $this->assertEquals($bangkokNow->format('H:i'), $helper->formatTime($now));
 
         $helper->clearPresentationTimeZone();
-        $this->assertEquals(config('app.default_presentation_timezone', 'UTC'), $helper->getPresentationTimeZoneString());
+        $this->assertEquals(config('app.default_presentation_timezone', 'UTC'),
+            $helper->getPresentationTimeZoneString());
 
         $timeZone = $helper->timezoneForPresentation();
         $this->assertEquals(config('app.default_presentation_timezone', 'UTC'), $timeZone->getName());
@@ -60,7 +61,7 @@ class DateTimeHelperTest extends TestCase
 
     public function testTimeZoneForStorage()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface $helper */
         $helper = app()->make('LaravelRocket\Foundation\Helpers\DateTimeHelperInterface');
 
         $timeZone = $helper->timezoneForStorage();
@@ -73,7 +74,8 @@ class DateTimeHelperTest extends TestCase
         $this->assertEquals($timeZone->getName(), $time->getTimezone()->getName());
 
         $newTimeZone = 'Asia/Bangkok';
-        $time = $helper->dateTime('2018-01-01 10:10:10', new \DateTimeZone($newTimeZone), new \DateTimeZone($newTimeZone));
+        $time        = $helper->dateTime('2018-01-01 10:10:10', new \DateTimeZone($newTimeZone),
+            new \DateTimeZone($newTimeZone));
         $this->assertEquals($newTimeZone, $time->getTimezone()->getName());
     }
 }

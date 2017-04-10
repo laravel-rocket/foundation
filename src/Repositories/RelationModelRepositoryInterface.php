@@ -1,10 +1,8 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories;
 
 interface RelationModelRepositoryInterface extends SingleKeyModelRepositoryInterface
 {
-
     /**
      * @return array
      */
@@ -23,7 +21,7 @@ interface RelationModelRepositoryInterface extends SingleKeyModelRepositoryInter
     /**
      * @param int $parentKey
      * @param int $childKey
-
+     *
      * @return \LaravelRocket\Foundation\Models\Base|null
      */
     public function findByRelationKeys($parentKey, $childKey);
@@ -41,6 +39,5 @@ interface RelationModelRepositoryInterface extends SingleKeyModelRepositoryInter
      *
      * @return \LaravelRocket\Foundation\Models\Base[]
      */
-    public function updateList( $parentKey, $childKeys );
-
+    public function updateList($parentKey, $childKeys);
 }

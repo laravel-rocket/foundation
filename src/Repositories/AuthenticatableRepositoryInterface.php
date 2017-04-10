@@ -1,11 +1,9 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories;
 
 use LaravelRocket\Foundation\Models\AuthenticatableBase;
 
 /**
- *
  * @method \LaravelRocket\Foundation\Models\AuthenticatableBase[] getEmptyList()
  * @method \LaravelRocket\Foundation\Models\AuthenticatableBase[]|\Traversable|array all($order = null, $direction = null)
  * @method \LaravelRocket\Foundation\Models\AuthenticatableBase[]|\Traversable|array get($order, $direction, $offset, $limit)
@@ -16,7 +14,6 @@ use LaravelRocket\Foundation\Models\AuthenticatableBase;
  * @method \LaravelRocket\Foundation\Models\AuthenticatableBase update($model, $input)
  * @method \LaravelRocket\Foundation\Models\AuthenticatableBase save($model);
  */
-
 interface AuthenticatableRepositoryInterface extends SingleKeyModelRepositoryInterface
 {
     /**

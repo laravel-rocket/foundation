@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Services\Production;
 
 use LaravelRocket\Foundation\Services\FileUploadServiceInterface;
@@ -19,5 +18,4 @@ class FileUploadService extends BaseService implements FileUploadServiceInterfac
             'success' => false,
         ];
     }
-
 }

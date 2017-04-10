@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use LaravelRocket\Foundation\Helpers\CollectionHelperInterface;

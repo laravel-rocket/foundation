@@ -1,28 +1,34 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers\Production;
 
-use LaravelRocket\Foundation\Helpers\DateTimeHelperInterface;
 use Carbon\Carbon;
+use LaravelRocket\Foundation\Helpers\DateTimeHelperInterface;
 
 class DateTimeHelper implements DateTimeHelperInterface
 {
     const PRESENTATION_TIME_ZONE_SESSION_KEY = 'presentation-time-zone';
 
-    public function timezoneForStorage()
-    {
-        return new \DateTimeZone(config('app.timezone'));
-    }
-
     public function setPresentationTimeZone($timezone = null)
     {
-
         session()->put(static::PRESENTATION_TIME_ZONE_SESSION_KEY, $timezone);
     }
 
     public function clearPresentationTimeZone()
     {
         session()->remove(static::PRESENTATION_TIME_ZONE_SESSION_KEY);
+    }
+
+    public function dateTime($dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null)
+    {
+        $timezoneFrom = empty($timezoneFrom) ? $this->timezoneForPresentation() : $timezoneFrom;
+        $timezoneTo   = empty($timezoneTo) ? $this->timezoneForStorage() : $timezoneTo;
+
+        return Carbon::parse($dateTimeStr, $timezoneFrom)->setTimezone($timezoneTo);
+    }
+
+    public function timezoneForPresentation()
+    {
+        return new \DateTimeZone($this->getPresentationTimeZoneString());
     }
 
     public function getPresentationTimeZoneString()
@@ -35,24 +41,9 @@ class DateTimeHelper implements DateTimeHelperInterface
         return $timezone;
     }
 
-    public function timezoneForPresentation()
+    public function timezoneForStorage()
     {
-        return new \DateTimeZone($this->getPresentationTimeZoneString());
-    }
-
-    public function now(\DateTimeZone $timezone = null)
-    {
-        $timezone = empty($timezone) ? $this->timezoneForStorage() : $timezone;
-
-        return Carbon::now($timezone);
-    }
-
-    public function dateTime($dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null)
-    {
-        $timezoneFrom = empty($timezoneFrom) ? $this->timezoneForPresentation() : $timezoneFrom;
-        $timezoneTo = empty($timezoneTo) ? $this->timezoneForStorage() : $timezoneTo;
-
-        return Carbon::parse($dateTimeStr, $timezoneFrom)->setTimezone($timezoneTo);
+        return new \DateTimeZone(config('app.timezone'));
     }
 
     public function fromTimestamp($timeStamp, \DateTimeZone $timezone = null)
@@ -68,7 +59,7 @@ class DateTimeHelper implements DateTimeHelperInterface
     public function formatDate($dateTime, \DateTimeZone $timezone = null)
     {
         $viewDateTime = clone $dateTime;
-        $timezone = empty($timezone) ? $this->timezoneForPresentation() : $timezone;
+        $timezone     = empty($timezone) ? $this->timezoneForPresentation() : $timezone;
         $viewDateTime->setTimeZone($timezone);
 
         return $viewDateTime->format('Y-m-d');
@@ -77,7 +68,7 @@ class DateTimeHelper implements DateTimeHelperInterface
     public function formatTime($dateTime, \DateTimeZone $timezone = null)
     {
         $viewDateTime = clone $dateTime;
-        $timezone = empty($timezone) ? $this->timezoneForPresentation() : $timezone;
+        $timezone     = empty($timezone) ? $this->timezoneForPresentation() : $timezone;
         $viewDateTime->setTimeZone($timezone);
 
         return $viewDateTime->format('H:i');
@@ -89,10 +80,17 @@ class DateTimeHelper implements DateTimeHelperInterface
             $dateTime = $this->now();
         }
         $viewDateTime = clone $dateTime;
-        $timezone = empty($timezone) ? $this->timezoneForPresentation() : $timezone;
+        $timezone     = empty($timezone) ? $this->timezoneForPresentation() : $timezone;
         $viewDateTime->setTimeZone($timezone);
 
         return $viewDateTime->format($format);
+    }
+
+    public function now(\DateTimeZone $timezone = null)
+    {
+        $timezone = empty($timezone) ? $this->timezoneForStorage() : $timezone;
+
+        return Carbon::now($timezone);
     }
 
     public function getDateFormatByLocale($locale = null)
@@ -103,7 +101,7 @@ class DateTimeHelper implements DateTimeHelperInterface
     public function convertToStorageDateTime($dateTimeString)
     {
         $viewDateTime = new Carbon($dateTimeString, $this->timezoneForPresentation());
-        $dateTime = clone $viewDateTime;
+        $dateTime     = clone $viewDateTime;
         $dateTime->setTimeZone($this->timezoneForStorage());
 
         return $dateTime;

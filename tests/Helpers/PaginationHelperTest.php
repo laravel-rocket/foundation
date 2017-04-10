@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Tests\Helpers;
 
 use LaravelRocket\Foundation\Tests\TestCase;
@@ -8,14 +7,14 @@ class PaginationHelperTest extends TestCase
 {
     public function testGetInstance()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\PaginationHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\PaginationHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\PaginationHelperInterface::class);
         $this->assertNotNull($helper);
     }
 
     public function testRenderPager()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\PaginationHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\PaginationHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\PaginationHelperInterface::class);
         $this->assertNotNull($helper);
 

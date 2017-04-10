@@ -1,10 +1,8 @@
 <?php
-
 namespace LaravelRocket\Foundation\Http\Requests;
 
 class PaginationRequest extends Request
 {
-
     /**
      * @return int
      */

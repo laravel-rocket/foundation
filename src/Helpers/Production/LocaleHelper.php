@@ -1,11 +1,43 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use LaravelRocket\Foundation\Helpers\LocaleHelperInterface;
 
 class LocaleHelper implements LocaleHelperInterface
 {
+    public function getLocale()
+    {
+        $pieces           = explode('.', request()->getHost());
+        $locale           = null;
+        $availableDomains = config('locale.domains', []);
+
+        if (in_array(strtolower($pieces[0]), $availableDomains)) {
+            $locale = strtolower($pieces[0]);
+        }
+
+        if (empty($locale)) {
+            $locale = $this->setLocale();
+        }
+
+        if (request()->has('fb_locale')) {
+            $fbLocale  = request()->get('fb_locale');
+            $languages = array_filter(config('locale.languages'), function ($language) use ($fbLocale) {
+                if (array_get($language, 'ogp') === $fbLocale) {
+                    return true;
+                }
+
+                return false;
+            });
+
+            if ($languages) {
+                reset($languages);
+                $locale = key($languages);
+            }
+        }
+
+        return $locale;
+    }
+
     public function setLocale($locale = null, $user = null)
     {
         if (isset($locale)) {
@@ -35,59 +67,6 @@ class LocaleHelper implements LocaleHelperInterface
         return $locale;
     }
 
-    public function getLocale()
-    {
-        $pieces = explode('.', request()->getHost());
-        $locale = null;
-        $availableDomains = config('locale.domains', []);
-
-        if (in_array(strtolower($pieces[0]), $availableDomains)) {
-            $locale = strtolower($pieces[0]);
-        }
-
-        if (empty($locale)) {
-            $locale = $this->setLocale();
-        }
-
-        if (request()->has('fb_locale')) {
-            $fbLocale = request()->get('fb_locale');
-            $languages = array_filter(config('locale.languages'), function ($language) use ($fbLocale) {
-                if (array_get($language, 'ogp') === $fbLocale) {
-                    return true;
-                }
-
-                return false;
-            });
-
-            if ($languages) {
-                reset($languages);
-                $locale = key($languages);
-            }
-        }
-
-        return $locale;
-    }
-
-    public function getLocaleSubDomain()
-    {
-        $pieces = explode('.', request()->getHost());
-        $locale = null;
-        $availableDomains = config('locale.domains', []);
-
-        if (in_array(strtolower($pieces[0]), $availableDomains)) {
-            $locale = strtolower($pieces[0]);
-        }
-
-        return $locale;
-    }
-
-    public function getEnableLocales()
-    {
-        return array_where(config('locale.languages'), function ($value, $key) {
-            return $value['status'] == true;
-        });
-    }
-
     private function parseAcceptLanguage()
     {
         $languages = [];
@@ -112,5 +91,25 @@ class LocaleHelper implements LocaleHelperInterface
         }
 
         return config('locale.default');
+    }
+
+    public function getLocaleSubDomain()
+    {
+        $pieces           = explode('.', request()->getHost());
+        $locale           = null;
+        $availableDomains = config('locale.domains', []);
+
+        if (in_array(strtolower($pieces[0]), $availableDomains)) {
+            $locale = strtolower($pieces[0]);
+        }
+
+        return $locale;
+    }
+
+    public function getEnableLocales()
+    {
+        return array_where(config('locale.languages'), function ($value, $key) {
+            return $value['status'] == true;
+        });
     }
 }

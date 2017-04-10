@@ -1,8 +1,7 @@
 <?php
-
 namespace LaravelRocket\Foundation\Models;
 
-/**
+/*
  * App\Models\AuthenticatableBase
  *
  * @property string $password
@@ -28,7 +27,5 @@ class AuthenticatableBase extends Base implements AuthenticatableContract, CanRe
         } else {
             $this->attributes['password'] = app('hash')->make($password);
         }
-
     }
-
 }

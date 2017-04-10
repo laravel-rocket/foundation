@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Helpers;
 
 use LaravelRocket\Foundation\Tests\TestCase;
@@ -8,14 +7,14 @@ class URLHelperTest extends TestCase
 {
     public function testGetInstance()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\URLHelperInterface::class);
         $this->assertNotNull($helper);
     }
 
     public function testSwapHost()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\URLHelperInterface::class);
         $result = $helper->swapHost('http://takaaki.info/path/to/somewhere', 'example.com');
         $this->assertEquals('http://example.com/path/to/somewhere', $result);
@@ -23,7 +22,7 @@ class URLHelperTest extends TestCase
 
     public function testNormalizeUrlPath()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
         $helper = app()->make('LaravelRocket\Foundation\Helpers\URLHelperInterface');
         $result = $helper->normalizeUrlPath('Test Strings');
         $this->assertEquals('test-strings', $result);
@@ -31,10 +30,10 @@ class URLHelperTest extends TestCase
 
     public function testAsset()
     {
-        /** @var  \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
+        /** @var \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\URLHelperInterface::class);
-        $hash = md5(time());
-        config()->set('asset.hash',$hash);
+        $hash   = md5(time());
+        config()->set('asset.hash', $hash);
         $result = $helper->asset('img/test.png');
         $this->assertEquals('http://:/static/user/img/test.png?'.$hash, $result);
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Tests\Services;
 
 use LaravelRocket\Foundation\Services\LanguageServiceInterface;

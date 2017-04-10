@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories;
 
 interface BaseRepositoryInterface

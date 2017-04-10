@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Services\Production;
 
 use LaravelRocket\Foundation\Services\MailServiceInterface;
@@ -14,7 +13,7 @@ class MailService extends BaseService implements MailServiceInterface
 
         if (app()->environment() != 'production') {
             $title = '['.app()->environment().'] '.$title;
-            $to = [
+            $to    = [
                 'address' => config('mail.tester'),
                 'name'    => app()->environment().' Original: '.$to['address'],
             ];
@@ -26,7 +25,6 @@ class MailService extends BaseService implements MailServiceInterface
 
                 $m->to($to['address'], $to['name'])->subject($title);
             });
-
         } catch (\Exception $e) {
             echo $e->getMessage(), "\n";
         }
