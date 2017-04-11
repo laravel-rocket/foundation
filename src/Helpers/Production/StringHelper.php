@@ -1,9 +1,8 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers\Production;
 
-use LaravelRocket\Foundation\Helpers\StringHelperInterface;
 use ICanBoogie\Inflector;
+use LaravelRocket\Foundation\Helpers\StringHelperInterface;
 
 class StringHelper implements StringHelperInterface
 {
@@ -57,7 +56,7 @@ class StringHelper implements StringHelperInterface
     {
         mt_rand();
         $characters = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
-        $result = '';
+        $result     = '';
         for ($i = 0; $i < $length; ++$i) {
             $result .= $characters[mt_rand(0, count($characters) - 1)];
         }

@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Models\Traits;
 
 /**
@@ -9,7 +8,6 @@ namespace LaravelRocket\Foundation\Models\Traits;
  *
  * @method static \Illuminate\Database\Query\Builder|\LaravelRocket\Foundation\Models\Traits\LocaleStorable whereLocale($value)
  */
-
 trait LocaleStorable
 {
     public function getLocale()
@@ -22,5 +20,4 @@ trait LocaleStorable
         $this->locale = strtolower($locale);
         $this->save();
     }
-
 }

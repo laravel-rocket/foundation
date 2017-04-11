@@ -1,13 +1,11 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers\Production;
 
-use LaravelRocket\Foundation\Helpers\RedirectHelperInterface;
 use Illuminate\Routing\UrlGenerator;
+use LaravelRocket\Foundation\Helpers\RedirectHelperInterface;
 
 class RedirectHelper implements RedirectHelperInterface
 {
-
     /**
      * The URL generator instance.
      *
@@ -35,16 +33,6 @@ class RedirectHelper implements RedirectHelperInterface
         return $redirector->to($path, $status, $headers, $secure);
     }
 
-    public function intended($default = '/', $guardName = '', $status = 302, $headers = [], $secure = null)
-    {
-        $path = session()->pull($this->getSessionKey($guardName), $default);
-
-        /** @var \Illuminate\Routing\Redirector $redirector */
-        $redirector = app('redirect');
-
-        return $redirector->to($path, $status, $headers, $secure);
-    }
-
     private function getSessionKey($guardName)
     {
         if (empty($guardName)) {
@@ -54,4 +42,13 @@ class RedirectHelper implements RedirectHelperInterface
         return 'url.intended.'.strtolower($guardName);
     }
 
+    public function intended($default = '/', $guardName = '', $status = 302, $headers = [], $secure = null)
+    {
+        $path = session()->pull($this->getSessionKey($guardName), $default);
+
+        /** @var \Illuminate\Routing\Redirector $redirector */
+        $redirector = app('redirect');
+
+        return $redirector->to($path, $status, $headers, $secure);
+    }
 }

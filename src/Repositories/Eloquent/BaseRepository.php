@@ -1,10 +1,9 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
-use LaravelRocket\Foundation\Repositories\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelRocket\Foundation\Models\Base;
+use LaravelRocket\Foundation\Repositories\BaseRepositoryInterface;
 
 class BaseRepository implements BaseRepositoryInterface
 {
@@ -17,18 +16,6 @@ class BaseRepository implements BaseRepositoryInterface
     public function getEmptyList()
     {
         return new Collection();
-    }
-
-    public function getModelClassName()
-    {
-        $model = $this->getBlankModel();
-
-        return get_class($model);
-    }
-
-    public function getBlankModel()
-    {
-        return new Base();
     }
 
     public function rules()
@@ -55,13 +42,25 @@ class BaseRepository implements BaseRepositoryInterface
         return $model::all();
     }
 
+    public function getModelClassName()
+    {
+        $model = $this->getBlankModel();
+
+        return get_class($model);
+    }
+
+    public function getBlankModel()
+    {
+        return new Base();
+    }
+
     public function allEnabled($order = null, $direction = null)
     {
         $model = $this->getModelClassName();
         $query = $model::where('is_enabled', '=', true);
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $query = $query->orderBy($order, $direction);
+            $query     = $query->orderBy($order, $direction);
         }
 
         return $query->get();
@@ -112,7 +111,7 @@ class BaseRepository implements BaseRepositoryInterface
             if (empty($key)) {
                 $items[] = $model->$value;
             } else {
-                $items[ $model->$key ] = $model->$value;
+                $items[$model->$key] = $model->$value;
             }
         }
 
@@ -120,7 +119,7 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param integer[] $ids
+     * @param int[] $ids
      *
      * @return string
      */
@@ -154,11 +153,11 @@ class BaseRepository implements BaseRepositoryInterface
         $offset,
         $limit
     ) {
-        $order = strtolower($order);
+        $order     = strtolower($order);
         $direction = strtolower($direction);
-        $offset = intval($offset);
-        $limit = intval($limit);
-        $order = in_array($order, $orderCandidates) ? $order : strtolower($orderDefault);
+        $offset    = intval($offset);
+        $limit     = intval($limit);
+        $order     = in_array($order, $orderCandidates) ? $order : strtolower($orderDefault);
         $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc';
 
         if ($limit <= 0) {

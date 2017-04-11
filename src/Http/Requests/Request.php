@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;

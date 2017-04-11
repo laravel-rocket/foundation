@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use LaravelRocket\Foundation\Helpers\URLHelperInterface;
@@ -71,21 +70,6 @@ if (!function_exists('http_build_url')) {
 
 class URLHelper implements URLHelperInterface
 {
-    public function getHostWithLocale($locale = null, $host = null)
-    {
-        if (empty($host)) {
-            $host = config('app.host');
-        }
-        if (empty($locale)) {
-            $locale = config('locale.default');
-        }
-        if (array_key_exists($locale, config('locale.languages'))) {
-            $host = $locale.'.'.$host;
-        }
-
-        return $host;
-    }
-
     public function canonicalizeHost($url, $locale = null)
     {
         $host = config('app.host');
@@ -100,6 +84,21 @@ class URLHelper implements URLHelperInterface
         }
 
         return $this->swapHost($url, $host);
+    }
+
+    public function getHostWithLocale($locale = null, $host = null)
+    {
+        if (empty($host)) {
+            $host = config('app.host');
+        }
+        if (empty($locale)) {
+            $locale = config('locale.default');
+        }
+        if (array_key_exists($locale, config('locale.languages'))) {
+            $host = $locale.'.'.$host;
+        }
+
+        return $host;
     }
 
     public function swapHost($url, $host)
@@ -119,7 +118,7 @@ class URLHelper implements URLHelperInterface
     public function asset($path, $type = 'user')
     {
         $hash = config('asset.hash');
-        $url = asset('static/'.$type.'/'.$path);
+        $url  = asset('static/'.$type.'/'.$path);
 
         if (app()->environment() == 'local' || empty($hash)) {
             return $url;

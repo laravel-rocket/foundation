@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Services\Production;
 
 use LaravelRocket\Foundation\Services\ImageServiceInterface;
@@ -75,26 +74,9 @@ class ImageService extends BaseService implements ImageServiceInterface
 
     /**
      * @param \Imagick $image
-     * @param string   $format
+     * @param array    $size
+     * @param bool     $needExactSize
      *
-     * @return \Imagick
-     */
-    private function setImageFormat($image, $format)
-    {
-        if ($image->getImageFormat() !== $format) {
-            $image->setImageFormat($format);
-        }
-        if ($format == 'jpeg') {
-            $image->setImageCompressionQuality(90);
-        }
-
-        return $image;
-    }
-
-    /**
-     * @param  \Imagick $image
-     * @param  array    $size
-     * @param  bool     $needExactSize
      * @return \Imagick
      */
     private function setImageSize($image, $size, $needExactSize = false)
@@ -115,6 +97,24 @@ class ImageService extends BaseService implements ImageServiceInterface
             } else {
                 $image->scaleImage($size[0], $size[1]);
             }
+        }
+
+        return $image;
+    }
+
+    /**
+     * @param \Imagick $image
+     * @param string   $format
+     *
+     * @return \Imagick
+     */
+    private function setImageFormat($image, $format)
+    {
+        if ($image->getImageFormat() !== $format) {
+            $image->setImageFormat($format);
+        }
+        if ($format == 'jpeg') {
+            $image->setImageCompressionQuality(90);
         }
 
         return $image;

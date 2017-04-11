@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Services;
 
 interface SlackServiceInterface extends BaseServiceInterface

@@ -1,9 +1,8 @@
 <?php
-
 namespace LaravelRocket\Foundation\Models;
 
-use LaravelRocket\Foundation\Presenters\BasePresenter;
 use Illuminate\Database\Eloquent\Model;
+use LaravelRocket\Foundation\Presenters\BasePresenter;
 
 class Base extends Model
 {
@@ -45,8 +44,9 @@ class Base extends Model
     }
 
     /**
-     * @param  string $key
-     * @param  string $locale
+     * @param string $key
+     * @param string $locale
+     *
      * @return string
      */
     public function getLocalizedColumn($key, $locale = 'en')
@@ -55,10 +55,10 @@ class Base extends Model
             $locale = 'en';
         }
         $localizedKey = $key.'_'.strtolower($locale);
-        $value = $this->$localizedKey;
+        $value        = $this->$localizedKey;
         if (empty($value)) {
             $localizedKey = $key.'_en';
-            $value = $this->$localizedKey;
+            $value        = $this->$localizedKey;
         }
 
         return $value;
@@ -92,5 +92,4 @@ class Base extends Model
     {
         return $this->dates;
     }
-
 }

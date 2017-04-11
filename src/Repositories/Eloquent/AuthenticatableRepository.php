@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
 use LaravelRocket\Foundation\Models\AuthenticatableBase;

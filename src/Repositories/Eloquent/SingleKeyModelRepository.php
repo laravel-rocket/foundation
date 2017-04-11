@@ -1,24 +1,16 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
-use LaravelRocket\Foundation\Repositories\SingleKeyModelRepositoryInterface;
 use Illuminate\Support\Str;
+use LaravelRocket\Foundation\Repositories\SingleKeyModelRepositoryInterface;
 
 class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelRepositoryInterface
 {
-    public function getPrimaryKey()
-    {
-        $model = $this->getBlankModel();
-
-        return $model->getPrimaryKey();
-    }
-
     public function find($id)
     {
         $modelClass = $this->getModelClassName();
         if ($this->cacheEnabled) {
-            $key = $this->getCacheKey([$id]);
+            $key  = $this->getCacheKey([$id]);
             $data = cache()->remember($key, $this->cacheLifeTime, function () use ($id, $modelClass) {
                 $modelClass = $this->getModelClassName();
 
@@ -42,7 +34,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $query = $modelClass::whereIn($primaryKey, $ids);
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $query = $query->orderBy($order, $direction);
+            $query     = $query->orderBy($order, $direction);
         }
 
         $models = $query->get();
@@ -52,18 +44,25 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         }
 
         $result = $this->getEmptyList();
-        $map = [];
+        $map    = [];
         foreach ($models as $model) {
-            $map[ $model->id ] = $model;
+            $map[$model->id] = $model;
         }
         foreach ($ids as $id) {
-            $model = $map[ $id ];
+            $model = $map[$id];
             if (!empty($model)) {
                 $result->push($model);
             }
         }
 
         return $result;
+    }
+
+    public function getPrimaryKey()
+    {
+        $model = $this->getBlankModel();
+
+        return $model->getPrimaryKey();
     }
 
     public function countByIds($ids)
@@ -88,7 +87,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $query = $modelClass::whereIn($primaryKey, $ids);
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $query = $query->orderBy($order, $direction);
+            $query     = $query->orderBy($order, $direction);
         }
         if (!is_null($offset) && !is_null($limit)) {
             $query = $query->offset($offset)->limit($limit);
@@ -114,7 +113,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
         if ($this->cacheEnabled) {
             $primaryKey = $this->getPrimaryKey();
-            $key = $this->getCacheKey([$model->$primaryKey]);
+            $key        = $this->getCacheKey([$model->$primaryKey]);
             cache()->forget($key);
         }
 
@@ -163,22 +162,22 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     private function dynamicGet($method, $parameters)
     {
-        $finder = substr($method, 5);
-        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
-        $conditionCount = count($segments);
+        $finder          = substr($method, 5);
+        $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
+        $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model = $this->getBlankModel();
-        $whereMethod = 'where'.$finder;
-        $query = call_user_func_array([$model, $whereMethod], $conditionParams);
+        $model           = $this->getBlankModel();
+        $whereMethod     = 'where'.$finder;
+        $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
-        $order = array_get($parameters, 0, 'id');
+        $order     = array_get($parameters, 0, 'id');
         $direction = array_get($parameters, 1, 'asc');
-        $offset = array_get($parameters, 2, 0);
-        $limit = array_get($parameters, 3, 10);
+        $offset    = array_get($parameters, 2, 0);
+        $limit     = array_get($parameters, 3, 10);
 
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $query = $query->orderBy($order, $direction);
+            $query     = $query->orderBy($order, $direction);
         }
         if (!is_null($offset) && !is_null($limit)) {
             $query = $query->offset($offset)->limit($limit);
@@ -189,15 +188,15 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     private function dynamicAll($method, $parameters)
     {
-        $finder = substr($method, 5);
-        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
-        $conditionCount = count($segments);
+        $finder          = substr($method, 5);
+        $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
+        $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model = $this->getBlankModel();
-        $whereMethod = 'where'.$finder;
-        $query = call_user_func_array([$model, $whereMethod], $conditionParams);
+        $model           = $this->getBlankModel();
+        $whereMethod     = 'where'.$finder;
+        $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
-        $order = array_get($parameters, 0, 'id');
+        $order     = array_get($parameters, 0, 'id');
         $direction = array_get($parameters, 1, 'asc');
 
         return $query->orderBy($order, $direction)->get();
@@ -205,39 +204,39 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     private function dynamicCount($method, $parameters)
     {
-        $finder = substr($method, 7);
-        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
-        $conditionCount = count($segments);
+        $finder          = substr($method, 7);
+        $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
+        $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model = $this->getBlankModel();
-        $whereMethod = 'where'.$finder;
-        $query = call_user_func_array([$model, $whereMethod], $conditionParams);
+        $model           = $this->getBlankModel();
+        $whereMethod     = 'where'.$finder;
+        $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
         return $query->count();
     }
 
     private function dynamicFind($method, $parameters)
     {
-        $finder = substr($method, 6);
-        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
-        $conditionCount = count($segments);
+        $finder          = substr($method, 6);
+        $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
+        $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model = $this->getBlankModel();
-        $whereMethod = 'where'.$finder;
-        $query = call_user_func_array([$model, $whereMethod], $conditionParams);
+        $model           = $this->getBlankModel();
+        $whereMethod     = 'where'.$finder;
+        $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
         return $query->first();
     }
 
     private function dynamicDelete($method, $parameters)
     {
-        $finder = substr($method, 8);
-        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
-        $conditionCount = count($segments);
+        $finder          = substr($method, 8);
+        $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
+        $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model = $this->getBlankModel();
-        $whereMethod = 'where'.$finder;
-        $query = call_user_func_array([$model, $whereMethod], $conditionParams);
+        $model           = $this->getBlankModel();
+        $whereMethod     = 'where'.$finder;
+        $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
         return $query->delete();
     }

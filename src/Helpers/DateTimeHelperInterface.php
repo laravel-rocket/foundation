@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers;
 
 interface DateTimeHelperInterface
@@ -16,8 +15,6 @@ interface DateTimeHelperInterface
      */
     public function setPresentationTimeZone($timezone = null);
 
-    /**
-     */
     public function clearPresentationTimeZone();
 
     /**
@@ -102,9 +99,9 @@ interface DateTimeHelperInterface
     public function convertToStorageDateTime($dateTimeString);
 
     /**
-     * @param  \DateTime $dateTime
+     * @param \DateTime $dateTime
+     *
      * @return \DateTime
      */
     public function changeToPresentationTimeZone($dateTime);
-
 }

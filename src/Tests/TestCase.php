@@ -1,16 +1,15 @@
 <?php
-
 namespace LaravelRocket\Foundation\Tests;
 
+use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
-use Illuminate\Events\Dispatcher;
 use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
     use WithoutMiddleware;
-    
+
     public $baseUrl = 'http://localhost';
 
     /** @var bool */
@@ -47,8 +46,8 @@ class TestCase extends BaseTestCase
      */
     public function createApplication()
     {
-        /** @var $app \Illuminate\Foundation\Application */
-        if ( file_exists(__DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php')) {
+        /* @var $app \Illuminate\Foundation\Application */
+        if (file_exists(__DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php')) {
             $app = require __DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php';
         } else {
             $app = require __DIR__.'/../../../../../bootstrap/app.php';

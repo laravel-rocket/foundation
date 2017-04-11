@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -11,7 +10,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        //
     }
 
     /**
@@ -40,7 +38,6 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->singleton(\LaravelRocket\Foundation\Services\FileUploadLocalServiceInterface::class,
             \LaravelRocket\Foundation\Services\Production\FileUploadLocalService::class);
-
 
         /* Helpers */
         $this->app->singleton(\LaravelRocket\Foundation\Helpers\DateTimeHelperInterface::class,

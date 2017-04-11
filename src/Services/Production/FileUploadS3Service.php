@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Aws\S3\S3Client;
@@ -7,16 +6,15 @@ use LaravelRocket\Foundation\Services\FileUploadS3ServiceInterface;
 
 class FileUploadS3Service extends FileUploadService implements FileUploadS3ServiceInterface
 {
-
     public function upload($srcPath, $mediaType, $filename, $attributes)
     {
         $region = array_get($attributes, 'region', config('storage.s3.region'));
         $bucket = $this->decideBucket(array_get($attributes, 'buckets', $this->getDefaultBucket()));
-        $key = array_get($attributes, 'key');
+        $key    = array_get($attributes, 'key');
 
         $client = $this->getS3Client($region);
 
-        $url = '';
+        $url     = '';
         $success = false;
 
         if (file_exists($srcPath)) {
@@ -28,7 +26,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
                 'ACL'         => 'public-read',
             ]);
 
-            $url = $client->getObjectUrl($bucket, $key);
+            $url     = $client->getObjectUrl($bucket, $key);
             $success = true;
         }
 
@@ -39,34 +37,6 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
             'key'     => $key,
             'region'  => $region,
         ];
-    }
-
-    public function delete($attributes)
-    {
-        $region = array_get($attributes, 'region', config('storage.s3.region'));
-        $bucket = array_get($attributes, 'bucket', $this->getDefaultBucket());
-        $key = array_get($attributes, 'key');
-
-        $success = false;
-
-        if (!empty($key)) {
-            $client = $this->getS3Client($region);
-            $client->deleteObject([
-                'Bucket' => $bucket,
-                'Key'    => $key,
-            ]);
-        }
-
-        return [
-            'success' => $success,
-        ];
-    }
-
-    protected function getDefaultBucket()
-    {
-        $buckets = config('storage.s3.buckets');
-
-        return $this->decideBucket($buckets);
     }
 
     protected function decideBucket($buckets, $default = null)
@@ -84,6 +54,13 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         return $default;
     }
 
+    protected function getDefaultBucket()
+    {
+        $buckets = config('storage.s3.buckets');
+
+        return $this->decideBucket($buckets);
+    }
+
     /**
      * @param string $region
      *
@@ -98,8 +75,29 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
                 'key'    => array_get($config, 'key'),
                 'secret' => array_get($config, 'secret'),
             ],
-            'region'      => $region,
-            'version'     => 'latest',
+            'region'  => $region,
+            'version' => 'latest',
         ]);
+    }
+
+    public function delete($attributes)
+    {
+        $region = array_get($attributes, 'region', config('storage.s3.region'));
+        $bucket = array_get($attributes, 'bucket', $this->getDefaultBucket());
+        $key    = array_get($attributes, 'key');
+
+        $success = false;
+
+        if (!empty($key)) {
+            $client = $this->getS3Client($region);
+            $client->deleteObject([
+                'Bucket' => $bucket,
+                'Key'    => $key,
+            ]);
+        }
+
+        return [
+            'success' => $success,
+        ];
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Facades;
 
 use Illuminate\Support\Facades\Facade;

@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Repositories;
 
 use Illuminate\Auth\Passwords\TokenRepositoryInterface;

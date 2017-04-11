@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Helpers;
 
 interface StringHelperInterface
