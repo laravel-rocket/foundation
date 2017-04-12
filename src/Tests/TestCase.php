@@ -2,15 +2,18 @@
 namespace LaravelRocket\Foundation\Tests;
 
 use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
-use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
     use WithoutMiddleware;
 
-    public $baseUrl = 'http://localhost';
+    protected $baseUrl = 'http://localhost';
+
+    /** @var \Faker\Generator */
+    protected $faker;
 
     /** @var bool */
     protected $useDatabase = false;
@@ -22,9 +25,17 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->app->boot();
+
+        $databaseName = \DB::connection()->getDatabaseName();
         if ($this->useDatabase) {
+            $tables  = \DB::select('SHOW TABLES');
+            $keyName = 'Tables_in_'.$databaseName;
+            foreach ($tables as $table) {
+                if (property_exists($table, $keyName)) {
+                    \DB::table($table->$keyName)->truncate();
+                }
+            }
             \DB::disableQueryLog();
-            $this->artisan('migrate');
             $this->artisan('db:seed');
         }
     }
@@ -32,7 +43,6 @@ class TestCase extends BaseTestCase
     public function tearDown()
     {
         if ($this->useDatabase) {
-            $this->artisan('migrate:reset');
             \DB::disconnect();
         }
 
@@ -55,6 +65,7 @@ class TestCase extends BaseTestCase
         $this->setUpHttpKernel($app);
         $app->register(\Illuminate\Database\DatabaseServiceProvider::class);
         $app->register(\LaravelRocket\Foundation\Providers\ServiceProvider::class);
+        $this->faker = \Faker\Factory::create();
 
         return $app;
     }
