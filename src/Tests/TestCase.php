@@ -2,9 +2,9 @@
 namespace LaravelRocket\Foundation\Tests;
 
 use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
-use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
