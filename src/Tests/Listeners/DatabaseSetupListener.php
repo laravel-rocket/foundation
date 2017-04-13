@@ -1,24 +1,21 @@
 <?php
 namespace LaravelRocket\Foundation\Tests\Listeners;
 
-use PHPUnit\Framework\BaseTestListener;
-use PHPUnit\Framework\TestSuite;
-
-class DatabaseSetupListener extends BaseTestListener
+class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
 {
     protected $suites = ['Application Test Suite'];
 
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (in_array($suite->getName(), $this->suites)) {
-            exec('php artisan migrate --database testing');
+            exec('php artisan migrate');
         }
     }
 
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (in_array($suite->getName(), $this->suites)) {
-            exec('php artisan migrate:rollback --database testing');
+            exec('php artisan migrate:rollback');
         }
     }
 }
