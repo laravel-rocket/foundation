@@ -24,7 +24,7 @@ class TestCase extends BaseTestCase
         $this->app->boot();
         if ($this->useDatabase) {
             \DB::disableQueryLog();
-            $this->artisan('migrate');
+            $this->trancateTables();
             $this->artisan('db:seed');
         }
     }
@@ -32,7 +32,6 @@ class TestCase extends BaseTestCase
     public function tearDown()
     {
         if ($this->useDatabase) {
-            $this->artisan('migrate:reset');
             \DB::disconnect();
         }
 
@@ -66,6 +65,18 @@ class TestCase extends BaseTestCase
     {
         $app->instance('request', (new \Illuminate\Http\Request())->instance());
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
+    }
+
+    private function trancateTables()
+    {
+        $databaseName = \DB::connection()->getDatabaseName();
+        $tables = \DB::select('SHOW TABLES');
+        $keyName = 'Tables_in_'.$databaseName;
+        foreach ($tables as $table) {
+            if (property_exists($table, $keyName)) {
+                \DB::table($table->$keyName)->truncate();
+            }
+        }
     }
 
     /**
