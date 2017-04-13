@@ -70,8 +70,8 @@ class TestCase extends BaseTestCase
     private function trancateTables()
     {
         $databaseName = \DB::connection()->getDatabaseName();
-        $tables = \DB::select('SHOW TABLES');
-        $keyName = 'Tables_in_'.$databaseName;
+        $tables       = \DB::select('SHOW TABLES');
+        $keyName      = 'Tables_in_'.$databaseName;
         foreach ($tables as $table) {
             if (property_exists($table, $keyName)) {
                 \DB::table($table->$keyName)->truncate();

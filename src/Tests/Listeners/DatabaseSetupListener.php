@@ -1,9 +1,8 @@
 <?php
+namespace LaravelRocket\Foundation\Tests\Listeners;
 
-namespace Tests\Listeners;
-
-use \PHPUnit\Framework\BaseTestListener;
-use \PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestSuite;
 
 class DatabaseSetupListener extends BaseTestListener
 {
