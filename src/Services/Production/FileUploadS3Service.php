@@ -8,9 +8,8 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 {
     public function upload($srcPath, $mediaType, $filename, $attributes)
     {
-        $region = array_get($attributes, 'region', config('storage.s3.region'));
+        $region = array_get($attributes, 'region', config('file.storage.s3.region'));
         $bucket = $this->decideBucket(array_get($attributes, 'buckets', $this->getDefaultBucket()));
-        $key    = array_get($attributes, 'key');
 
         $client = $this->getS3Client($region);
 
@@ -20,13 +19,13 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         if (file_exists($srcPath)) {
             $client->putObject([
                 'Bucket'      => $bucket,
-                'Key'         => $key,
+                'Key'         => $filename,
                 'SourceFile'  => $srcPath,
                 'ContentType' => $mediaType,
                 'ACL'         => 'public-read',
             ]);
 
-            $url     = $client->getObjectUrl($bucket, $key);
+            $url     = $client->getObjectUrl($bucket, $filename);
             $success = true;
         }
 
@@ -34,7 +33,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
             'success' => $success,
             'url'     => $url,
             'bucket'  => $bucket,
-            'key'     => $key,
+            'key'     => $filename,
             'region'  => $region,
         ];
     }
@@ -56,7 +55,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 
     protected function getDefaultBucket()
     {
-        $buckets = config('storage.s3.buckets');
+        $buckets = config('file.storage.s3.buckets');
 
         return $this->decideBucket($buckets);
     }
@@ -82,7 +81,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 
     public function delete($attributes)
     {
-        $region = array_get($attributes, 'region', config('storage.s3.region'));
+        $region = array_get($attributes, 'region', config('file.storage.s3.region'));
         $bucket = array_get($attributes, 'bucket', $this->getDefaultBucket());
         $key    = array_get($attributes, 'key');
 

@@ -7,17 +7,16 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
 {
     public function upload($srcPath, $mediaType, $filename, $attributes)
     {
-        $uploadDirectory = array_get($attributes, 'uploadDirectory', config('storage.local.path'));
-        $key             = array_get($attributes, 'key');
-        $baseUrl         = array_get($attributes, 'baseUrl', config('storage.local.url'));
+        $uploadDirectory = array_get($attributes, 'uploadDirectory', config('file.storage.local.path'));
+        $baseUrl         = array_get($attributes, 'baseUrl', config('file.storage.local.url'));
 
         $url     = '';
         $success = false;
 
         if (file_exists($srcPath)) {
-            $dstPath = $uploadDirectory.'/'.$key;
+            $dstPath = $uploadDirectory.'/'.$filename;
             copy($srcPath, $dstPath);
-            $url     = $baseUrl.'/'.$key;
+            $url     = $baseUrl.'/'.$filename;
             $success = true;
         }
 
@@ -29,7 +28,7 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
 
     public function delete($attributes)
     {
-        $uploadDirectory = array_get($attributes, 'uploadDirectory', config('storage.local.path'));
+        $uploadDirectory = array_get($attributes, 'uploadDirectory', config('file.storage.local.path'));
         $key             = array_get($attributes, 'key');
 
         $filePath = $uploadDirectory.'/'.$key;
@@ -47,7 +46,7 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
 
     protected function getDefaultBucket()
     {
-        $buckets = config('storage.s3.buckets');
+        $buckets = config('file.storage.s3.buckets');
 
         return $this->decideBucket($buckets);
     }
