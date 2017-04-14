@@ -42,6 +42,13 @@ class BaseRepository implements BaseRepositoryInterface
         return $model::all();
     }
 
+    public function allByFilter($filter, $order = null, $direction = null)
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->get();
+    }
+
     public function getModelClassName()
     {
         $model = $this->getBlankModel();
@@ -73,6 +80,13 @@ class BaseRepository implements BaseRepositoryInterface
         return $model::orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
+    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->orderBy($order, $direction)->skip($offset)->take($limit)->get();
+    }
+
     public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
     {
         $model = $this->getModelClassName();
@@ -87,21 +101,18 @@ class BaseRepository implements BaseRepositoryInterface
         return $model::count();
     }
 
+    public function countByFilter($filter)
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->count();
+    }
+
     public function countEnabled()
     {
         $model = $this->getModelClassName();
 
         return $model::where('is_enabled', '=', true)->count();
-    }
-
-    public function getAPIArray($models)
-    {
-        $ret = [];
-        foreach ($models as $model) {
-            $ret[] = $model->toAPIArray();
-        }
-
-        return $ret;
     }
 
     public function pluck($collection, $value, $key = null)
@@ -168,5 +179,19 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         return $query->orderBy($order, $direction)->offset($offset)->limit($limit)->get();
+    }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param array $filter
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function buildQueryByFilter($query, $filter)
+    {
+        foreach ($filter as $column => $value) {
+            $query = $query->where($column, $value);
+        }
+
+        return $query;
     }
 }
