@@ -8,14 +8,25 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (in_array($suite->getName(), $this->suites)) {
-            exec('php artisan migrate');
+            $this->initialize($suite);
         }
     }
 
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (in_array($suite->getName(), $this->suites)) {
-            exec('php artisan migrate:rollback');
+            $this->terminate($suite);
         }
     }
+
+    protected function initialize(\PHPUnit_Framework_TestSuite $suite)
+    {
+        exec('php artisan migrate');
+    }
+
+    protected function terminate(\PHPUnit_Framework_TestSuite $suite)
+    {
+        exec('php artisan migrate:reset');
+    }
+
 }
