@@ -57,13 +57,6 @@ interface AuthenticatableServiceInterface extends BaseServiceInterface
     public function sendPasswordResetEmail($email);
 
     /**
-     * @param string $token
-     *
-     * @return null|\LaravelRocket\Foundation\Models\AuthenticatableBase
-     */
-    public function getUserByPasswordResetToken($token);
-
-    /**
      * @param string $email
      * @param string $password
      * @param string $token

@@ -141,16 +141,6 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
             ]);
     }
 
-    public function getUserByPasswordResetToken($token)
-    {
-        $email = $this->passwordResettableRepository->findEmailByToken($token);
-        if (empty($email)) {
-            return;
-        }
-
-        return $this->authenticatableRepository->findByEmail($email);
-    }
-
     public function resetPassword($email, $password, $token)
     {
         $user = $this->authenticatableRepository->findByEmail($email);

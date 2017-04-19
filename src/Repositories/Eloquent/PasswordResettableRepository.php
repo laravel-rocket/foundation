@@ -8,9 +8,9 @@ class PasswordResettableRepository extends DatabaseTokenRepository implements Pa
 {
     protected $tableName = 'password_resets';
 
-    protected $hashKey = 'random';
+    protected $hashKey   = 'random';
 
-    protected $expires = 60;
+    protected $expires   = 60;
 
     public function __construct()
     {
@@ -21,23 +21,5 @@ class PasswordResettableRepository extends DatabaseTokenRepository implements Pa
     protected function getDatabaseConnection()
     {
         return $connection = app()['db']->connection();
-    }
-
-    public function findEmailByToken($token)
-    {
-        $token = $this->getTable()->where('token', $token)->first();
-        if (empty($token)) {
-            return;
-        }
-        if ($this->tokenExpired([
-            'email' => $token->email,
-            'token' => $token->token,
-            'created_at' => $token->created_at,
-        ])
-        ) {
-            return;
-        }
-
-        return $token->email;
     }
 }
