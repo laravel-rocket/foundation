@@ -4,6 +4,7 @@ namespace LaravelRocket\Foundation\Services\Production;
 use LaravelRocket\Foundation\Repositories\AuthenticatableRepositoryInterface;
 use LaravelRocket\Foundation\Repositories\PasswordResettableRepositoryInterface;
 use LaravelRocket\Foundation\Services\AuthenticatableServiceInterface;
+use LaravelRocket\Foundation\Services\MailServiceInterface;
 
 class AuthenticatableService extends BaseService implements AuthenticatableServiceInterface
 {
@@ -132,7 +133,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
 
         $token = $this->passwordResettableRepository->create($user);
 
-        $mailService = app()->make('App\Services\MailServiceInterface');
+        $mailService = app()->make(MailServiceInterface::class);
 
         $mailService->sendMail($this->resetEmailTitle, config('mail.from'),
             ['name' => '', 'address' => $user->email], $this->resetEmailTemplate, [
