@@ -35,10 +35,10 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
 
     protected function createApplication()
     {
-        if (file_exists(__DIR__.'../../vendor/laravel/laravel/bootstrap/app.php')) {
-            $app = require __DIR__.'../../vendor/laravel/laravel/bootstrap/app.php';
+        if (file_exists(__DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php')) {
+            $app = require __DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php';
         } else {
-            $app = require __DIR__.'../../../../../bootstrap/app.php';
+            $app = require __DIR__.'/../../../../../../bootstrap/app.php';
         }
         $app->make(Kernel::class)->bootstrap();
 
@@ -53,7 +53,7 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
         $username = config('database.connections.'.$setting.'.username');
         $password = config('database.connections.'.$setting.'.password');
 
-        $connection = new \PDO("{$driver}:user={$username} password={$password}");
+        $connection = new \PDO("{$driver}:user={$username} password={$password}", $username, $password);
 
         return $connection;
     }
