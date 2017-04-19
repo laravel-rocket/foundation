@@ -32,7 +32,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         /** @var \LaravelRocket\Foundation\Models\AuthenticatableBase $user */
         $user = $this->authenticatableRepository->find($id);
         if (empty($user)) {
-            return;
+            return null;
         }
         $guard = $this->getGuard();
         $guard->login($user);
@@ -97,7 +97,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         }
         $guard = $this->getGuard();
         $guard->logout();
-        \Session::flush();
+        session()->flush();
 
         return true;
     }
@@ -117,7 +117,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         }
         $guard = $this->getGuard();
         $guard->logout();
-        \Session::flush();
+        session()->flush();
         $this->authenticatableRepository->delete($user);
 
         return true;
@@ -144,7 +144,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
     {
         $email = $this->passwordResettableRepository->findEmailByToken($token);
         if (empty($email)) {
-            return;
+            return null;
         }
 
         return $this->authenticatableRepository->findByEmail($email);
