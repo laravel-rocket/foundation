@@ -41,6 +41,7 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
             $app = require __DIR__.'../../../../../bootstrap/app.php';
         }
         $app->make(Kernel::class)->bootstrap();
+
         return $app;
     }
 
@@ -48,7 +49,7 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
     {
         $setting = config('database.default');
 
-        $driver = config('database.connections.'.$setting.'.driver');
+        $driver   = config('database.connections.'.$setting.'.driver');
         $username = config('database.connections.'.$setting.'.username');
         $password = config('database.connections.'.$setting.'.password');
 
@@ -59,7 +60,7 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
 
     protected function getDatabaseName()
     {
-        $setting = config('database.default');
+        $setting  = config('database.default');
         $database = config('database.connections.'.$setting.'.database');
 
         return $database;
@@ -69,18 +70,16 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
     {
         $this->createApplication();
         $connection = $this->getDatabaseConnection();
-        $database = $this->getDatabaseName();
-        $connection->query("DROP DATABASE IF EXISTS ".$database);
-        $connection->query("CREATE DATABASE ".$database);
+        $database   = $this->getDatabaseName();
+        $connection->query('DROP DATABASE IF EXISTS '.$database);
+        $connection->query('CREATE DATABASE '.$database);
     }
 
     protected function dropDatabase()
     {
         $this->createApplication();
         $connection = $this->getDatabaseConnection();
-        $database = $this->getDatabaseName();
-        $connection->query("DROP DATABASE ".$database);
+        $database   = $this->getDatabaseName();
+        $connection->query('DROP DATABASE '.$database);
     }
-
-
 }

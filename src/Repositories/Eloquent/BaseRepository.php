@@ -183,7 +183,8 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
-     * @param array $filter
+     * @param array                              $filter
+     *
      * @return \Illuminate\Database\Query\Builder
      */
     protected function buildQueryByFilter($query, $filter)

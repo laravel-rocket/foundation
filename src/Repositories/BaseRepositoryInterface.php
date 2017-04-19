@@ -30,7 +30,6 @@ interface BaseRepositoryInterface
      */
     public function allEnabled($order = null, $direction = null);
 
-
     /**
      * Get All Models with filter conditions.
      *
@@ -41,7 +40,6 @@ interface BaseRepositoryInterface
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
      */
     public function allByFilter($filter, $order = null, $direction = null);
-
 
     /**
      * Get Models with Order.
@@ -86,7 +84,8 @@ interface BaseRepositoryInterface
     public function count();
 
     /**
-     * @param  array $filter
+     * @param array $filter
+     *
      * @return int
      */
     public function countByFilter($filter);

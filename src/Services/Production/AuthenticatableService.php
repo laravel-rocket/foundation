@@ -33,7 +33,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         /** @var \LaravelRocket\Foundation\Models\AuthenticatableBase $user */
         $user = $this->authenticatableRepository->find($id);
         if (empty($user)) {
-            return null;
+            return;
         }
         $guard = $this->getGuard();
         $guard->login($user);
@@ -145,7 +145,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
     {
         $email = $this->passwordResettableRepository->findEmailByToken($token);
         if (empty($email)) {
-            return null;
+            return;
         }
 
         return $this->authenticatableRepository->findByEmail($email);
