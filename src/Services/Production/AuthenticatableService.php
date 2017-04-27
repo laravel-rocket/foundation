@@ -151,7 +151,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
             return false;
         }
         $this->authenticatableRepository->update($user, ['password' => $password]);
-        $this->passwordResettableRepository->delete($token);
+        $this->passwordResettableRepository->delete($user);
         $this->setUser($user);
 
         return true;
