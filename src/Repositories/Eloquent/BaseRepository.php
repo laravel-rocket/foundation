@@ -7,9 +7,9 @@ use LaravelRocket\Foundation\Repositories\BaseRepositoryInterface;
 
 class BaseRepository implements BaseRepositoryInterface
 {
-    protected $cacheEnabled = false;
+    protected $cacheEnabled  = false;
 
-    protected $cachePrefix = 'model';
+    protected $cachePrefix   = 'model';
 
     protected $cacheLifeTime = 60; // Minutes
 
@@ -20,26 +20,24 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function rules()
     {
-        return [
-        ];
+        return [];
     }
 
     public function messages()
     {
-        return [
-        ];
+        return [];
     }
 
     public function all($order = null, $direction = null)
     {
-        $model = $this->getModelClassName();
+        $model = $this->getBlankModel();
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
 
-            return $model::orderBy($order, $direction)->get();
+            return $model->orderBy($order, $direction)->get();
         }
 
-        return $model::all();
+        return $model->all();
     }
 
     public function allByFilter($filter, $order = null, $direction = null)
@@ -63,11 +61,11 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function allEnabled($order = null, $direction = null)
     {
-        $model = $this->getModelClassName();
-        $query = $model::where('is_enabled', '=', true);
+        $model = $this->getBlankModel();
+        $query = $model->where('is_enabled', '=', true);
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $query     = $query->orderBy($order, $direction);
+            $query = $query->orderBy($order, $direction);
         }
 
         return $query->get();
@@ -75,9 +73,9 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
     {
-        $model = $this->getModelClassName();
+        $model = $this->getBlankModel();
 
-        return $model::orderBy($order, $direction)->skip($offset)->take($limit)->get();
+        return $model->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
     public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
@@ -89,16 +87,16 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
     {
-        $model = $this->getModelClassName();
+        $model = $this->getBlankModel();
 
-        return $model::where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
+        return $model->where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
     public function count()
     {
-        $model = $this->getModelClassName();
+        $model = $this->getBlankModel();
 
-        return $model::count();
+        return $model->count();
     }
 
     public function countByFilter($filter)
@@ -110,9 +108,9 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function countEnabled()
     {
-        $model = $this->getModelClassName();
+        $model = $this->getBlankModel();
 
-        return $model::where('is_enabled', '=', true)->count();
+        return $model->where('is_enabled', '=', true)->count();
     }
 
     public function pluck($collection, $value, $key = null)
@@ -127,6 +125,24 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         return Collection::make($items);
+    }
+
+    public function firstOrNew($attributes, $values = [])
+    {
+        $model = $this->getBlankModel();
+        return $model->firstOrNew($attributes, $values);
+    }
+
+    public function firstOrCreate($attributes, $values = [])
+    {
+        $model = $this->getBlankModel();
+        return $model->firstOrCreate($attributes, $values);
+    }
+
+    public function updateOrCreate($attributes, $values = [])
+    {
+        $model = $this->getBlankModel();
+        return $model->updateOrCreate($attributes, $values);
     }
 
     /**
@@ -146,12 +162,12 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
-     * @param string[]                           $orderCandidates
-     * @param string                             $orderDefault
-     * @param string                             $order
-     * @param string                             $direction
-     * @param int                                $offset
-     * @param int                                $limit
+     * @param string[] $orderCandidates
+     * @param string $orderDefault
+     * @param string $order
+     * @param string $direction
+     * @param int $offset
+     * @param int $limit
      *
      * @return \Illuminate\Support\Collection
      */
@@ -163,12 +179,13 @@ class BaseRepository implements BaseRepositoryInterface
         $direction,
         $offset,
         $limit
-    ) {
-        $order     = strtolower($order);
+    )
+    {
+        $order = strtolower($order);
         $direction = strtolower($direction);
-        $offset    = intval($offset);
-        $limit     = intval($limit);
-        $order     = in_array($order, $orderCandidates) ? $order : strtolower($orderDefault);
+        $offset = intval($offset);
+        $limit = intval($limit);
+        $order = in_array($order, $orderCandidates) ? $order : strtolower($orderDefault);
         $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc';
 
         if ($limit <= 0) {
@@ -183,7 +200,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
-     * @param array                              $filter
+     * @param array $filter
      *
      * @return \Illuminate\Database\Query\Builder
      */
