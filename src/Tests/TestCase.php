@@ -21,7 +21,7 @@ class TestCase extends BaseTestCase
         $this->app->boot();
         if ($this->useDatabase) {
             \DB::disableQueryLog();
-            $this->trancateTables();
+            $this->truncateTables();
             $this->artisan('db:seed');
         }
     }
@@ -64,7 +64,7 @@ class TestCase extends BaseTestCase
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
-    private function trancateTables()
+    private function truncateTables()
     {
         $databaseName = \DB::connection()->getDatabaseName();
         $tables       = \DB::select('SHOW TABLES');
