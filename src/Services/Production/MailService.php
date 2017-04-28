@@ -19,6 +19,10 @@ class MailService extends BaseService implements MailServiceInterface
             ];
         }
 
+        if (!is_array($from) || empty(array_get($from, 'address'))) {
+            $from = $this->getDefaultSender();
+        }
+
         try {
             \Mail::send($template, $data, function ($m) use ($from, $to, $title) {
                 $m->from($from['address'], $from['name']);
@@ -30,5 +34,10 @@ class MailService extends BaseService implements MailServiceInterface
         }
 
         return true;
+    }
+
+    public function getDefaultSender()
+    {
+        return config('mail.from', []);
     }
 }

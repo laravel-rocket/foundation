@@ -13,4 +13,9 @@ interface MailServiceInterface extends BaseServiceInterface
      * @return bool
      */
     public function sendMail($title, $from, $to, $template, $data);
+
+    /**
+     * @return array
+     */
+    public function getDefaultSender();
 }

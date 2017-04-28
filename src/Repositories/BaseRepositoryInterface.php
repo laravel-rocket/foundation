@@ -33,7 +33,7 @@ interface BaseRepositoryInterface
     /**
      * Get All Models with filter conditions.
      *
-     * @param array $filter
+     * @param array  $filter
      * @param string $order
      * @param string $direction
      *
@@ -46,8 +46,8 @@ interface BaseRepositoryInterface
      *
      * @param string $order
      * @param string $direction
-     * @param int $offset
-     * @param int $limit
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
      */
@@ -56,11 +56,11 @@ interface BaseRepositoryInterface
     /**
      * Get Models with Order.
      *
-     * @param array $filter
+     * @param array  $filter
      * @param string $order
      * @param string $direction
-     * @param int $offset
-     * @param int $limit
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
      */
@@ -71,8 +71,8 @@ interface BaseRepositoryInterface
      *
      * @param string $order
      * @param string $direction
-     * @param int $offset
-     * @param int $limit
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
      */
@@ -110,6 +110,7 @@ interface BaseRepositoryInterface
     /**
      * @param array $attributes
      * @param array $values
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function firstOrNew($attributes, $values = []);
@@ -117,6 +118,7 @@ interface BaseRepositoryInterface
     /**
      * @param array $attributes
      * @param array $values
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function firstOrCreate($attributes, $values = []);
@@ -124,6 +126,7 @@ interface BaseRepositoryInterface
     /**
      * @param array $attributes
      * @param array $values
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateOrCreate($attributes, $values = []);
@@ -144,8 +147,8 @@ interface BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Support\Collection $collection
-     * @param string $value
-     * @param string|null $key
+     * @param string                         $value
+     * @param string|null                    $key
      *
      * @return \Illuminate\Support\Collection
      */

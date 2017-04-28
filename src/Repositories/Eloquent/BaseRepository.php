@@ -65,7 +65,7 @@ class BaseRepository implements BaseRepositoryInterface
         $query = $model->where('is_enabled', '=', true);
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $query = $query->orderBy($order, $direction);
+            $query     = $query->orderBy($order, $direction);
         }
 
         return $query->get();
@@ -130,18 +130,21 @@ class BaseRepository implements BaseRepositoryInterface
     public function firstOrNew($attributes, $values = [])
     {
         $model = $this->getBlankModel();
+
         return $model->firstOrNew($attributes, $values);
     }
 
     public function firstOrCreate($attributes, $values = [])
     {
         $model = $this->getBlankModel();
+
         return $model->firstOrCreate($attributes, $values);
     }
 
     public function updateOrCreate($attributes, $values = [])
     {
         $model = $this->getBlankModel();
+
         return $model->updateOrCreate($attributes, $values);
     }
 
@@ -162,12 +165,12 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
-     * @param string[] $orderCandidates
-     * @param string $orderDefault
-     * @param string $order
-     * @param string $direction
-     * @param int $offset
-     * @param int $limit
+     * @param string[]                           $orderCandidates
+     * @param string                             $orderDefault
+     * @param string                             $order
+     * @param string                             $direction
+     * @param int                                $offset
+     * @param int                                $limit
      *
      * @return \Illuminate\Support\Collection
      */
@@ -179,13 +182,12 @@ class BaseRepository implements BaseRepositoryInterface
         $direction,
         $offset,
         $limit
-    )
-    {
-        $order = strtolower($order);
+    ) {
+        $order     = strtolower($order);
         $direction = strtolower($direction);
-        $offset = intval($offset);
-        $limit = intval($limit);
-        $order = in_array($order, $orderCandidates) ? $order : strtolower($orderDefault);
+        $offset    = intval($offset);
+        $limit     = intval($limit);
+        $order     = in_array($order, $orderCandidates) ? $order : strtolower($orderDefault);
         $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc';
 
         if ($limit <= 0) {
@@ -200,7 +202,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
-     * @param array $filter
+     * @param array                              $filter
      *
      * @return \Illuminate\Database\Query\Builder
      */
