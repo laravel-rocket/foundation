@@ -30,6 +30,9 @@ class TestCase extends BaseTestCase
     {
         if ($this->useDatabase) {
             \DB::disconnect();
+            foreach (\DB::getConnections() as $connection) {
+                $connection->disconnect();
+            }
         }
 
         parent::tearDown();
