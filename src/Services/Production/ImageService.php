@@ -111,6 +111,11 @@ class ImageService extends BaseService implements ImageServiceInterface
     private function setImageFormat($image, $format)
     {
         if ($image->getImageFormat() !== $format) {
+            if( $format == 'jpg' || $format == 'jpeg' ) {
+                $image->setImageBackgroundColor(new \ImagickPixel('white'));
+                $image = $image->flattenImages();
+            }
+
             $image->setImageFormat($format);
         }
         if ($format == 'jpeg') {
