@@ -113,7 +113,7 @@ class ImageService extends BaseService implements ImageServiceInterface
         if ($image->getImageFormat() !== $format) {
             if( $format == 'jpg' || $format == 'jpeg' ) {
                 $image->setImageBackgroundColor(new \ImagickPixel('white'));
-                $image = $image->flattenImages();
+                $image = $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
             }
 
             $image->setImageFormat($format);
