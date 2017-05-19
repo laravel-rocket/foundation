@@ -50,10 +50,12 @@ class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
         $setting = config('database.default');
 
         $driver   = config('database.connections.'.$setting.'.driver');
+        $host     = config('database.connections.'.$setting.'.host');
+        $port     = config('database.connections.'.$setting.'.port');
         $username = config('database.connections.'.$setting.'.username');
         $password = config('database.connections.'.$setting.'.password');
 
-        $connection = new \PDO("{$driver}:user={$username} password={$password}", $username, $password);
+        $connection = new \PDO("{$driver}:host={$host};port={$port}", $username, $password);
 
         return $connection;
     }
