@@ -5,13 +5,13 @@ use LaravelRocket\Foundation\Services\ImageServiceInterface;
 
 class ImageService extends BaseService implements ImageServiceInterface
 {
-    public function convert($src, $dst, $format, $size, $needExactSize = false)
+    public function convert($src, $dst, $format, $size, $needExactSize = false, $backgroundColor='#FFFFFF')
     {
         $image = new \Imagick($src);
         $image = $this->fixImageOrientation($image);
         $image = $this->setImageSize($image, $size, $needExactSize);
         if (!empty($format)) {
-            $image = $this->setImageFormat($image, $format);
+            $image = $this->setImageFormat($image, $format, $backgroundColor);
         }
         $image->writeImage($dst);
 
@@ -105,14 +105,15 @@ class ImageService extends BaseService implements ImageServiceInterface
     /**
      * @param \Imagick $image
      * @param string   $format
+     * @param string   $backgroundColor
      *
      * @return \Imagick
      */
-    private function setImageFormat($image, $format)
+    private function setImageFormat($image, $format, $backgroundColor='#FFFFFF')
     {
         if ($image->getImageFormat() !== $format) {
-            if( $format == 'jpg' || $format == 'jpeg' ) {
-                $image->setImageBackgroundColor(new \ImagickPixel('white'));
+            if ($format == 'jpg' || $format == 'jpeg') {
+                $image->setImageBackgroundColor(new \ImagickPixel($backgroundColor));
                 $image = $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
             }
 
