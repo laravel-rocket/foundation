@@ -56,6 +56,14 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
      *
      * @return \LaravelRocket\Foundation\Models\Base
      */
+    public function dryUpdate($model, $input);
+
+    /**
+     * @param \LaravelRocket\Foundation\Models\Base $model
+     * @param array                                 $input
+     *
+     * @return \LaravelRocket\Foundation\Models\Base
+     */
     public function update($model, $input);
 
     /**

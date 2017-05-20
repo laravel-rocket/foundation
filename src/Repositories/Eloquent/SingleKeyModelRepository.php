@@ -103,13 +103,21 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         return $this->update($model, $input);
     }
 
-    public function update($model, $input)
+    public function dryUpdate($model, $input)
     {
         foreach ($model->getEditableColumns() as $column) {
             if (array_key_exists($column, $input)) {
                 $model->$column = array_get($input, $column);
             }
         }
+
+        return $model;
+    }
+
+
+    public function update($model, $input)
+    {
+        $model = $this->dryUpdate($model, $input);
 
         if ($this->cacheEnabled) {
             $primaryKey = $this->getPrimaryKey();
