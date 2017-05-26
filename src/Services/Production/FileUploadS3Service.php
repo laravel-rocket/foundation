@@ -18,11 +18,12 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 
         if (file_exists($srcPath)) {
             $client->putObject([
-                'Bucket'      => $bucket,
-                'Key'         => $filename,
-                'SourceFile'  => $srcPath,
-                'ContentType' => $mediaType,
-                'ACL'         => 'public-read',
+                'Bucket'       => $bucket,
+                'Key'          => $filename,
+                'SourceFile'   => $srcPath,
+                'ContentType'  => $mediaType,
+                'ACL'          => 'public-read',
+                'CacheControl' => 'max-age=604800',
             ]);
 
             $url     = $client->getObjectUrl($bucket, $filename);

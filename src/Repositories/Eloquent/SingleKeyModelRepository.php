@@ -108,7 +108,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         foreach ($model->getEditableColumns() as $column) {
             if (array_key_exists($column, $input)) {
                 $newData = array_get($input, $column);
-                if( $model->$column !== $newData ) {
+                if ($model->$column !== $newData) {
                     $model->$column = array_get($input, $column);
                 }
             }

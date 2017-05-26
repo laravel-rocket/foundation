@@ -86,9 +86,9 @@ class ImageService extends BaseService implements ImageServiceInterface
         }
 
         if ($needExactSize || $image->getImageWidth() > $size[0]) {
-            if( $size[0] == 0 || $size[1] == 0 ) {
+            if ($size[0] == 0 || $size[1] == 0) {
                 $image->scaleImage($size[0], $size[1]);
-            }else {
+            } else {
                 $image->cropThumbnailImage($size[0], $size[1]);
             }
         }
