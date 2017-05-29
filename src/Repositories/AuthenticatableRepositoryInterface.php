@@ -11,4 +11,12 @@ interface AuthenticatableRepositoryInterface extends SingleKeyModelRepositoryInt
      * @return AuthenticatableBase|null
      */
     public function findByEmail($email);
+
+    /**
+     * @param AuthenticatableBase $user
+     * @param string              $password
+     *
+     * @return AuthenticatableBase
+     */
+    public function updateRawPassword($user, $password);
 }

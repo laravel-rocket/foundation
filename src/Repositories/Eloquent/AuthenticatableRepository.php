@@ -24,4 +24,16 @@ class AuthenticatableRepository extends SingleKeyModelRepository implements Auth
 
         return $className::whereFacebookId($facebookId)->first();
     }
+
+    public function updateRawPassword($user, $password)
+    {
+        if (empty($password)) {
+            \DB::update('update '.$this->getBlankModel()->getTable().' set password = \'\' where id = ?', [$user->id]);
+        } else {
+            \DB::update('update '.$this->getBlankModel()->getTable().' set password = ? where id = ?',
+                [$password, $user->id]);
+        }
+
+        return $this->find($user->id);
+    }
 }
