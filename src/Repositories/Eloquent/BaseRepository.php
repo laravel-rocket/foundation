@@ -209,7 +209,11 @@ class BaseRepository implements BaseRepositoryInterface
     protected function buildQueryByFilter($query, $filter)
     {
         foreach ($filter as $column => $value) {
-            $query = $query->where($column, $value);
+            if( is_array($value) ) {
+                $query = $query->whereIn($column, $value);
+            }else {
+                $query = $query->where($column, $value);
+            }
         }
 
         return $query;
