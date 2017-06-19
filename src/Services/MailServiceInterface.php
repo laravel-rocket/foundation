@@ -5,8 +5,8 @@ interface MailServiceInterface extends BaseServiceInterface
 {
     /**
      * @param string $title
-     * @param string $from
-     * @param string $to
+     * @param array  $from
+     * @param array  $to
      * @param string $template
      * @param array  $data
      *
