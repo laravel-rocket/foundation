@@ -41,4 +41,17 @@ class PaginationRequest extends Request
 
         return strtolower($direction);
     }
+
+    public function filters($keys)
+    {
+        $filters = [];
+        foreach ($keys as $key) {
+            $value = $this->get($key);
+            if (!empty($value)) {
+                $filters[$key] = $value;
+            }
+        }
+
+        return $filters;
+    }
 }

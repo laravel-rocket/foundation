@@ -30,7 +30,7 @@ class MailService extends BaseService implements MailServiceInterface
                 $m->to($to['address'], $to['name'])->subject($title);
             });
         } catch (\Exception $e) {
-            \Log::error( $e->getMessage());
+            \Log::error($e->getMessage());
         }
 
         return true;
