@@ -22,13 +22,26 @@ class Request extends FormRequest
      */
     public function rules()
     {
-        return [
-        ];
+        return [];
     }
 
     public function messages()
     {
-        return [
-        ];
+        return [];
+    }
+
+    public function onlyExists($keys)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        $results = [];
+
+        foreach ($keys as $key) {
+            if ($this->has($key)) {
+                $results[$key] = $this->get($key);
+            }
+        }
+
+        return $results;
     }
 }
