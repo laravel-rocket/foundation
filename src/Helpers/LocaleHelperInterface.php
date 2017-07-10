@@ -27,4 +27,9 @@ interface LocaleHelperInterface
      * @return array
      */
     public function getEnableLocales();
+
+    /**
+     * @return array
+     */
+    public function getLocalesForForm();
 }

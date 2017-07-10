@@ -112,4 +112,17 @@ class LocaleHelper implements LocaleHelperInterface
             return $value['status'] == true;
         });
     }
+
+    /**
+     * @return array
+     */
+    public function getLocalesForForm()
+    {
+        $locales = [];
+        foreach (self::getEnableLocales() as $k => $locale) {
+            array_set($locales, $k, trans(array_get($locale, 'name')));
+        }
+
+        return $locales;
+    }
 }
