@@ -33,8 +33,7 @@ class BaseRepository implements BaseRepositoryInterface
         $model = $this->getBlankModel();
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-
-            return $model->orderBy($order, $direction)->get();
+            $model     = $model->orderBy($order, $direction);
         }
 
         return $model->all();
@@ -43,6 +42,10 @@ class BaseRepository implements BaseRepositoryInterface
     public function allByFilter($filter, $order = null, $direction = null)
     {
         $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        if (!empty($order)) {
+            $direction = empty($direction) ? 'asc' : $direction;
+            $query     = $query->orderBy($order, $direction);
+        }
 
         return $query->get();
     }
