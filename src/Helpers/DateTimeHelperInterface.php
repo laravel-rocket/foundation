@@ -15,6 +15,9 @@ interface DateTimeHelperInterface
      */
     public function setPresentationTimeZone($timezone = null);
 
+    /**
+     * @return mixed
+     */
     public function clearPresentationTimeZone();
 
     /**
@@ -58,6 +61,18 @@ interface DateTimeHelperInterface
      * @return \Carbon\Carbon
      */
     public function dateTime($dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null);
+
+    /**
+     * Get DateTime Object from string.
+     *
+     * @param string        $format
+     * @param string        $dateTimeStr
+     * @param \DateTimeZone $timezoneFrom
+     * @param \DateTimeZone $timezoneTo
+     *
+     * @return \Carbon\Carbon
+     */
+    public function dateTimeWithFormat($format, $dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null);
 
     /**
      * @param \DateTime     $dateTime

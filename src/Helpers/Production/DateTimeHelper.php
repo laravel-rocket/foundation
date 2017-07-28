@@ -26,6 +26,14 @@ class DateTimeHelper implements DateTimeHelperInterface
         return Carbon::parse($dateTimeStr, $timezoneFrom)->setTimezone($timezoneTo);
     }
 
+    public function dateTimeWithFormat($format, $dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null)
+    {
+        $timezoneFrom = empty($timezoneFrom) ? $this->timezoneForPresentation() : $timezoneFrom;
+        $timezoneTo   = empty($timezoneTo) ? $this->timezoneForStorage() : $timezoneTo;
+
+        return Carbon::createFromFormat($format, $dateTimeStr, $timezoneFrom)->setTimezone($timezoneTo);
+    }
+
     public function timezoneForPresentation()
     {
         return new \DateTimeZone($this->getPresentationTimeZoneString());
