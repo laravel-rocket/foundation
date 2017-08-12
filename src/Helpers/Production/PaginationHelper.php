@@ -72,8 +72,11 @@ class PaginationHelper implements PaginationHelperInterface
         $data['previousPageLink'] = $page <= 1 ? '' : $this->generateLink($page - 1, $path, $query, $limit);
         $data['nextPageLink']     = $page >= $lastPage ? '' : $this->generateLink($page + 1, $path, $query, $limit);
 
-        $data['jumpBackPage']  = $page - $paginationNumber <= 1 ? '' : $this->generateLink($page - $paginationNumber, $path, $query, $limit);
-        $data['jumpAheadPage'] = $page + $paginationNumber >= $lastPage ? '' : $this->generateLink($page + $paginationNumber, $path, $query, $limit);
+        $data['jumpBackPage']  = $page - $paginationNumber <= 1 ? '' : $page - $paginationNumber;
+        $data['jumpAheadPage'] = $page + $paginationNumber >= $lastPage ? '' : $page + $paginationNumber;
+
+        $data['jumpBackPageLink']  = $page - $paginationNumber <= 1 ? '' : $this->generateLink($page - $paginationNumber, $path, $query, $limit);
+        $data['jumpAheadPageLink'] = $page + $paginationNumber >= $lastPage ? '' : $this->generateLink($page + $paginationNumber, $path, $query, $limit);
 
         return $data;
     }
