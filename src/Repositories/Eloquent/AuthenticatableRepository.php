@@ -30,8 +30,10 @@ class AuthenticatableRepository extends SingleKeyModelRepository implements Auth
         if (empty($password)) {
             \DB::update('update '.$this->getBlankModel()->getTable().' set password = \'\' where id = ?', [$user->id]);
         } else {
-            \DB::update('update '.$this->getBlankModel()->getTable().' set password = ? where id = ?',
-                [$password, $user->id]);
+            \DB::update(
+                'update '.$this->getBlankModel()->getTable().' set password = ? where id = ?',
+                [$password, $user->id]
+            );
         }
 
         return $this->find($user->id);

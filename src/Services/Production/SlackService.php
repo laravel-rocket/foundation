@@ -28,8 +28,11 @@ class SlackService extends BaseService implements SlackServiceInterface
 
         $addToField('Environment', app()->environment(), true);
         $addToField('Exception', get_class($e), true);
-        $addToField('Http code',
-            $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500, true);
+        $addToField(
+            'Http code',
+            $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500,
+            true
+        );
         $addToField('Code', $e->getCode(), true);
         $addToField('File', $e->getFile(), true);
         $addToField('Line', $e->getLine(), true);

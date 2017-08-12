@@ -42,8 +42,11 @@ if (!function_exists('http_build_url')) {
         } else {
             if (isset($parts['path']) && $flags & HTTP_URL_JOIN_PATH) {
                 if (isset($new_url['path'])) {
-                    $new_url['path'] = rtrim(preg_replace('#'.preg_quote(basename($new_url['path']), '#').'$#', '',
-                            $new_url['path']), '/').'/'.ltrim($parts['path'], '/');
+                    $new_url['path'] = rtrim(preg_replace(
+                        '#'.preg_quote(basename($new_url['path']), '#').'$#',
+                        '',
+                            $new_url['path']
+                    ), '/').'/'.ltrim($parts['path'], '/');
                 } else {
                     $new_url['path'] = $parts['path'];
                 }

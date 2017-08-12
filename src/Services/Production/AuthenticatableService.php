@@ -135,10 +135,15 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
 
         $mailService = app()->make(MailServiceInterface::class);
 
-        $mailService->sendMail($this->resetEmailTitle, config('mail.from'),
-            ['name' => '', 'address' => $user->email], $this->resetEmailTemplate, [
+        $mailService->sendMail(
+            $this->resetEmailTitle,
+            config('mail.from'),
+            ['name' => '', 'address' => $user->email],
+            $this->resetEmailTemplate,
+            [
                 'token' => $token,
-            ]);
+            ]
+        );
     }
 
     public function resetPassword($email, $password, $token)

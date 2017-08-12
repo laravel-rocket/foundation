@@ -221,4 +221,16 @@ class BaseRepository implements BaseRepositoryInterface
 
         return $query;
     }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param string                             $order
+     * @param string                             $direction
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function buildOrder($query, $order, $direction)
+    {
+        return $query->orderBy($order, $direction);
+    }
 }

@@ -166,6 +166,10 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
             return $this->dynamicDelete($method, $parameters);
         }
 
+        if (Str::startsWith($method, 'updateBy')) {
+            return $this->dynamicUpdate($method, $parameters);
+        }
+
         $className = static::class;
         throw new \BadMethodCallException("Call to undefined method {$className}::{$method}()");
     }
@@ -249,5 +253,24 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
         return $query->delete();
+    }
+
+    private function dynamicUpdate($method, $parameters)
+    {
+        $finder          = substr($method, 8);
+        $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
+        $conditionCount  = count($segments);
+        $conditionParams = array_splice($parameters, 0, $conditionCount);
+        $model           = $this->getBlankModel();
+        $whereMethod     = 'where'.$finder;
+        $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
+
+        $updates     = array_get($parameters, 0);
+
+        if (empty($updates)) {
+            return;
+        }
+
+        return $query->update($updates);
     }
 }

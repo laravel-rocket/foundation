@@ -39,8 +39,11 @@ class LanguageService extends BaseService implements LanguageServiceInterface
     {
         $languages = [];
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i',
-                $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
+            preg_match_all(
+                '/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i',
+                $_SERVER['HTTP_ACCEPT_LANGUAGE'],
+                $lang_parse
+            );
             if (count($lang_parse[1])) {
                 $languages = array_combine($lang_parse[1], $lang_parse[4]);
                 foreach ($languages as $lang => $val) {

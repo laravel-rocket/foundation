@@ -72,7 +72,10 @@ class StringHelper implements StringHelperInterface
 
     public function endsWith($haystack, $needle)
     {
-        return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle,
-                    $temp) !== false);
+        return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos(
+            $haystack,
+            $needle,
+                    $temp
+        ) !== false);
     }
 }
