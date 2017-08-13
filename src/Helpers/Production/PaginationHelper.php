@@ -72,11 +72,31 @@ class PaginationHelper implements PaginationHelperInterface
         $data['previousPageLink'] = $page <= 1 ? '' : $this->generateLink($page - 1, $path, $query, $limit);
         $data['nextPageLink']     = $page >= $lastPage ? '' : $this->generateLink($page + 1, $path, $query, $limit);
 
-        $data['jumpBackPage']  = $page - $paginationNumber <= 1 ? '' : $page - $paginationNumber;
-        $data['jumpAheadPage'] = $page + $paginationNumber >= $lastPage ? '' : $page + $paginationNumber;
+        if (count($data['pages']) > 0) {
+            $firstListPage = $data['pages'][0];
+            $lastListPage  = $data['pages'][count($data['pages']) - 1];
 
-        $data['jumpBackPageLink']  = $page - $paginationNumber <= 1 ? '' : $this->generateLink($page - $paginationNumber, $path, $query, $limit);
-        $data['jumpAheadPageLink'] = $page + $paginationNumber >= $lastPage ? '' : $this->generateLink($page + $paginationNumber, $path, $query, $limit);
+            $data['jumpBackPage']  = $firstListPage - $paginationNumber <= 1 ? '' : $firstListPage - $paginationNumber;
+            $data['jumpAheadPage'] = $lastListPage + $paginationNumber >= $lastPage ? '' : $lastListPage + $paginationNumber;
+
+            $data['jumpBackPageLink'] = $firstListPage - $paginationNumber <= 1 ? '' : $this->generateLink(
+                $firstListPage - $paginationNumber,
+                $path,
+                $query,
+                $limit
+            );
+            $data['jumpAheadPageLink'] = $lastListPage + $paginationNumber >= $lastPage ? '' : $this->generateLink(
+                $lastListPage + $paginationNumber,
+                $path,
+                $query,
+                $limit
+            );
+        } else {
+            $data['jumpBackPage']      = '';
+            $data['jumpAheadPage']     = '';
+            $data['jumpBackPageLink']  = '';
+            $data['jumpAheadPageLink'] = '';
+        }
 
         return $data;
     }
@@ -97,9 +117,6 @@ class PaginationHelper implements PaginationHelperInterface
 
     private function generateLink($page, $path, $query, $limit)
     {
-        return $path.'?'.http_build_query(array_merge(
-            $query,
-                ['offset' => ($page - 1) * $limit, 'limit' => $limit]
-        ));
+        return $path.'?'.http_build_query(array_merge($query, ['offset' => ($page - 1) * $limit, 'limit' => $limit]));
     }
 }
