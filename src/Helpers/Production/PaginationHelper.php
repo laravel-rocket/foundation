@@ -73,8 +73,8 @@ class PaginationHelper implements PaginationHelperInterface
         $data['nextPageLink']     = $page >= $lastPage ? '' : $this->generateLink($page + 1, $path, $query, $limit);
 
         if (count($data['pages']) > 0) {
-            $firstListPage = $data['pages'][0];
-            $lastListPage  = $data['pages'][count($data['pages']) - 1];
+            $firstListPage = $data['pages'][0]['number'];
+            $lastListPage  = $data['pages'][count($data['pages']) - 1]['number'];
 
             $data['jumpBackPage']  = $firstListPage - $paginationNumber <= 1 ? '' : $firstListPage - $paginationNumber;
             $data['jumpAheadPage'] = $lastListPage + $paginationNumber >= $lastPage ? '' : $lastListPage + $paginationNumber;
