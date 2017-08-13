@@ -36,7 +36,7 @@ class BaseRepository implements BaseRepositoryInterface
             $model     = $model->orderBy($order, $direction);
         }
 
-        return $model->all();
+        return $model->get();
     }
 
     public function allByFilter($filter, $order = null, $direction = null)
