@@ -211,6 +211,8 @@ class BaseRepository implements BaseRepositoryInterface
      */
     protected function buildQueryByFilter($query, $filter)
     {
+        $query = $this->queryOptions($query);
+
         foreach ($filter as $column => $value) {
             if (is_array($value)) {
                 $query = $query->whereIn($column, $value);
@@ -232,5 +234,15 @@ class BaseRepository implements BaseRepositoryInterface
     protected function buildOrder($query, $order, $direction)
     {
         return $query->orderBy($order, $direction);
+    }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function queryOptions($query)
+    {
+        return $query;
     }
 }

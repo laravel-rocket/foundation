@@ -207,6 +207,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
         $model           = $this->getBlankModel();
+        $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
@@ -236,6 +237,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
         $model           = $this->getBlankModel();
+        $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
@@ -262,6 +264,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
         $model           = $this->getBlankModel();
+        $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
