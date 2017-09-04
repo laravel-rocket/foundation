@@ -42,10 +42,10 @@ class ImportFileToTable extends Command
 
         $columnNames = [];
 
+        $columnInformation = \DB::select('show columns from '.$tableName);
         if (!empty($this->option('columns'))) {
             $columnNames = explode(',', $this->option('columns'));
         } else {
-            $columnInformation = \DB::select('show columns from '.$tableName);
             if ($includeId) {
                 $columnNames[] = 'id';
             }
@@ -55,14 +55,27 @@ class ImportFileToTable extends Command
                 }
             }
         }
+        $defaultValues = [];
+        foreach ($columnInformation as $entity) {
+            if ($entity->null === 'NO') {
+                $type = $entity->Type;
+                if (starts_with($type, 'varchar') || starts_with($type, 'char') || starts_with($type, 'text')) {
+                    $defaultValues[$entity->Field] = '';
+                } else {
+                    $defaultValues[$entity->Field] = 0;
+                }
+            }
+        }
 
         $excel = app()->make(Excel::class);
-        $excel->filter('chunk')->load($filePath)->chunk(250, function ($results) use ($tableName, $columnNames) {
+        $excel->filter('chunk')->load($filePath)->chunk(250, function ($results) use ($tableName, $columnNames, $defaultValues) {
             foreach ($results as $row) {
                 $data = [];
                 foreach ($columnNames as $columnName) {
-                    if (array_key_exists($columnName, $row)) {
-                        $data[$columnName] = $row[$columnName];
+                    if ($row->has($columnName) && !empty($row->get($columnName))) {
+                        $data[$columnName] = $row->get($columnName);
+                    } elseif (array_key_exists($columnName, $defaultValues)) {
+                        $data[$columnName] = $defaultValues[$columnName];
                     }
                 }
                 \DB::table($tableName)->insert($data);
