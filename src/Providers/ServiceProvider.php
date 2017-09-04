@@ -3,6 +3,7 @@ namespace LaravelRocket\Foundation\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use LaravelRocket\Foundation\Console\Commands\ExportTableToFile;
+use LaravelRocket\Foundation\Console\Commands\ImportFileToTable;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -96,10 +97,14 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         //Commands
-        $this->app->singleton('command.rocket.export.file', function ($app) {
+        $this->app->singleton('command.rocket.export.table', function ($app) {
             return new ExportTableToFile($app['files']);
         });
 
-        $this->commands('command.rocket.export.file');
+        $this->app->singleton('command.rocket.import.file', function ($app) {
+            return new ImportFileToTable($app['files']);
+        });
+
+        $this->commands('command.rocket.export.file', 'command.rocket.import.file');
     }
 }

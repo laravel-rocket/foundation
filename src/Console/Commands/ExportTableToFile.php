@@ -7,9 +7,11 @@ use Maatwebsite\Excel\Excel;
 
 class ExportTableToFile extends Command
 {
-    protected $name        = 'rocket:export:file {--format=} {--include_id} {--columns=} {table} {output_path}';
+    protected $signature   = 'rocket:export:table {--format=} {--include_id} {--columns=} {table} {output_path}';
 
-    protected $description = 'Export Database to CSV/TSV/Excel';
+    protected $name        = 'rocket:export:table';
+
+    protected $description = 'Export Database to CSV/Excel';
 
     /** @var \Illuminate\Filesystem\Filesystem */
     protected $files;
@@ -42,17 +44,22 @@ class ExportTableToFile extends Command
             $format = 'csv';
         }
 
-        $columnNames       = [];
-        $columnInformation = \DB::select('show columns from '.$tableName);
-        if ($includeId) {
-            $columnNames[] = 'id';
-        }
-        foreach ($columnInformation as $entity) {
-            if ($entity->Field !== 'id') {
-                $columnNames[] = $entity->Field;
+        $columnNames = [];
+
+        if (!empty($this->option('columns'))) {
+            $columnNames = explode(',', $this->option('columns'));
+        } else {
+            $columnInformation = \DB::select('show columns from '.$tableName);
+            if ($includeId) {
+                $columnNames[] = 'id';
+            }
+            foreach ($columnInformation as $entity) {
+                if ($entity->Field !== 'id') {
+                    $columnNames[] = $entity->Field;
+                }
             }
         }
-        $data = [$columnNames];
+        $data = [];
 
         $count  = \DB::table($tableName)->count();
         $limit  = 1000;
@@ -62,7 +69,7 @@ class ExportTableToFile extends Command
             foreach ($entities as $entity) {
                 $row = [];
                 foreach ($columnNames as $columnName) {
-                    $row[] = $entity->$columnName;
+                    $row[$columnName] = $entity->$columnName;
                 }
                 $data[] = $row;
             }
@@ -70,8 +77,8 @@ class ExportTableToFile extends Command
         }
 
         /** @var Excel $excel */
-        $excel = app()->make(Excel::class);
-        $excel->create($outputPath, function ($excel) use ($data, $tableName) {
+        $excel  = app()->make(Excel::class);
+        $output = $excel->create($outputPath, function ($excel) use ($data, $tableName) {
             $excel->sheet($tableName, function ($sheet) use ($data) {
                 $sheet->setStyle([
                     'font' => [
@@ -84,7 +91,9 @@ class ExportTableToFile extends Command
                     $sheet->fromArray($data);
                 }
             });
-        })->export($format);
+        })->string($format);
+
+        $this->files->put($outputPath, $output);
 
         return true;
     }
