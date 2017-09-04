@@ -2,6 +2,7 @@
 namespace LaravelRocket\Foundation\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use LaravelRocket\Foundation\Console\Commands\ExportTableToFile;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -93,5 +94,12 @@ class ServiceProvider extends BaseServiceProvider
             \LaravelRocket\Foundation\Helpers\RedirectHelperInterface::class,
             \LaravelRocket\Foundation\Helpers\Production\RedirectHelper::class
         );
+
+        //Commands
+        $this->app->singleton('command.rocket.export.file', function ($app) {
+            return new ExportTableToFile($app['files']);
+        });
+
+        $this->commands('command.rocket.export.file');
     }
 }

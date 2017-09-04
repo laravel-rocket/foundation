@@ -74,7 +74,7 @@ interface BaseRepositoryInterface
      * @param int    $offset
      * @param int    $limit
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]||\Illuminate\Database\Eloquent\Collection|\Traversable|array
      */
     public function getEnabled($order, $direction, $offset, $limit);
 
@@ -103,7 +103,7 @@ interface BaseRepositoryInterface
     /**
      * Get Empty Array or Traversable Object.
      *
-     * @return \LaravelRocket\Foundation\Models\Base|\Illuminate\Database\Query\Builder;
+     * @return \LaravelRocket\Foundation\Models\Base|\Illuminate\Database\Query\Builder
      */
     public function getBlankModel();
 

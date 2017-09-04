@@ -29,7 +29,7 @@ interface RelationModelRepositoryInterface extends SingleKeyModelRepositoryInter
     /**
      * @param int $parentKey
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Illuminate\Database\Eloquent\Collection
      */
     public function allByParentKey($parentKey);
 
@@ -37,7 +37,7 @@ interface RelationModelRepositoryInterface extends SingleKeyModelRepositoryInter
      * @param int   $parentKey
      * @param array $childKeys
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Illuminate\Database\Eloquent\Collection
      */
     public function updateList($parentKey, $childKeys);
 }

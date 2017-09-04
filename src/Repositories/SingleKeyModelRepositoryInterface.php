@@ -21,7 +21,7 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
      * @param string|null $direction
      * @param bool        $reorder
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Illuminate\Database\Eloquent\Collection
      */
     public function allByIds($ids, $order = null, $direction = null, $reorder = false);
 
@@ -39,7 +39,7 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
      * @param int|null    $offset
      * @param int|null    $limit
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getByIds($ids, $order = null, $direction = null, $offset = null, $limit = null);
 
