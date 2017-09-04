@@ -105,6 +105,6 @@ class ServiceProvider extends BaseServiceProvider
             return new ImportFileToTable($app['files']);
         });
 
-        $this->commands('command.rocket.export.file', 'command.rocket.import.file');
+        $this->commands('command.rocket.export.table', 'command.rocket.import.file');
     }
 }
