@@ -7,7 +7,7 @@ interface TypeHelperInterface
      * @param string $type
      * @param array  $list
      *
-     * @return string
+     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
      */
     public function getTypeName($type, $list);
 

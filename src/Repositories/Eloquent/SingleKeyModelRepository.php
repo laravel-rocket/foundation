@@ -267,8 +267,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
-
-        $updates     = array_get($parameters, 0);
+        $updates         = array_get($parameters, 0);
 
         if (empty($updates)) {
             return;

@@ -101,7 +101,7 @@ class ImageService extends BaseService implements ImageServiceInterface
      * @param string   $format
      * @param string   $backgroundColor
      *
-     * @return \Imagick
+     * @return \Imagick|bool
      */
     private function setImageFormat($image, $format, $backgroundColor='#FFFFFF')
     {

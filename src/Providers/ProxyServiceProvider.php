@@ -1,9 +1,9 @@
 <?php
 namespace LaravelRocket\Foundation\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class ProxyServiceProvider extends ServiceProvider
+class ProxyServiceProvider extends BaseServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.

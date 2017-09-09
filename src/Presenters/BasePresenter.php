@@ -28,8 +28,6 @@ class BasePresenter
      */
     public function __get($property)
     {
-        $app = app();
-
         if (method_exists($this, $property)) {
             return $this->$property();
         }
