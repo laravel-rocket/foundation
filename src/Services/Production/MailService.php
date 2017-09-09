@@ -24,7 +24,7 @@ class MailService extends BaseService implements MailServiceInterface
         }
 
         try {
-            \Mail::send($template, $data, function ($m) use ($from, $to, $title) {
+            \Mail::send($template, $data, function($m) use ($from, $to, $title) {
                 $m->from($from['address'], $from['name']);
 
                 $m->to($to['address'], $to['name'])->subject($title);

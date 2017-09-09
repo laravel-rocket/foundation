@@ -78,8 +78,8 @@ class ExportTableToFile extends Command
 
         /** @var Excel $excel */
         $excel  = app()->make(Excel::class);
-        $output = $excel->create($outputPath, function ($excel) use ($data, $tableName) {
-            $excel->sheet($tableName, function ($sheet) use ($data) {
+        $output = $excel->create($outputPath, function($excel) use ($data, $tableName) {
+            $excel->sheet($tableName, function($sheet) use ($data) {
                 $sheet->setStyle([
                     'font' => [
                         'name' => 'Arial',

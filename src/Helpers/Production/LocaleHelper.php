@@ -21,7 +21,7 @@ class LocaleHelper implements LocaleHelperInterface
 
         if (request()->has('fb_locale')) {
             $fbLocale  = request()->get('fb_locale');
-            $languages = array_filter(config('locale.languages'), function ($language) use ($fbLocale) {
+            $languages = array_filter(config('locale.languages'), function($language) use ($fbLocale) {
                 if (array_get($language, 'ogp') === $fbLocale) {
                     return true;
                 }
@@ -111,7 +111,7 @@ class LocaleHelper implements LocaleHelperInterface
 
     public function getEnableLocales()
     {
-        return array_where(config('locale.languages'), function ($value, $key) {
+        return array_where(config('locale.languages'), function($value, $key) {
             return $value['status'] == true;
         });
     }

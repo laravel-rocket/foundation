@@ -31,7 +31,7 @@ class StringHelper implements StringHelperInterface
 
     public function snake2Camel($input)
     {
-        $string = preg_replace_callback('/(^|_)([a-z])/', function ($match) {
+        $string = preg_replace_callback('/(^|_)([a-z])/', function($match) {
             return strtoupper($match[2]);
         }, $input);
 

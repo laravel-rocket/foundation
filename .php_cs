@@ -75,6 +75,7 @@ $fixers = [
     'return_type_declaration'                     => true,
     'short_scalar_cast'                           => true,
     'whitespace_after_comma_in_array'             => true,
+    'function_declaration'                        => ['closure_function_spacing'=>'none'],
 ];
 
 return PhpCsFixer\Config::create()

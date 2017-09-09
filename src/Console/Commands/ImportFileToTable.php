@@ -68,7 +68,7 @@ class ImportFileToTable extends Command
         }
 
         $excel = app()->make(Excel::class);
-        $excel->filter('chunk')->load($filePath)->chunk(250, function ($results) use ($tableName, $columnNames, $defaultValues) {
+        $excel->filter('chunk')->load($filePath)->chunk(250, function($results) use ($tableName, $columnNames, $defaultValues) {
             foreach ($results as $row) {
                 $data = [];
                 foreach ($columnNames as $columnName) {

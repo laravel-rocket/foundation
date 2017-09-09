@@ -97,11 +97,11 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         //Commands
-        $this->app->singleton('command.rocket.export.table', function ($app) {
+        $this->app->singleton('command.rocket.export.table', function($app) {
             return new ExportTableToFile($app['files']);
         });
 
-        $this->app->singleton('command.rocket.import.file', function ($app) {
+        $this->app->singleton('command.rocket.import.file', function($app) {
             return new ImportFileToTable($app['files']);
         });
 
