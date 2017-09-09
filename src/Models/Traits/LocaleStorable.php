@@ -2,7 +2,7 @@
 namespace LaravelRocket\Foundation\Models\Traits;
 
 /**
- * LaravelRocket\Foundation\Models\LocaleStorableTraits.
+ * LaravelRocket\Foundation\Models\LocaleStorable.
  *
  * @property string $locale
  *

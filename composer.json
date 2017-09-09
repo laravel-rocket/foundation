@@ -14,6 +14,7 @@
         "icanboogie/inflector": "^1.4",
         "maknz/slack": "^1.7",
         "aws/aws-sdk-php": "~3.24",
+        "rainner/restful-php": "^1.0",
         "laravel/framework": "5.4.*"
     },
     "require-dev": {
