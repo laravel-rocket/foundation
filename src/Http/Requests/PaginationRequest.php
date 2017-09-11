@@ -10,7 +10,7 @@ class PaginationRequest extends Request
     {
         $offset = $this->get('offset', 0);
 
-        return $offset >= 0 ? $offset : 0;
+        return $offset >= 0 ? (int) $offset : 0;
     }
 
     /**
@@ -22,7 +22,7 @@ class PaginationRequest extends Request
     {
         $limit = $this->get('limit', $default);
 
-        return ($limit > 0 && $limit <= 100) ? $limit : $default;
+        return ($limit > 0 && $limit <= 100) ? (int) $limit : $default;
     }
 
     public function order($default = 'id')
