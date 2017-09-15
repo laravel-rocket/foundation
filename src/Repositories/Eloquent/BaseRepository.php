@@ -42,10 +42,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function allByFilter($filter, $order = null, $direction = null)
     {
         $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
-        if (!empty($order)) {
-            $direction = empty($direction) ? 'asc' : $direction;
-            $query     = $query->orderBy($order, $direction);
-        }
+        $query = $this->buildOrder($query, $filter, $order, $direction);
 
         return $query->get();
     }
@@ -84,8 +81,9 @@ class BaseRepository implements BaseRepositoryInterface
     public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
     {
         $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildOrder($query, $filter, $order, $direction);
 
-        return $query->orderBy($order, $direction)->skip($offset)->take($limit)->get();
+        return $query->skip($offset)->take($limit)->get();
     }
 
     public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
@@ -200,7 +198,9 @@ class BaseRepository implements BaseRepositoryInterface
             $offset = 0;
         }
 
-        return $query->orderBy($order, $direction)->offset($offset)->limit($limit)->get();
+        $query = $this->buildOrder($query, [], $order, $direction);
+
+        return $query->offset($offset)->limit($limit)->get();
     }
 
     /**
@@ -226,14 +226,20 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
+     * @param array                              $filter
      * @param string                             $order
      * @param string                             $direction
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    protected function buildOrder($query, $order, $direction)
+    protected function buildOrder($query, $filter, $order, $direction)
     {
-        return $query->orderBy($order, $direction);
+        if (!empty($order)) {
+            $direction = empty($direction) ? 'asc' : $direction;
+            $query     = $query->orderBy($order, $direction);
+        }
+
+        return $query;
     }
 
     /**
