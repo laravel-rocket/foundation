@@ -65,6 +65,9 @@ class SlackService extends BaseService implements SlackServiceInterface
     {
         $type       = config('slack.types.'.strtolower($type), config('slack.default', []));
         $webHookUrl = config('slack.webHookUrl');
+        if (empty($webHookUrl)) {
+            return;
+        }
         $client     = new Client($webHookUrl, [
             'username'   => array_get($type, 'username', 'FamarryBot'),
             'channel'    => array_get($type, 'channel', '#random'),
