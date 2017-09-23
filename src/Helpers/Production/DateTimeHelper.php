@@ -26,8 +26,12 @@ class DateTimeHelper implements DateTimeHelperInterface
         return Carbon::parse($dateTimeStr, $timezoneFrom)->setTimezone($timezoneTo);
     }
 
-    public function dateTimeWithFormat($format, $dateTimeStr, \DateTimeZone $timezoneFrom = null, \DateTimeZone $timezoneTo = null)
-    {
+    public function dateTimeWithFormat(
+        $format,
+        $dateTimeStr,
+        \DateTimeZone $timezoneFrom = null,
+        \DateTimeZone $timezoneTo = null
+    ) {
         $timezoneFrom = empty($timezoneFrom) ? $this->timezoneForPresentation() : $timezoneFrom;
         $timezoneTo   = empty($timezoneTo) ? $this->timezoneForStorage() : $timezoneTo;
 
@@ -118,5 +122,21 @@ class DateTimeHelper implements DateTimeHelperInterface
     public function changeToPresentationTimeZone($dateTime)
     {
         return $dateTime->setTimezone($this->timezoneForPresentation());
+    }
+
+    public function getTimeDifferenceStringFromTimeZone($timezone)
+    {
+        if (!($timezone instanceof \DateTimeZone)) {
+            if (!is_string($timezone)) {
+                $timezone = '';
+            }
+            try {
+                $timezone = new \DateTimeZone($timezone);
+            } catch (\Exception $e) {
+                $timezone = new \DateTimeZone('UTC');
+            }
+        }
+
+        return $this->now($timezone)->format('P');
     }
 }

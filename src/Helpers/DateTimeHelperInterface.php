@@ -119,4 +119,11 @@ interface DateTimeHelperInterface
      * @return \DateTime
      */
     public function changeToPresentationTimeZone($dateTime);
+
+    /**
+     * @param \DateTimeZone|string $timezone
+     *
+     * @return string
+     */
+    public function getTimeDifferenceStringFromTimeZone($timezone);
 }
