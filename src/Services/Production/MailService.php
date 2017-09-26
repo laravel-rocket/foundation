@@ -11,6 +11,10 @@ class MailService extends BaseService implements MailServiceInterface
             return true;
         }
 
+        if (app()->environment() != 'testing') {
+            return true;
+        }
+
         if (app()->environment() != 'production') {
             $title = '['.app()->environment().'] '.$title;
             $to    = [
