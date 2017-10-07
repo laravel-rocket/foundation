@@ -74,4 +74,12 @@ interface AuthenticatableServiceInterface extends BaseServiceInterface
      * @return string
      */
     public function getGuardName();
+
+    /**
+     * @param array  $input
+     * @param string $imageUrl
+     *
+     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
+     */
+    public function createWithImageUrl($input, $imageUrl);
 }

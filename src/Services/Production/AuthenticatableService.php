@@ -174,4 +174,9 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
 
         return $guard->check();
     }
+
+    public function createWithImageUrl($input, $imageUrl)
+    {
+        return $this->authenticatableRepository->create($input);
+    }
 }
