@@ -11,11 +11,11 @@ class MailService extends BaseService implements MailServiceInterface
             return true;
         }
 
-        if (app()->environment() != 'testing') {
+        if (app()->environment() == 'testing') {
             return true;
         }
 
-        if (app()->environment() != 'production') {
+        if (!in_array(app()->environment(), config('mail.production_environments', ['production']))) {
             $title = '['.app()->environment().'] '.$title;
             $to    = [
                 'address' => config('mail.tester'),
