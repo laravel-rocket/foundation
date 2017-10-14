@@ -10,6 +10,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
     {
         $region = array_get($attributes, 'region', config('file.storage.s3.region'));
         $bucket = $this->decideBucket(array_get($attributes, 'buckets', $this->getDefaultBucket()));
+        $acl    = array_get($attributes, 'acl', 'public-read');
 
         $client = $this->getS3Client($region);
 
@@ -22,7 +23,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
                 'Key'          => $filename,
                 'SourceFile'   => $srcPath,
                 'ContentType'  => $mediaType,
-                'ACL'          => 'public-read',
+                'ACL'          => $acl,
                 'CacheControl' => 'max-age=604800',
             ]);
 
