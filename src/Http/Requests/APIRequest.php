@@ -21,15 +21,15 @@ class APIRequest extends Request
             $this->treatPutRequest();
 
             $data = array_get($_REQUEST, $key, $default);
-        }else {
+        } else {
             $data = parent::get($key, $default);
         }
 
         // Support Android Retrofit Bad Data Format
-        if( starts_with(request()->header('Content-Type'), 'multipart/form-data')) {
-            if(starts_with($data, 'Content')) {
+        if (starts_with(request()->header('Content-Type'), 'multipart/form-data')) {
+            if (starts_with($data, 'Content')) {
                 $pos = strpos($data, "\r\n\r\n");
-                if($pos !== false) {
+                if ($pos !== false) {
                     $data = substr($data, $pos + 4);
                 }
             }

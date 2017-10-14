@@ -211,13 +211,15 @@ class BaseRepository implements BaseRepositoryInterface
      */
     protected function buildQueryByFilter($query, $filter)
     {
+        $tableName = $this->getBlankModel()->getTable();
+
         $query = $this->queryOptions($query);
 
         foreach ($filter as $column => $value) {
             if (is_array($value)) {
-                $query = $query->whereIn($column, $value);
+                $query = $query->whereIn($tableName.'.'.$column, $value);
             } else {
-                $query = $query->where($column, $value);
+                $query = $query->where($tableName.'.'.$column, $value);
             }
         }
 
