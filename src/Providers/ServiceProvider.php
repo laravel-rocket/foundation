@@ -2,6 +2,7 @@
 namespace LaravelRocket\Foundation\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use LaravelRocket\Foundation\Auth\EloquentUserProvider;
 use LaravelRocket\Foundation\Console\Commands\ExportTableToFile;
 use LaravelRocket\Foundation\Console\Commands\ImportFileToTable;
 
@@ -19,6 +20,11 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
+        /* Auth */
+        \Auth::provider('rocket-eloquent', function($app, array $config) {
+            return new EloquentUserProvider($app['hash'], $config['model']);
+        });
+
         /* Services */
         $this->app->singleton(
             \LaravelRocket\Foundation\Services\MailServiceInterface::class,
