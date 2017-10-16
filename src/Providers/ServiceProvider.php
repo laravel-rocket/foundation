@@ -13,6 +13,10 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        /* Auth */
+        \Auth::provider('rocket-eloquent', function($app, array $config) {
+            return new EloquentUserProvider($app['hash'], $config['model']);
+        });
     }
 
     /**
@@ -20,11 +24,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        /* Auth */
-        \Auth::provider('rocket-eloquent', function($app, array $config) {
-            return new EloquentUserProvider($app['hash'], $config['model']);
-        });
-
         /* Services */
         $this->app->singleton(
             \LaravelRocket\Foundation\Services\MailServiceInterface::class,
