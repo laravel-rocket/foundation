@@ -96,6 +96,13 @@ interface BaseRepositoryInterface
     public function countEnabled();
 
     /**
+     * @param array $filter
+     *
+     * @return \LaravelRocket\Foundation\Models\Base|null
+     */
+    public function firstByFilter($filter);
+
+    /**
      * @return string
      */
     public function getModelClassName();

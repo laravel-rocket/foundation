@@ -114,6 +114,13 @@ class BaseRepository implements BaseRepositoryInterface
         return $model->where('is_enabled', '=', true)->count();
     }
 
+    public function firstByFilter($filter)
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->first();
+    }
+
     public function pluck($collection, $value, $key = null)
     {
         $items = [];
