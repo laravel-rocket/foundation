@@ -18,9 +18,11 @@ class APIRequest extends Request
     public function get($key, $default = null)
     {
         if ($this->needParser()) {
-            $this->treatPutRequest();
-
-            $data = array_get($_REQUEST, $key, $default);
+            $data = parent::get($key);
+            if (empty($data)) {
+                $this->treatPutRequest();
+                $data = array_get($_REQUEST, $key, $default);
+            }
         } else {
             $data = parent::get($key, $default);
         }
