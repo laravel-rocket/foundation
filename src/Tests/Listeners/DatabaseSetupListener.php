@@ -2,8 +2,9 @@
 namespace LaravelRocket\Foundation\Tests\Listeners;
 
 use Illuminate\Contracts\Console\Kernel;
+use PHPUnit\Framework\BaseTestListener;
 
-class DatabaseSetupListener extends \PHPUnit_Framework_BaseTestListener
+class DatabaseSetupListener extends BaseTestListener
 {
     protected $suites = ['Application Test Suite'];
 
