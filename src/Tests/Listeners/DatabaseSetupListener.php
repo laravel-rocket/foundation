@@ -3,32 +3,33 @@ namespace LaravelRocket\Foundation\Tests\Listeners;
 
 use Illuminate\Contracts\Console\Kernel;
 use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestSuite;
 
 class DatabaseSetupListener extends BaseTestListener
 {
     protected $suites = ['Application Test Suite'];
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         if (in_array($suite->getName(), $this->suites)) {
             $this->initialize($suite);
         }
     }
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(TestSuite $suite)
     {
         if (in_array($suite->getName(), $this->suites)) {
             $this->terminate($suite);
         }
     }
 
-    protected function initialize(\PHPUnit_Framework_TestSuite $suite)
+    protected function initialize(TestSuite $suite)
     {
         $this->createDatabase();
         exec('php artisan migrate');
     }
 
-    protected function terminate(\PHPUnit_Framework_TestSuite $suite)
+    protected function terminate(TestSuite $suite)
     {
         exec('php artisan migrate:reset');
         $this->dropDatabase();
