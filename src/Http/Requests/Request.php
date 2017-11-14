@@ -1,5 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Http\Requests;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -43,5 +45,12 @@ class Request extends FormRequest
         }
 
         return $results;
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new ValidationException($validator, $this->response(
+            $this->formatErrors($validator)
+        ));
     }
 }
