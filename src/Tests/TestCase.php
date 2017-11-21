@@ -61,14 +61,15 @@ class TestCase extends BaseTestCase
     /**
      * @param \Illuminate\Foundation\Application $app
      */
-    private function setUpHttpKernel($app)
+    protected function setUpHttpKernel($app)
     {
         $app->instance('request', (new \Illuminate\Http\Request())->instance());
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
-    private function truncateTables()
+    protected function truncateTables()
     {
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $databaseName = \DB::connection()->getDatabaseName();
         $tables       = \DB::select('SHOW TABLES');
         $keyName      = 'Tables_in_'.$databaseName;
@@ -77,6 +78,7 @@ class TestCase extends BaseTestCase
                 \DB::table($table->$keyName)->truncate();
             }
         }
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
     /**
