@@ -142,6 +142,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
             $this->resetEmailTemplate,
             [
                 'token' => $token,
+                'user'  => $user,
             ]
         );
     }
