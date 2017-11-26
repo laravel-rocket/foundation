@@ -32,4 +32,9 @@ class ClientErrorException extends Exception
     {
         return $this->errorName;
     }
+
+    public function getExtraData()
+    {
+        return $this->extraData;
+    }
 }
