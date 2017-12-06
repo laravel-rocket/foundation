@@ -7,11 +7,13 @@ use LaravelRocket\Foundation\Repositories\BaseRepositoryInterface;
 
 class BaseRepository implements BaseRepositoryInterface
 {
-    protected $cacheEnabled  = false;
+    protected $cacheEnabled = false;
 
-    protected $cachePrefix   = 'model';
+    protected $cachePrefix = 'model';
 
     protected $cacheLifeTime = 60; // Minutes
+
+    protected $querySearchTargets = [];
 
     public function getEmptyList()
     {
@@ -221,6 +223,22 @@ class BaseRepository implements BaseRepositoryInterface
         $tableName = $this->getBlankModel()->getTable();
 
         $query = $this->queryOptions($query);
+
+        if (count($this->querySearchTargets) > 0 && array_key_exists('query', $filter)) {
+            $searchWord = array_get($filter, 'query');
+            if (!empty($searchWord)) {
+                $query = $query->where(function($q) use ($searchWord) {
+                    foreach ($this->querySearchTargets as $index => $target) {
+                        if ($index === 0) {
+                            $q = $q->where($target, 'LIKE', '%'.$searchWord.'%');
+                        } else {
+                            $q = $q->orWhere($target, 'LIKE', '%'.$searchWord.'%');
+                        }
+                    }
+                });
+                unset($filter['query']);
+            }
+        }
 
         foreach ($filter as $column => $value) {
             if (is_array($value)) {
