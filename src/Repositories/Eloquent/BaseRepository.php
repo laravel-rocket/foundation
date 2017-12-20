@@ -123,6 +123,13 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->first();
     }
 
+    public function deleteByFilter($filter)
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->delete();
+    }
+
     public function pluck($collection, $value, $key = null)
     {
         $items = [];

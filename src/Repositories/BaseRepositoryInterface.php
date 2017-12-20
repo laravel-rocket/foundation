@@ -103,6 +103,11 @@ interface BaseRepositoryInterface
     public function firstByFilter($filter);
 
     /**
+     * @param array $filter
+     **/
+    public function deleteByFilter($filter);
+
+    /**
      * @return string
      */
     public function getModelClassName();
