@@ -18,6 +18,14 @@ class Base extends Model
         return with(new static())->getTable();
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getFillableColumns()
+    {
+        return with(new static())->getFillable();
+    }
+
     public function present()
     {
         if (!$this->presenterInstance) {
@@ -75,14 +83,6 @@ class Base extends Model
         }
 
         return $ret;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getFillableColumns()
-    {
-        return $this->fillable;
     }
 
     /**

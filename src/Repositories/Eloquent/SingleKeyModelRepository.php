@@ -105,7 +105,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     public function dryUpdate($model, $input)
     {
-        foreach ($model->getEditableColumns() as $column) {
+        foreach ($model->getFillable() as $column) {
             if (array_key_exists($column, $input)) {
                 $newData = array_get($input, $column);
                 if ($model->$column !== $newData) {
