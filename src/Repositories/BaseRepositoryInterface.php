@@ -104,6 +104,13 @@ interface BaseRepositoryInterface
 
     /**
      * @param array $filter
+     *
+     * @return string
+     */
+    public function getSQLByFilter($filter);
+
+    /**
+     * @param array $filter
      **/
     public function deleteByFilter($filter);
 

@@ -123,6 +123,13 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->first();
     }
 
+    public function getSQLByFilter($filter)
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->toSql();
+    }
+
     public function deleteByFilter($filter)
     {
         $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
