@@ -78,6 +78,8 @@ class ImageService extends BaseService implements ImageServiceInterface
      * @param bool     $needExactSize
      *
      * @return \Imagick
+     *
+     * @throws \ImagickException
      */
     private function setImageSize($image, $size, $needExactSize = false)
     {
@@ -102,6 +104,8 @@ class ImageService extends BaseService implements ImageServiceInterface
      * @param string   $backgroundColor
      *
      * @return \Imagick|bool
+     *
+     * @throws \ImagickException
      */
     private function setImageFormat($image, $format, $backgroundColor='#FFFFFF')
     {

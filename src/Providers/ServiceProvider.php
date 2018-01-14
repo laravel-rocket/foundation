@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use LaravelRocket\Foundation\Auth\EloquentUserProvider;
 use LaravelRocket\Foundation\Console\Commands\ExportTableToFile;
 use LaravelRocket\Foundation\Console\Commands\ImportFileToTable;
+use LaravelRocket\Foundation\Console\Commands\SetAppName;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -110,6 +111,10 @@ class ServiceProvider extends BaseServiceProvider
             return new ImportFileToTable($app['files']);
         });
 
-        $this->commands('command.rocket.export.table', 'command.rocket.import.file');
+        $this->app->singleton('command.rocket.set.name', function($app) {
+            return new SetAppName($app['files']);
+        });
+
+        $this->commands('command.rocket.export.table', 'command.rocket.import.file', 'command.rocket.set.name');
     }
 }
