@@ -136,11 +136,23 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
             return false;
         }
 
+        if ($this->cacheEnabled) {
+            $primaryKey = $this->getPrimaryKey();
+            $key        = $this->getCacheKey([$model->$primaryKey]);
+            cache()->forget($key);
+        }
+
         return $model;
     }
 
     public function delete($model)
     {
+        if ($this->cacheEnabled) {
+            $primaryKey = $this->getPrimaryKey();
+            $key        = $this->getCacheKey([$model->$primaryKey]);
+            cache()->forget($key);
+        }
+
         return $model->delete();
     }
 
