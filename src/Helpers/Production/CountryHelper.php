@@ -13,7 +13,7 @@ class CountryHelper implements CountryHelperInterface
             return $default;
         }
 
-        $key = config('data/data/countries.country_codes.'.$length.'digits.', $countryCode);
+        $key = config('data.data.countries.country_codes.'.$length.'digits.'.$countryCode, $countryCode);
         if (empty($key)) {
             return $default;
         }
