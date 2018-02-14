@@ -102,6 +102,11 @@ class ServiceProvider extends BaseServiceProvider
             \LaravelRocket\Foundation\Helpers\Production\RedirectHelper::class
         );
 
+        $this->app->singleton(
+            \LaravelRocket\Foundation\Helpers\CountryHelperInterface::class,
+            \LaravelRocket\Foundation\Helpers\Production\CountryHelper::class
+        );
+
         //Commands
         $this->app->singleton('command.rocket.export.table', function($app) {
             return new ExportTableToFile($app['files']);
