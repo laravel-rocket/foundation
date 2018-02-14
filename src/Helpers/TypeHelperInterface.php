@@ -5,17 +5,18 @@ interface TypeHelperInterface
 {
     /**
      * @param string $type
-     * @param array  $list
+     * @param array  $types
+     * @param string $default
      *
-     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
+     * @return string
      */
-    public function getTypeName($type, $list);
+    public function getColumnTypeNameByValue(string $type, array $types, $default = '');
 
     /**
      * @param string $table
-     * @param string $key
+     * @param string $column
      *
      * @return array
      */
-    public function getTypeList($table, $key);
+    public function getColumnTypes(string $table, string $column);
 }

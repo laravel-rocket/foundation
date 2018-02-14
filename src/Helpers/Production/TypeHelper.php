@@ -5,22 +5,23 @@ use LaravelRocket\Foundation\Helpers\TypeHelperInterface;
 
 class TypeHelper implements TypeHelperInterface
 {
-    public function getTypeName($type, $list)
+    public function getColumnTypeNameByValue(string $type, array $types, $default = '')
     {
-        $typeInfo = array_get($list, $type);
-        if (empty($typeInfo)) {
-            return '';
+        foreach ($types as $info) {
+            if ($info['value'] === $type) {
+                return trans(array_get($info, 'name'));
+            }
         }
 
-        return trans(array_get($typeInfo, 'name'));
+        return $default;
     }
 
-    public function getTypeList($table, $key)
+    public function getColumnTypes(string $table, string $column)
     {
         $ret   = [];
-        $types = config($table.'.'.\StringHelper::pluralize($key), []);
-        foreach ($types as $type => $info) {
-            $ret[$type] = trans($info['name']);
+        $types = config('data/tables/'.$table.'.columns.'.$column, []);
+        foreach ($types as $info) {
+            $ret[$info['value']] = trans($info['name']);
         }
 
         return $ret;
