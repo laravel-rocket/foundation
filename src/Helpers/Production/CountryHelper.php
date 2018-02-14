@@ -18,6 +18,6 @@ class CountryHelper implements CountryHelperInterface
             return $default;
         }
 
-        return trans('data/countries.'.$key, $default);
+        return trans('data/countries.'.$key);
     }
 }
