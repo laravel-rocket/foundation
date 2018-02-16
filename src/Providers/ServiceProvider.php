@@ -103,8 +103,8 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         $this->app->singleton(
-            \LaravelRocket\Foundation\Helpers\CountryHelperInterface::class,
-            \LaravelRocket\Foundation\Helpers\Production\CountryHelper::class
+            \LaravelRocket\Foundation\Helpers\DataHelperInterface::class,
+            \LaravelRocket\Foundation\Helpers\Production\DataHelper::class
         );
 
         //Commands

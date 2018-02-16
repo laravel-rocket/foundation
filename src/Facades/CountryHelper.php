@@ -7,6 +7,6 @@ class CountryHelper extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \LaravelRocket\Foundation\Helpers\CountryHelperInterface::class;
+        return \LaravelRocket\Foundation\Helpers\DataHelperInterface::class;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Helpers;
 
-interface CountryHelperInterface
+interface DataHelperInterface
 {
     /**
      * @param string $countryCode
@@ -10,4 +10,12 @@ interface CountryHelperInterface
      * @return mixed
      */
     public function getCountryName(string $countryCode, string $default = '');
+
+    /**
+     * @param string $currencyCode
+     * @param string $default
+     *
+     * @return mixed
+     */
+    public function getCurrencyName(string $currencyCode, string $default = '');
 }
