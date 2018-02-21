@@ -19,9 +19,9 @@ class TypeHelper implements TypeHelperInterface
     public function getColumnTypes(string $table, string $column)
     {
         $ret   = [];
-        $types = config('data/tables/'.$table.'.columns.'.$column, []);
-        foreach ($types as $info) {
-            $ret[$info['value']] = trans($info['name']);
+        $types = config('data.tables.'.$table.'.columns.'.$column.'.options', []);
+        foreach ($types as $key => $name) {
+            $ret[$key] = trans($name);
         }
 
         return $ret;
