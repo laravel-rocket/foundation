@@ -8,6 +8,9 @@ class BasePresenter
      */
     protected $entity;
 
+    /** @var string */
+    protected $toStringColumn = '';
+
     /**
      * @var string[]
      */
@@ -37,5 +40,20 @@ class BasePresenter
         }
 
         return $this->entity->$property;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function toString()
+    {
+        $column = $this->toStringColumn;
+
+        $value = $this->entity->$column;
+        if (!empty($value)) {
+            return $value;
+        }
+
+        return $this->entity->name;
     }
 }
