@@ -29,5 +29,4 @@ class DataHelperTest extends TestCase
         $result = $helper->getCurrencyName('JPY', 'TEST');
         $this->assertEquals('TEST', $result);
     }
-
 }
