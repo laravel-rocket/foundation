@@ -79,4 +79,13 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
      * @return bool
      */
     public function delete($model);
+
+    /**
+     * @param int    $id
+     * @param string $targetColumnName
+     * @param array  $list
+     *
+     * @return bool
+     */
+    public function updateMultipleEntries(int $id, string $targetColumnName, array $list);
 }

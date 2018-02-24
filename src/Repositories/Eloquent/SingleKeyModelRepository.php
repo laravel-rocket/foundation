@@ -186,6 +186,29 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         throw new \BadMethodCallException("Call to undefined method {$className}::{$method}()");
     }
 
+    public function updateMultipleEntries(int $id, string $targetColumnName, array $list)
+    {
+        $currentList     = $this->allByFilter(['id' => $id])->pluck($targetColumnName)->toArray();
+        $deletes         = array_diff($currentList, $list);
+        $adds            = array_diff($list, $currentList);
+
+        if (count($deletes) > 0) {
+            $query = $this->getBlankModel();
+            $query->whereId($id)->whereIn($targetColumnName, $deletes)->delete();
+        }
+
+        if (count($adds) > 0) {
+            foreach ($adds as $data) {
+                $this->create([
+                    'id'               => $id,
+                    $targetColumnName  => $data,
+                ]);
+            }
+        }
+
+        return true;
+    }
+
     private function dynamicGet($method, $parameters)
     {
         $finder          = substr($method, 5);
