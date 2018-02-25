@@ -82,10 +82,11 @@ interface SingleKeyModelRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param int    $id
+     * @param string $parentColumnName
      * @param string $targetColumnName
      * @param array  $list
      *
      * @return bool
      */
-    public function updateMultipleEntries(int $id, string $targetColumnName, array $list);
+    public function updateMultipleEntries(int $id, string $parentColumnName, string $targetColumnName, array $list);
 }
