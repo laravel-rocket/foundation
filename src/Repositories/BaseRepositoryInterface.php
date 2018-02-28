@@ -104,6 +104,14 @@ interface BaseRepositoryInterface
 
     /**
      * @param array $filter
+     * @param array $values
+     *
+     * @return int
+     */
+    public function updateByFilter($filter, $values);
+
+    /**
+     * @param array $filter
      *
      * @return string
      */
