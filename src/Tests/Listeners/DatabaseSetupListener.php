@@ -2,25 +2,62 @@
 namespace LaravelRocket\Foundation\Tests\Listeners;
 
 use Illuminate\Contracts\Console\Kernel;
-use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\Warning;
+use PHPUnit\Framework\AssertionFailedError;
 
-class DatabaseSetupListener extends BaseTestListener
+
+class DatabaseSetupListener implements TestListener
 {
     protected $suites = ['Application Test Suite'];
 
-    public function startTestSuite(TestSuite $suite)
+    public function addError(Test $test, \Throwable $e, float $time) : void
+    {
+    }
+
+    public function addWarning(Test $test, Warning $e, float $time): void
+    {
+    }
+
+    public function addFailure(Test $test, AssertionFailedError $e, float $time): void
+    {
+    }
+
+    public function addIncompleteTest(Test $test, \Throwable $t, float $time): void
+    {
+    }
+
+    public function addRiskyTest(Test $test, \Throwable $t, float $time): void
+    {
+    }
+
+    public function addSkippedTest(Test $test, \Throwable $t, float $time): void
+    {
+    }
+
+    public function startTestSuite(TestSuite $suite): void
     {
         if (in_array($suite->getName(), $this->suites)) {
             $this->initialize($suite);
         }
     }
 
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(TestSuite $suite): void
     {
         if (in_array($suite->getName(), $this->suites)) {
             $this->terminate($suite);
         }
+    }
+
+    public function startTest(Test $test): void
+    {
+    }
+
+    public function endTest(Test $test, float $time): void
+    {
     }
 
     protected function initialize(TestSuite $suite)
