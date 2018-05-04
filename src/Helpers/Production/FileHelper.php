@@ -45,4 +45,18 @@ class FileHelper implements FileHelperInterface
 
         return '<i class="far fa-file"></i>';
     }
+
+    public function detectFileType($file)
+    {
+        $mimeType = $file->getMimeType();
+
+        $types = config('file.acceptable');
+        foreach ($types as $name => $candidates) {
+            if (array_key_exists($mimeType, $candidates)) {
+                return $name;
+            }
+        }
+
+        return;
+    }
 }

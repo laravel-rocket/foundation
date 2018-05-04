@@ -1,5 +1,4 @@
 <?php
-
 namespace LaravelRocket\Foundation\Providers;
 
 use Illuminate\Http\Request;
@@ -23,10 +22,10 @@ class ProxyServiceProvider extends BaseServiceProvider
         $trustedHeaderSet = config('proxy.headerSet', Request::HEADER_X_FORWARDED_ALL);
         $proxies          = config('proxy.trusted');
 
-        if(!empty($proxies)) {
-            if($proxies === '*') {
+        if (!empty($proxies)) {
+            if ($proxies === '*') {
                 $proxies = [$request->getClientIp()];
-            } elseif(!is_array($proxies)) {
+            } elseif (!is_array($proxies)) {
                 $proxies = [$proxies];
             }
             $request->setTrustedProxies($proxies, $trustedHeaderSet);

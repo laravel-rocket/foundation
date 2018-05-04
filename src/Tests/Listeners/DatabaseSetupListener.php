@@ -2,19 +2,17 @@
 namespace LaravelRocket\Foundation\Tests\Listeners;
 
 use Illuminate\Contracts\Console\Kernel;
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Test;
 use PHPUnit\Framework\Warning;
-use PHPUnit\Framework\AssertionFailedError;
-
 
 class DatabaseSetupListener implements TestListener
 {
     protected $suites = ['Application Test Suite'];
 
-    public function addError(Test $test, \Throwable $e, float $time) : void
+    public function addError(Test $test, \Throwable $e, float $time): void
     {
     }
 
