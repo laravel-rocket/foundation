@@ -188,21 +188,28 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     public function updateMultipleEntries(int $id, string $parentColumnName, string $targetColumnName, array $list)
     {
-        $currentList = $this->allByFilter([$parentColumnName => $id])->pluck($targetColumnName)->toArray();
+        return $this->updateMultipleEntriesWithFilter([$parentColumnName => $id], $targetColumnName, $list);
+    }
+
+    public function updateMultipleEntriesWithFilter(array $filter, string $targetColumnName, array $list)
+    {
+        $currentList = $this->allByFilter($filter)->pluck($targetColumnName)->toArray();
         $deletes     = array_diff($currentList, $list);
         $adds        = array_diff($list, $currentList);
 
         if (count($deletes) > 0) {
             $query = $this->getBlankModel();
-            $query->whereId($id)->whereIn($targetColumnName, $deletes)->delete();
+            foreach ($filter as $column => $value) {
+                $query->where($column, $value);
+            }
+            $query->whereIn($targetColumnName, $deletes)->delete();
         }
 
         if (count($adds) > 0) {
             foreach ($adds as $data) {
-                $this->create([
-                    $parentColumnName => $id,
+                $this->create(array_merge($filter, [
                     $targetColumnName => $data,
-                ]);
+                ]));
             }
         }
 
