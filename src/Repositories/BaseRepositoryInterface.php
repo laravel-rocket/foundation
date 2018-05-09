@@ -48,10 +48,11 @@ interface BaseRepositoryInterface
      * @param string $direction
      * @param int    $offset
      * @param int    $limit
+     * @param mixed  $before
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
      */
-    public function get($order, $direction, $offset, $limit);
+    public function get($order, $direction, $offset, $limit, $before = 0);
 
     /**
      * Get Models with Order.
@@ -61,10 +62,11 @@ interface BaseRepositoryInterface
      * @param string $direction
      * @param int    $offset
      * @param int    $limit
+     * @param mixed  $before
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
      */
-    public function getByFilter($filter, $order, $direction, $offset, $limit);
+    public function getByFilter($filter, $order, $direction, $offset, $limit, $before = 0);
 
     /**
      * Get Models with Order.
@@ -73,10 +75,11 @@ interface BaseRepositoryInterface
      * @param string $direction
      * @param int    $offset
      * @param int    $limit
+     * @param mixed  $before
      *
      * @return \LaravelRocket\Foundation\Models\Base[]||\Illuminate\Database\Eloquent\Collection|\Traversable|array
      */
-    public function getEnabled($order, $direction, $offset, $limit);
+    public function getEnabled($order, $direction, $offset, $limit, $before = 0);
 
     /**
      * @return int
