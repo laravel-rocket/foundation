@@ -73,26 +73,30 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
-    public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
+    public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
     {
         $model = $this->getBlankModel();
 
-        return $model->orderBy($order, $direction)->skip($offset)->take($limit)->get();
+        $query = $this->setBefore($model, $order, $direction, $before);
+
+        return $query->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
-    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
+    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
     {
         $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->setBefore($query, $order, $direction, $before);
         $query = $this->buildOrder($query, $filter, $order, $direction);
 
         return $query->skip($offset)->take($limit)->get();
     }
 
-    public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20)
+    public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
     {
         $model = $this->getBlankModel();
+        $query = $this->setBefore($model, $order, $direction, $before);
 
-        return $model->where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
+        return $query->where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
     public function count()
@@ -178,6 +182,23 @@ class BaseRepository implements BaseRepositoryInterface
         $model = $this->getBlankModel();
 
         return $model->updateOrCreate($attributes, $values);
+    }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param string                             $order
+     * @param string                             $direction
+     * @param mixed                              $before
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function setBefore($query, $order, $direction, $before)
+    {
+        if ($before == 0) {
+            return $query;
+        }
+
+        return $query->where($order, ($direction === 'desc' ? '>' : '< '), $before);
     }
 
     /**

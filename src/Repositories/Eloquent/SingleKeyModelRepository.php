@@ -230,6 +230,9 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $direction = array_get($parameters, 1, 'asc');
         $offset    = array_get($parameters, 2, 0);
         $limit     = array_get($parameters, 3, 10);
+        $before    = array_get($parameters, 4, 0);
+
+        $query = $this->setBefore($query, $order, $direction, $before);
 
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
