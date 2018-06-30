@@ -98,7 +98,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     public function create($input)
     {
-        $model = $this->getBaseQuery();
+        $model = $this->getBlankModel();
 
         return $this->update($model, $input);
     }
