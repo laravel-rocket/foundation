@@ -22,7 +22,7 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
 
     public function findByRelationKeys($parentId, $childId)
     {
-        $query = $this->getBlankModel();
+        $query = $this->getBaseQuery();
         $model = $query->where($this->getParentKey(), $parentId)->where($this->getChildKey(), $childId)->first();
 
         return $model;
@@ -45,7 +45,7 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
         $adds            = array_diff($childIds, $currentChildIds);
 
         if (count($deletes) > 0) {
-            $query = $this->getBlankModel();
+            $query = $this->getBaseQuery();
             $query->where($this->getParentKey(), $parentId)->whereIn($this->getChildKey(), $deletes)->delete();
         }
 
@@ -65,7 +65,7 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
 
     public function allByParentKey($parentId)
     {
-        $query  = $this->getBlankModel();
+        $query  = $this->getBaseQuery();
         $models = $query->where($this->getParentKey(), $parentId)->get();
 
         return $models;

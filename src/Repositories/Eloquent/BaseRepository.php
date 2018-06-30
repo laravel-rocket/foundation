@@ -32,7 +32,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function all($order = null, $direction = null)
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
             $model     = $model->orderBy($order, $direction);
@@ -43,7 +43,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function allByFilter($filter, $order = null, $direction = null)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
         $query = $this->buildOrder($query, $filter, $order, $direction);
 
         return $query->get();
@@ -61,9 +61,14 @@ class BaseRepository implements BaseRepositoryInterface
         return new Base();
     }
 
+    public function getBaseQuery()
+    {
+        return $this->getBlankModel();
+    }
+
     public function allEnabled($order = null, $direction = null)
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
         $query = $model->where('is_enabled', '=', true);
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
@@ -75,7 +80,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         $query = $this->setBefore($model, $order, $direction, $before);
 
@@ -84,7 +89,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
         $query = $this->setBefore($query, $order, $direction, $before);
         $query = $this->buildOrder($query, $filter, $order, $direction);
 
@@ -93,7 +98,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
         $query = $this->setBefore($model, $order, $direction, $before);
 
         return $query->where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
@@ -101,35 +106,35 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function count()
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         return $model->count();
     }
 
     public function countByFilter($filter)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
 
         return $query->count();
     }
 
     public function countEnabled()
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         return $model->where('is_enabled', '=', true)->count();
     }
 
     public function firstByFilter($filter)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
 
         return $query->first();
     }
 
     public function updateByFilter($filter, $values)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
         $count = $query->update($values);
 
         return $count;
@@ -137,14 +142,14 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getSQLByFilter($filter)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
 
         return $query->toSql();
     }
 
     public function deleteByFilter($filter)
     {
-        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
 
         return $query->delete();
     }
@@ -165,21 +170,21 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function firstOrNew($attributes, $values = [])
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         return $model->firstOrNew($attributes, $values);
     }
 
     public function firstOrCreate($attributes, $values = [])
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         return $model->firstOrCreate($attributes, $values);
     }
 
     public function updateOrCreate($attributes, $values = [])
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         return $model->updateOrCreate($attributes, $values);
     }
@@ -263,7 +268,7 @@ class BaseRepository implements BaseRepositoryInterface
      */
     protected function buildQueryByFilter($query, $filter)
     {
-        $tableName = $this->getBlankModel()->getTable();
+        $tableName = $this->getBaseQuery()->getTable();
 
         $query = $this->queryOptions($query);
 
@@ -279,8 +284,8 @@ class BaseRepository implements BaseRepositoryInterface
                         }
                     }
                 });
-                unset($filter['query']);
             }
+            unset($filter['query']);
         }
 
         foreach ($filter as $column => $value) {

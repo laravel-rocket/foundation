@@ -6,7 +6,7 @@ interface BaseRepositoryInterface
     /**
      * Get Empty Array or Traversable Object.
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function getEmptyList();
 
@@ -16,7 +16,7 @@ interface BaseRepositoryInterface
      * @param string $order
      * @param string $direction
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function all($order = null, $direction = null);
 
@@ -26,7 +26,7 @@ interface BaseRepositoryInterface
      * @param string $order
      * @param string $direction
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function allEnabled($order = null, $direction = null);
 
@@ -37,7 +37,7 @@ interface BaseRepositoryInterface
      * @param string $order
      * @param string $direction
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function allByFilter($filter, $order = null, $direction = null);
 
@@ -50,7 +50,7 @@ interface BaseRepositoryInterface
      * @param int    $limit
      * @param mixed  $before
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function get($order, $direction, $offset, $limit, $before = 0);
 
@@ -64,7 +64,7 @@ interface BaseRepositoryInterface
      * @param int    $limit
      * @param mixed  $before
      *
-     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function getByFilter($filter, $order, $direction, $offset, $limit, $before = 0);
 
@@ -136,6 +136,13 @@ interface BaseRepositoryInterface
      * @return \LaravelRocket\Foundation\Models\Base|\Illuminate\Database\Query\Builder
      */
     public function getBlankModel();
+
+    /**
+     * Get base query for fetching data.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function getBaseQuery();
 
     /**
      * @param array $attributes

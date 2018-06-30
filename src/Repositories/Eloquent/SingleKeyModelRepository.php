@@ -98,7 +98,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
     public function create($input)
     {
-        $model = $this->getBlankModel();
+        $model = $this->getBaseQuery();
 
         return $this->update($model, $input);
     }
@@ -198,7 +198,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $adds        = array_diff($list, $currentList);
 
         if (count($deletes) > 0) {
-            $query = $this->getBlankModel();
+            $query = $this->getBaseQuery();
             foreach ($filter as $column => $value) {
                 $query->where($column, $value);
             }
@@ -222,7 +222,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model           = $this->getBlankModel();
+        $model           = $this->getBaseQuery();
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
@@ -251,7 +251,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model           = $this->getBlankModel();
+        $model           = $this->getBaseQuery();
         $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
@@ -268,7 +268,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model           = $this->getBlankModel();
+        $model           = $this->getBaseQuery();
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
@@ -281,7 +281,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model           = $this->getBlankModel();
+        $model           = $this->getBaseQuery();
         $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
@@ -295,7 +295,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model           = $this->getBlankModel();
+        $model           = $this->getBaseQuery();
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
@@ -308,7 +308,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $segments        = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1);
         $conditionCount  = count($segments);
         $conditionParams = array_splice($parameters, 0, $conditionCount);
-        $model           = $this->getBlankModel();
+        $model           = $this->getBaseQuery();
         $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
