@@ -268,7 +268,7 @@ class BaseRepository implements BaseRepositoryInterface
      */
     protected function buildQueryByFilter($query, $filter)
     {
-        $tableName = $this->getBaseQuery()->getTable();
+        $tableName = $this->getBlankModel()->getTable();
 
         $query = $this->queryOptions($query);
 
