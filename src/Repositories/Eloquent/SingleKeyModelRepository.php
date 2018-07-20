@@ -15,7 +15,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
                 $query->where($this->getPrimaryKey(), $id);
                 $query = $this->queryOptions($query);
 
-                return $query->first($id);
+                return $query->first();
             });
 
             return $data;
@@ -23,7 +23,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
             $query->where($this->getPrimaryKey(), $id);
             $query = $this->queryOptions($query);
 
-            return $query->first($id);
+            return $query->first();
         }
     }
 
