@@ -12,7 +12,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         if ($this->cacheEnabled) {
             $key  = $this->getCacheKey([$id]);
             $data = cache()->remember($key, $this->cacheLifeTime, function() use ($id, $query) {
-                $query->where($this->getPrimaryKey(), $id);
+                $query = $query->where($this->getPrimaryKey(), $id);
                 $query = $this->queryOptions($query);
 
                 return $query->first();
@@ -20,7 +20,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
             return $data;
         } else {
-            $query->where($this->getPrimaryKey(), $id);
+            $query = $query->where($this->getPrimaryKey(), $id);
             $query = $this->queryOptions($query);
 
             return $query->first();
