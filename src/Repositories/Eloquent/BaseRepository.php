@@ -32,13 +32,15 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function all($order = null, $direction = null)
     {
-        $model = $this->getBaseQuery();
+        $query = $this->getBaseQuery();
         if (!empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
-            $model     = $model->orderBy($order, $direction);
+            $query     = $query->orderBy($order, $direction);
         }
 
-        return $model->get();
+        $query = $this->queryOptions($query);
+
+        return $query->get();
     }
 
     public function allByFilter($filter, $order = null, $direction = null)
@@ -75,6 +77,8 @@ class BaseRepository implements BaseRepositoryInterface
             $query     = $query->orderBy($order, $direction);
         }
 
+        $query = $this->queryOptions($query);
+
         return $query->get();
     }
 
@@ -83,6 +87,7 @@ class BaseRepository implements BaseRepositoryInterface
         $model = $this->getBaseQuery();
 
         $query = $this->setBefore($model, $order, $direction, $before);
+        $query = $this->queryOptions($query);
 
         return $query->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
@@ -100,6 +105,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $model = $this->getBaseQuery();
         $query = $this->setBefore($model, $order, $direction, $before);
+        $query = $this->queryOptions($query);
 
         return $query->where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
@@ -256,6 +262,8 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         $query = $this->buildOrder($query, [], $order, $direction);
+
+        $query = $this->queryOptions($query);
 
         return $query->offset($offset)->limit($limit)->get();
     }

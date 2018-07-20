@@ -8,18 +8,22 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 {
     public function find($id)
     {
-        $modelClass = $this->getModelClassName();
+        $query = $this->getBaseQuery();
         if ($this->cacheEnabled) {
             $key  = $this->getCacheKey([$id]);
-            $data = cache()->remember($key, $this->cacheLifeTime, function() use ($id, $modelClass) {
-                $modelClass = $this->getModelClassName();
+            $data = cache()->remember($key, $this->cacheLifeTime, function() use ($id, $query) {
+                $query->where($this->getPrimaryKey(), $id);
+                $query = $this->queryOptions($query);
 
-                return $modelClass::find($id);
+                return $query->first($id);
             });
 
             return $data;
         } else {
-            return $modelClass::find($id);
+            $query->where($this->getPrimaryKey(), $id);
+            $query = $this->queryOptions($query);
+
+            return $query->first($id);
         }
     }
 
@@ -36,6 +40,8 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
             $direction = empty($direction) ? 'asc' : $direction;
             $query     = $query->orderBy($order, $direction);
         }
+
+        $query = $this->queryOptions($query);
 
         $models = $query->get();
 
@@ -92,6 +98,8 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         if (!is_null($offset) && !is_null($limit)) {
             $query = $query->offset($offset)->limit($limit);
         }
+
+        $query = $this->queryOptions($query);
 
         return $query->get();
     }
@@ -242,6 +250,8 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
             $query = $query->offset($offset)->limit($limit);
         }
 
+        $query = $this->queryOptions($query);
+
         return $query->get();
     }
 
@@ -258,6 +268,8 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
 
         $order     = array_get($parameters, 0, 'id');
         $direction = array_get($parameters, 1, 'asc');
+
+        $query = $this->queryOptions($query);
 
         return $query->orderBy($order, $direction)->get();
     }
@@ -285,6 +297,8 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
+
+        $query = $this->queryOptions($query);
 
         return $query->first();
     }
