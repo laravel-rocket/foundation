@@ -82,29 +82,32 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
-    public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
+    public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0)
     {
-        $model = $this->getBaseQuery();
+        $query = $this->getBaseQuery();
 
-        $query = $this->setBefore($model, $order, $direction, $before);
+        $query = $this->setBefore($query, $order, $direction, $before);
+        $query = $this->setAfter($query, $order, $direction, $after);
         $query = $this->queryOptions($query);
 
         return $query->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
-    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
+    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0)
     {
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
         $query = $this->setBefore($query, $order, $direction, $before);
+        $query = $this->setAfter($query, $order, $direction, $after);
         $query = $this->buildOrder($query, $filter, $order, $direction);
 
         return $query->skip($offset)->take($limit)->get();
     }
 
-    public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0)
+    public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0)
     {
-        $model = $this->getBaseQuery();
-        $query = $this->setBefore($model, $order, $direction, $before);
+        $query = $this->getBaseQuery();
+        $query = $this->setBefore($query, $order, $direction, $before);
+        $query = $this->setAfter($query, $order, $direction, $after);
         $query = $this->queryOptions($query);
 
         return $query->where('is_enabled', '=', true)->orderBy($order, $direction)->skip($offset)->take($limit)->get();
@@ -209,7 +212,24 @@ class BaseRepository implements BaseRepositoryInterface
             return $query;
         }
 
-        return $query->where($order, ($direction === 'desc' ? '>' : '< '), $before);
+        return $query->where($order, ($direction === 'desc' ? '>' : '<'), $before);
+    }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param string                             $order
+     * @param string                             $direction
+     * @param mixed                              $after
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function setAfter($query, $order, $direction, $after)
+    {
+        if ($after == 0) {
+            return $query;
+        }
+
+        return $query->where($order, ($direction === 'desc' ? '<' : '>'), $after);
     }
 
     /**
