@@ -21,6 +21,17 @@ class ImageService extends BaseService implements ImageServiceInterface
         ];
     }
 
+    public function getImageSize($src)
+    {
+        $image = new \Imagick($src);
+        $image = $this->fixImageOrientation($image);
+
+        return [
+            'height' => $image->getImageHeight(),
+            'width'  => $image->getImageWidth(),
+        ];
+    }
+
     /**
      * @ref http://www.b-prep.com/blog/?p=1764
      *

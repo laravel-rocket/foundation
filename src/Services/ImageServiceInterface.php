@@ -14,4 +14,11 @@ interface ImageServiceInterface extends BaseServiceInterface
      * @return array
      */
     public function convert($src, $dst, $format, $size, $needExactSize = false, $backgroundColor = '#FFFFFF');
+
+    /**
+     * @param $src
+     *
+     * @return array
+     */
+    public function getImageSize($src);
 }
