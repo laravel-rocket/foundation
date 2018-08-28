@@ -29,10 +29,24 @@ class APIRequest extends Request
 
         // Support Android Retrofit Bad Data Format
         if (starts_with(request()->header('Content-Type'), 'multipart/form-data')) {
-            if (starts_with($data, 'Content')) {
-                $pos = strpos($data, "\r\n\r\n");
-                if ($pos !== false) {
-                    $data = substr($data, $pos + 4);
+            if (is_array($data)) {
+                $newData = [];
+                foreach ($data as $value) {
+                    if (starts_with($value, 'Content')) {
+                        $pos = strpos($value, "\r\n\r\n");
+                        if ($pos !== false) {
+                            $value = substr($value, $pos + 4);
+                        }
+                    }
+                    $newData[] = $value;
+                }
+                $data = $newData;
+            } else {
+                if (starts_with($data, 'Content')) {
+                    $pos = strpos($data, "\r\n\r\n");
+                    if ($pos !== false) {
+                        $data = substr($data, $pos + 4);
+                    }
                 }
             }
         }
