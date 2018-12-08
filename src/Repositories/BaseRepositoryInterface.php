@@ -11,6 +11,17 @@ interface BaseRepositoryInterface
     public function getEmptyList();
 
     /**
+     * Get All Model's query.
+     *
+     * @param array  $filter
+     * @param string $order
+     * @param string $direction
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function allByFilterQuery($filter, $order = null, $direction = null);
+
+    /**
      * Get All Models.
      *
      * @param string $order

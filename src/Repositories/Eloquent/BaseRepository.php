@@ -43,10 +43,16 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
-    public function allByFilter($filter, $order = null, $direction = null)
+    public function allByFilterQuery($filter, $order = null, $direction = null)
     {
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
-        $query = $this->buildOrder($query, $filter, $order, $direction);
+
+        return $this->buildOrder($query, $filter, $order, $direction);
+    }
+
+    public function allByFilter($filter, $order = null, $direction = null)
+    {
+        $query = $this->allByFilterQuery($filter, $order, $direction);
 
         return $query->get();
     }
