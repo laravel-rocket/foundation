@@ -61,6 +61,11 @@ class ServiceProvider extends BaseServiceProvider
             \LaravelRocket\Foundation\Services\Production\FileUploadLocalService::class
         );
 
+        $this->app->singleton(
+            \LaravelRocket\Foundation\Services\ExportServiceInterface::class,
+            \LaravelRocket\Foundation\Services\Production\ExportService::class
+        );
+
         /* Helpers */
         $this->app->singleton(
             \LaravelRocket\Foundation\Helpers\DateTimeHelperInterface::class,
