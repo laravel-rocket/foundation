@@ -15,7 +15,7 @@ class TestCase extends BaseTestCase
     /**
      * Setup DB before each test.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->app->boot();
@@ -26,7 +26,7 @@ class TestCase extends BaseTestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->useDatabase) {
             \DB::disconnect();
