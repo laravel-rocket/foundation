@@ -2,14 +2,15 @@
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Aws\S3\S3Client;
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Services\FileUploadS3ServiceInterface;
 
 class FileUploadS3Service extends FileUploadService implements FileUploadS3ServiceInterface
 {
     public function upload($srcPath, $mediaType, $filename, $attributes)
     {
-        $region = array_get($attributes, 'region', config('file.storage.s3.region'));
-        $bucket = $this->decideBucket(array_get($attributes, 'buckets', $this->getDefaultBucket()));
+        $region = Arr::get($attributes, 'region', config('file.storage.s3.region'));
+        $bucket = $this->decideBucket(Arr::get($attributes, 'buckets', $this->getDefaultBucket()));
 
         $client = $this->getS3Client($region);
 
@@ -72,8 +73,8 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 
         return new S3Client([
             'credentials' => [
-                'key'    => array_get($config, 'key'),
-                'secret' => array_get($config, 'secret'),
+                'key'    => Arr::get($config, 'key'),
+                'secret' => Arr::get($config, 'secret'),
             ],
             'region'  => $region,
             'version' => 'latest',
@@ -82,9 +83,9 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 
     public function delete($attributes)
     {
-        $region = array_get($attributes, 'region', config('file.storage.s3.region'));
-        $bucket = array_get($attributes, 'bucket', $this->getDefaultBucket());
-        $key    = array_get($attributes, 'key');
+        $region = Arr::get($attributes, 'region', config('file.storage.s3.region'));
+        $bucket = Arr::get($attributes, 'bucket', $this->getDefaultBucket());
+        $key    = Arr::get($attributes, 'key');
 
         $success = false;
 

@@ -1,6 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Services\Production;
 
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Services\MailServiceInterface;
 
 class MailService extends BaseService implements MailServiceInterface
@@ -23,7 +24,7 @@ class MailService extends BaseService implements MailServiceInterface
             ];
         }
 
-        if (!is_array($from) || empty(array_get($from, 'address'))) {
+        if (!is_array($from) || empty(Arr::get($from, 'address'))) {
             $from = $this->getDefaultSender();
         }
 

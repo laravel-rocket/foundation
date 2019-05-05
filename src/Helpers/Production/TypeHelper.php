@@ -1,6 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Helpers\Production;
 
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Helpers\TypeHelperInterface;
 
 class TypeHelper implements TypeHelperInterface
@@ -9,7 +10,7 @@ class TypeHelper implements TypeHelperInterface
     {
         foreach ($types as $info) {
             if ($info['value'] === $type) {
-                return trans(array_get($info, 'name'));
+                return trans(Arr::get($info, 'name'));
             }
         }
 

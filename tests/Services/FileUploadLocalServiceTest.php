@@ -4,7 +4,7 @@ namespace LaravelRocket\Foundation\Tests\Services;
 use LaravelRocket\Foundation\Services\FileUploadLocalServiceInterface;
 use LaravelRocket\Foundation\Tests\TestCase;
 
-class FuleUploadLocalServiceTest extends TestCase
+class FileUploadLocalServiceTest extends TestCase
 {
     public function testGetInstance()
     {

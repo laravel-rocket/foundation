@@ -1,6 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Helpers\Production;
 
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Helpers\LocaleHelperInterface;
 
 class LocaleHelper implements LocaleHelperInterface
@@ -22,7 +23,7 @@ class LocaleHelper implements LocaleHelperInterface
         if (request()->has('fb_locale')) {
             $fbLocale  = request()->get('fb_locale');
             $languages = array_filter(config('locale.languages'), function($language) use ($fbLocale) {
-                if (array_get($language, 'ogp') === $fbLocale) {
+                if (Arr::get($language, 'ogp') === $fbLocale) {
                     return true;
                 }
 
@@ -123,7 +124,7 @@ class LocaleHelper implements LocaleHelperInterface
     {
         $locales = [];
         foreach (self::getEnableLocales() as $k => $locale) {
-            array_set($locales, $k, trans(array_get($locale, 'name')));
+            Arr::get($locales, $k, trans(Arr::get($locale, 'name')));
         }
 
         return $locales;

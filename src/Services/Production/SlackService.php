@@ -1,6 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Services\Production;
 
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Services\SlackServiceInterface;
 use Maknz\Slack\Attachment;
 use Maknz\Slack\Client;
@@ -69,19 +70,19 @@ class SlackService extends BaseService implements SlackServiceInterface
             return;
         }
         $client     = new Client($webHookUrl, [
-            'username'   => array_get($type, 'username', 'FamarryBot'),
-            'channel'    => array_get($type, 'channel', '#random'),
+            'username'   => Arr::get($type, 'username', 'FamarryBot'),
+            'channel'    => Arr::get($type, 'channel', '#random'),
             'link_names' => true,
-            'icon'       => array_get($type, 'icon', ':smile:'),
+            'icon'       => Arr::get($type, 'icon', ':smile:'),
         ]);
         $messageObj = $client->createMessage();
         if (!empty($attachment)) {
             $attachment = new Attachment([
-                'fallback' => array_get($attachment, 'fallback', ''),
-                'text'     => array_get($attachment, 'text', ''),
-                'pretext'  => array_get($attachment, 'pretext', ''),
-                'color'    => array_get($attachment, 'color', 'good'),
-                'fields'   => array_get($attachment, 'fields', []),
+                'fallback' => Arr::get($attachment, 'fallback', ''),
+                'text'     => Arr::get($attachment, 'text', ''),
+                'pretext'  => Arr::get($attachment, 'pretext', ''),
+                'color'    => Arr::get($attachment, 'color', 'good'),
+                'fields'   => Arr::get($attachment, 'fields', []),
             ]);
             $messageObj->attach($attachment);
         }

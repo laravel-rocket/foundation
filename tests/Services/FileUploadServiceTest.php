@@ -8,7 +8,7 @@ class FileUploadServiceTest extends TestCase
 {
     public function testGetInstance()
     {
-        /** @var FileUploadService $service */
+        /** @var FileUploadServiceInterface $service */
         $service = app()->make(FileUploadServiceInterface::class);
         $this->assertNotNull($service);
     }

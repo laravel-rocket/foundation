@@ -3,6 +3,7 @@ namespace LaravelRocket\Foundation\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 
 class ImportFileToTable extends Command
@@ -59,7 +60,7 @@ class ImportFileToTable extends Command
         foreach ($columnInformation as $entity) {
             if ($entity->null === 'NO') {
                 $type = $entity->Type;
-                if (starts_with($type, 'varchar') || starts_with($type, 'char') || starts_with($type, 'text')) {
+                if (Str::startsWith($type, 'varchar') || Str::startsWith($type, 'char') || Str::startsWith($type, 'text')) {
                     $defaultValues[$entity->Field] = '';
                 } else {
                     $defaultValues[$entity->Field] = 0;

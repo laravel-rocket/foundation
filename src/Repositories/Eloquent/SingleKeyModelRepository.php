@@ -1,6 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use LaravelRocket\Foundation\Repositories\SingleKeyModelRepositoryInterface;
 
@@ -115,9 +116,9 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
     {
         foreach ($model->getFillable() as $column) {
             if (array_key_exists($column, $input)) {
-                $newData = array_get($input, $column);
+                $newData = Arr::get($input, $column);
                 if ($model->$column !== $newData) {
-                    $model->$column = array_get($input, $column);
+                    $model->$column = Arr::get($input, $column);
                 }
             }
         }
@@ -234,12 +235,12 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
-        $order     = array_get($parameters, 0, 'id');
-        $direction = array_get($parameters, 1, 'asc');
-        $offset    = array_get($parameters, 2, 0);
-        $limit     = array_get($parameters, 3, 10);
-        $before    = array_get($parameters, 4, 0);
-        $after     = array_get($parameters, 5, 0);
+        $order     = Arr::get($parameters, 0, 'id');
+        $direction = Arr::get($parameters, 1, 'asc');
+        $offset    = Arr::get($parameters, 2, 0);
+        $limit     = Arr::get($parameters, 3, 10);
+        $before    = Arr::get($parameters, 4, 0);
+        $after     = Arr::get($parameters, 5, 0);
 
         $query = $this->setBefore($query, $order, $direction, $before);
         $query = $this->setAfter($query, $order, $direction, $after);
@@ -268,8 +269,8 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
 
-        $order     = array_get($parameters, 0, 'id');
-        $direction = array_get($parameters, 1, 'asc');
+        $order     = Arr::get($parameters, 0, 'id');
+        $direction = Arr::get($parameters, 1, 'asc');
 
         $query = $this->queryOptions($query);
 
@@ -328,7 +329,7 @@ class SingleKeyModelRepository extends BaseRepository implements SingleKeyModelR
         $model           = $this->queryOptions($model);
         $whereMethod     = 'where'.$finder;
         $query           = call_user_func_array([$model, $whereMethod], $conditionParams);
-        $updates         = array_get($parameters, 0);
+        $updates         = Arr::get($parameters, 0);
 
         if (empty($updates)) {
             return;

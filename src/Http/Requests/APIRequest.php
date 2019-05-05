@@ -1,6 +1,9 @@
 <?php
 namespace LaravelRocket\Foundation\Http\Requests;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+
 class APIRequest extends Request
 {
     /** @var \Restful\Files */
@@ -21,18 +24,18 @@ class APIRequest extends Request
             $data = parent::get($key);
             if (empty($data)) {
                 $this->treatPutRequest();
-                $data = array_get($_REQUEST, $key, $default);
+                $data = Arr::get($_REQUEST, $key, $default);
             }
         } else {
             $data = parent::get($key, $default);
         }
 
         // Support Android Retrofit Bad Data Format
-        if (starts_with(request()->header('Content-Type'), 'multipart/form-data')) {
+        if (Str::startsWith(request()->header('Content-Type'), 'multipart/form-data')) {
             if (is_array($data)) {
                 $newData = [];
                 foreach ($data as $value) {
-                    if (starts_with($value, 'Content')) {
+                    if (Str::startsWith($value, 'Content')) {
                         $pos = strpos($value, "\r\n\r\n");
                         if ($pos !== false) {
                             $value = substr($value, $pos + 4);
@@ -42,7 +45,7 @@ class APIRequest extends Request
                 }
                 $data = $newData;
             } else {
-                if (starts_with($data, 'Content')) {
+                if (Str::startsWith($data, 'Content')) {
                     $pos = strpos($data, "\r\n\r\n");
                     if ($pos !== false) {
                         $data = substr($data, $pos + 4);
@@ -105,10 +108,10 @@ class APIRequest extends Request
             if ($this->hasFile($key)) {
                 $files = $this->fileParser->getFiles($key);
                 foreach ($files as $key => $file) {
-                    $originalName  = array_get($file, 'name');
-                    $mimeType      = array_get($file, 'type');
-                    $path          = array_get($file, 'tmp_name');
-                    $size          = array_get($file, 'size');
+                    $originalName  = Arr::get($file, 'name');
+                    $mimeType      = Arr::get($file, 'type');
+                    $path          = Arr::get($file, 'tmp_name');
+                    $size          = Arr::get($file, 'size');
                     $fileObjects[] = new \Illuminate\Http\UploadedFile($path, $originalName, $mimeType, $size);
                 }
             }

@@ -1,6 +1,7 @@
 <?php
 namespace LaravelRocket\Foundation\Services\Production;
 
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Repositories\AuthenticatableRepositoryInterface;
 use LaravelRocket\Foundation\Repositories\PasswordResettableRepositoryInterface;
 use LaravelRocket\Foundation\Services\AuthenticatableServiceInterface;
@@ -59,7 +60,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
 
     public function signIn($input)
     {
-        $rememberMe = (bool) array_get($input, 'remember_me', 0);
+        $rememberMe = (bool) Arr::get($input, 'remember_me', 0);
         $guard      = $this->getGuard();
         if (!$guard->attempt(['email' => $input['email'], 'password' => $input['password']], $rememberMe, true)) {
             return;
@@ -70,7 +71,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
 
     public function signUp($input)
     {
-        $existingUser = $this->authenticatableRepository->findByEmail(array_get($input, 'email'));
+        $existingUser = $this->authenticatableRepository->findByEmail(Arr::get($input, 'email'));
         if (!empty($existingUser)) {
             return;
         }

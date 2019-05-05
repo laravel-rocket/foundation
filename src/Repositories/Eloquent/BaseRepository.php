@@ -2,6 +2,7 @@
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Models\Base;
 use LaravelRocket\Foundation\Repositories\BaseRepositoryInterface;
 
@@ -307,7 +308,7 @@ class BaseRepository implements BaseRepositoryInterface
         $query = $this->queryOptions($query);
 
         if (count($this->querySearchTargets) > 0 && array_key_exists('query', $filter)) {
-            $searchWord = array_get($filter, 'query');
+            $searchWord = Arr::get($filter, 'query');
             if (!empty($searchWord)) {
                 $query = $query->where(function($q) use ($searchWord) {
                     foreach ($this->querySearchTargets as $index => $target) {

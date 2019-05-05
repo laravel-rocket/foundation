@@ -1,14 +1,15 @@
 <?php
 namespace LaravelRocket\Foundation\Services\Production;
 
+use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Services\FileUploadLocalServiceInterface;
 
 class FileUploadLocalService extends FileUploadService implements FileUploadLocalServiceInterface
 {
     public function upload($srcPath, $mediaType, $filename, $attributes)
     {
-        $uploadDirectory = array_get($attributes, 'uploadDirectory', config('file.storage.local.path'));
-        $baseUrl         = array_get($attributes, 'baseUrl', config('file.storage.local.url'));
+        $uploadDirectory = Arr::get($attributes, 'uploadDirectory', config('file.storage.local.path'));
+        $baseUrl         = Arr::get($attributes, 'baseUrl', config('file.storage.local.url'));
 
         $url     = '';
         $success = false;
@@ -28,8 +29,8 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
 
     public function delete($attributes)
     {
-        $uploadDirectory = array_get($attributes, 'uploadDirectory', config('file.storage.local.path'));
-        $key             = array_get($attributes, 'key');
+        $uploadDirectory = Arr::get($attributes, 'uploadDirectory', config('file.storage.local.path'));
+        $key             = Arr::get($attributes, 'key');
 
         $filePath = $uploadDirectory.'/'.$key;
 
@@ -77,8 +78,8 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
 
         return new S3Client([
             'credentials' => [
-                'key'    => array_get($config, 'key'),
-                'secret' => array_get($config, 'secret'),
+                'key'    => Arr::get($config, 'key'),
+                'secret' => Arr::get($config, 'secret'),
             ],
             'region'  => $region,
             'version' => 'latest',
