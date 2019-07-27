@@ -28,4 +28,12 @@ class StringHelper implements StringHelperInterface
 
         return $result;
     }
+
+    public function hasPrefix(string $haystack, array $needles)
+    {
+        $elements    = explode('_', $haystack);
+        $lastElement = $elements[count($elements) - 1];
+
+        return in_array($lastElement, $needles);
+    }
 }

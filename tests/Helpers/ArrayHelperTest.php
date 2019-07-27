@@ -32,4 +32,30 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals('NONE', $result);
         $this->assertEquals(1, count($testArray));
     }
+
+    public function testFilterElements()
+    {
+        /** @var \LaravelRocket\Foundation\Helpers\ArrayHelperInterface $helper */
+        $helper = app()->make(\LaravelRocket\Foundation\Helpers\ArrayHelperInterface::class);
+
+        $testArray = [
+            'ABC' => 'DEF',
+            'GHI' => 'MNO',
+            'XXX' => null,
+        ];
+
+        $result = $helper->filterElements($testArray, ['ABC', 'XXX'], false);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('ABC', $result);
+        $this->assertArrayHasKey('XXX', $result);
+        $this->assertArrayNotHasKey('GHI', $result);
+
+        $result = $helper->filterElements($testArray, ['ABC', 'XXX'], true);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('ABC', $result);
+        $this->assertArrayNotHasKey('XXX', $result);
+        $this->assertArrayNotHasKey('GHI', $result);
+    }
 }

@@ -16,4 +16,12 @@ interface StringHelperInterface
      * @return string
      */
     public function randomReadableString($length);
+
+    /**
+     * @param string $haystack
+     * @param array  $needles
+     *
+     * @return bool
+     */
+    public function hasPrefix(string $haystack, array $needles);
 }

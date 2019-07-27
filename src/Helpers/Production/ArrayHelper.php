@@ -16,4 +16,18 @@ class ArrayHelper implements ArrayHelperInterface
 
         return $ret;
     }
+
+    public function filterElements(array $array, array $keys, bool $removeEmptyElements = false)
+    {
+        $result = [];
+        foreach ($array as $key => $item) {
+            if (in_array($key, $keys)) {
+                if (!$removeEmptyElements || !empty($item)) {
+                    $result[$key] = $item;
+                }
+            }
+        }
+
+        return $result;
+    }
 }
