@@ -16,10 +16,11 @@ interface BaseRepositoryInterface
      * @param array  $filter
      * @param string $order
      * @param string $direction
+     * @param array  $relationships
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    public function allByFilterQuery($filter, $order = null, $direction = null);
+    public function allByFilterQuery($filter, $order = null, $direction = null, $relationships = []);
 
     /**
      * Get All Models.
@@ -47,10 +48,11 @@ interface BaseRepositoryInterface
      * @param array  $filter
      * @param string $order
      * @param string $direction
+     * @param string $relationships
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
-    public function allByFilter($filter, $order = null, $direction = null);
+    public function allByFilter($filter, $order = null, $direction = null, $relationships = []);
 
     /**
      * Get Models with Order.
@@ -61,10 +63,11 @@ interface BaseRepositoryInterface
      * @param int    $limit
      * @param mixed  $before
      * @param mixed  $after
+     * @param array  $relationships
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
-    public function get($order, $direction, $offset, $limit, $before = 0, $after = 0);
+    public function get($order, $direction, $offset, $limit, $before = 0, $after = 0, $relationships = []);
 
     /**
      * Get Models with Order.
@@ -76,10 +79,11 @@ interface BaseRepositoryInterface
      * @param int    $limit
      * @param mixed  $before
      * @param mixed  $after
+     * @param array  $relationships
      *
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
-    public function getByFilter($filter, $order, $direction, $offset, $limit, $before = 0, $after = 0);
+    public function getByFilter($filter, $order, $direction, $offset, $limit, $before = 0, $after = 0, $relationships = []);
 
     /**
      * Get Models with Order.
@@ -114,10 +118,11 @@ interface BaseRepositoryInterface
 
     /**
      * @param array $filter
+     * @param array $relationships
      *
      * @return \LaravelRocket\Foundation\Models\Base|null
      */
-    public function firstByFilter($filter);
+    public function firstByFilter($filter, $relationships = []);
 
     /**
      * @param array $filter

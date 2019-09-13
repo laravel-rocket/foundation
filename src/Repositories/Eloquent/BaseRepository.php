@@ -44,16 +44,18 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
-    public function allByFilterQuery($filter, $order = null, $direction = null)
+    public function allByFilterQuery($filter, $order = null, $direction = null, $relationships = [])
     {
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
+        $query = $this->getRelationships($query, $relationships);
 
         return $this->buildOrder($query, $filter, $order, $direction);
     }
 
-    public function allByFilter($filter, $order = null, $direction = null)
+    public function allByFilter($filter, $order = null, $direction = null, $relationships = [])
     {
         $query = $this->allByFilterQuery($filter, $order, $direction);
+        $query = $this->getRelationships($query, $relationships);
 
         return $query->get();
     }
@@ -89,23 +91,25 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
-    public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0)
+    public function get($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0, $relationships = [])
     {
         $query = $this->getBaseQuery();
 
         $query = $this->setBefore($query, $order, $direction, $before);
         $query = $this->setAfter($query, $order, $direction, $after);
         $query = $this->queryOptions($query);
+        $query = $this->getRelationships($query, $relationships);
 
         return $query->orderBy($order, $direction)->skip($offset)->take($limit)->get();
     }
 
-    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0)
+    public function getByFilter($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0, $relationships = [])
     {
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
         $query = $this->setBefore($query, $order, $direction, $before);
         $query = $this->setAfter($query, $order, $direction, $after);
         $query = $this->buildOrder($query, $filter, $order, $direction);
+        $query = $this->getRelationships($query, $relationships);
 
         return $query->skip($offset)->take($limit)->get();
     }
@@ -141,9 +145,10 @@ class BaseRepository implements BaseRepositoryInterface
         return $model->where('is_enabled', '=', true)->count();
     }
 
-    public function firstByFilter($filter)
+    public function firstByFilter($filter, $relationships = [])
     {
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
+        $query = $this->getRelationships($query, $relationships);
 
         return $query->first();
     }
@@ -359,6 +364,22 @@ class BaseRepository implements BaseRepositoryInterface
      */
     protected function queryOptions($query)
     {
+        return $query;
+    }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param array $relationships
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+
+    protected function getRelationships($query, $relationships = [])
+    {
+        if(!empty($relationships)) {
+            $query = $query->with($relationships);
+        }
+
         return $query;
     }
 }
