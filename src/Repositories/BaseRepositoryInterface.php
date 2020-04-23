@@ -42,6 +42,17 @@ interface BaseRepositoryInterface
     public function allByFilter($filter, $order = null, $direction = null);
 
     /**
+     * Get All Models including Trashed with filter conditions.
+     *
+     * @param array  $filter
+     * @param string $order
+     * @param string $direction
+     *
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     */
+    public function allByFilterWithTrashed($filter, $order = null, $direction = null);
+
+    /**
      * Get Models with Order.
      *
      * @param string $order
