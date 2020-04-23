@@ -128,6 +128,13 @@ interface BaseRepositoryInterface
 
     /**
      * @param array $filter
+     *
+     * @return \LaravelRocket\Foundation\Models\Base|null
+     */
+    public function firstByFilterWithTrashed($filter);
+
+    /**
+     * @param array $filter
      * @param array $values
      *
      * @return int
