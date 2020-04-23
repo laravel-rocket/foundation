@@ -168,6 +168,13 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->first();
     }
 
+    public function firstByFilterWithTrashed($filter): \Illuminate\Database\Eloquent\Model|array|Base|Builder|\Illuminate\Database\Eloquent\Builder|null
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->withTrashed()->first();
+    }
+
     public function updateByFilter($filter, $values): int
     {
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
