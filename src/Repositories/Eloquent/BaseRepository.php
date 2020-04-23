@@ -60,6 +60,14 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
+    public function allByFilterWithTrashed($filter, $order = null, $direction = null): Collection|\Illuminate\Support\Collection|iterable
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildOrder($query, $filter, $order, $direction);
+
+        return $query->withTrashed()->get();
+    }
+
     public function getModelClassName(): string
     {
         $model = $this->getBlankModel();
