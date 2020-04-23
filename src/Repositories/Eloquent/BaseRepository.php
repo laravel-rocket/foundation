@@ -120,6 +120,16 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->skip($offset)->take($limit)->get();
     }
 
+    public function getByFilterWithTrashed($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0): Collection|\Traversable|array|\Illuminate\Support\Collection
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->setBefore($query, $order, $direction, $before);
+        $query = $this->setAfter($query, $order, $direction, $after);
+        $query = $this->buildOrder($query, $filter, $order, $direction);
+
+        return $query->withTrashed()->skip($offset)->take($limit)->get();
+    }
+
     public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0): array|\Illuminate\Support\Collection
     {
         $query = $this->getBaseQuery();

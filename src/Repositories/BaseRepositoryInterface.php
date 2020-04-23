@@ -88,6 +88,21 @@ interface BaseRepositoryInterface
     public function getByFilter($filter, $order, $direction, $offset, $limit, $before = 0, $after = 0);
 
     /**
+     * Get Models including Trashed with Order.
+     *
+     * @param array  $filter
+     * @param string $order
+     * @param string $direction
+     * @param int    $offset
+     * @param int    $limit
+     * @param mixed  $before
+     * @param mixed  $after
+     *
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     */
+    public function getByFilterWithTrashed($filter, $order, $direction, $offset, $limit, $before = 0, $after = 0);
+
+    /**
      * Get Models with Order.
      *
      * @param  string  $order
