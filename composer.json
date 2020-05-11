@@ -14,7 +14,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/tinker": "^1.0",
         "icanboogie/inflector": "^1.4",
-        "maknz/slack": "^1.7",
+        "alek13/slack": "^1.7",
         "aws/aws-sdk-php": "~3.24",
         "rainner/restful-php": "^1.0"
     },
