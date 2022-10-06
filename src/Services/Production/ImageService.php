@@ -5,7 +5,7 @@ use LaravelRocket\Foundation\Services\ImageServiceInterface;
 
 class ImageService extends BaseService implements ImageServiceInterface
 {
-    public function convert($src, $dst, $format, $size, $needExactSize = false, $backgroundColor='#FFFFFF')
+    public function convert(string $src, string $dst, ?string $format, array $size, bool $needExactSize = false, string $backgroundColor='#FFFFFF'): array
     {
         $image = new \Imagick($src);
         $image = $this->fixImageOrientation($image);
@@ -21,7 +21,7 @@ class ImageService extends BaseService implements ImageServiceInterface
         ];
     }
 
-    public function getImageSize($src)
+    public function getImageSize(string $src): array
     {
         $image = new \Imagick($src);
         $image = $this->fixImageOrientation($image);
@@ -38,13 +38,13 @@ class ImageService extends BaseService implements ImageServiceInterface
      * @param \Imagick $image
      *
      * @return \Imagick
+     * @throws \ImagickException
      */
-    private function fixImageOrientation($image)
+    private function fixImageOrientation(\Imagick $image): \Imagick
     {
         $orientation = $image->getImageOrientation();
         switch ($orientation) {
             case \Imagick::ORIENTATION_UNDEFINED:
-                break;
             case \Imagick::ORIENTATION_TOPLEFT:
                 break;
             case \Imagick::ORIENTATION_TOPRIGHT:
@@ -85,14 +85,14 @@ class ImageService extends BaseService implements ImageServiceInterface
 
     /**
      * @param \Imagick $image
-     * @param array    $size
-     * @param bool     $needExactSize
+     * @param array $size
+     * @param bool $needExactSize
      *
      * @return \Imagick
      *
      * @throws \ImagickException
      */
-    private function setImageSize($image, $size, $needExactSize = false)
+    private function setImageSize(\Imagick $image, array $size, bool $needExactSize = false): \Imagick
     {
         if (empty($size)) {
             return $image;
@@ -111,14 +111,14 @@ class ImageService extends BaseService implements ImageServiceInterface
 
     /**
      * @param \Imagick $image
-     * @param string   $format
-     * @param string   $backgroundColor
+     * @param string $format
+     * @param string $backgroundColor
      *
-     * @return \Imagick|bool
+     * @return \Imagick
      *
-     * @throws \ImagickException
+     * @throws \ImagickException|\ImagickPixelException
      */
-    private function setImageFormat($image, $format, $backgroundColor='#FFFFFF')
+    private function setImageFormat(\Imagick $image, string $format, string $backgroundColor='#FFFFFF'): \Imagick
     {
         if ($image->getImageFormat() !== $format) {
             if ($format == 'jpg' || $format == 'jpeg') {

@@ -10,5 +10,5 @@ interface CollectionHelperInterface
      *
      * @return array
      */
-    public function getSelectOptions($collection);
+    public function getSelectOptions(\Illuminate\Database\Eloquent\Collection $collection): array;
 }

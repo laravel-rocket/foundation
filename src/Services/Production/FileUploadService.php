@@ -5,14 +5,14 @@ use LaravelRocket\Foundation\Services\FileUploadServiceInterface;
 
 class FileUploadService extends BaseService implements FileUploadServiceInterface
 {
-    public function upload($srcPath, $mediaType, $filename, $attributes)
+    public function upload(string $srcPath, string $mediaType, string $filename, array $attributes): array
     {
         return [
             'success' => false,
         ];
     }
 
-    public function delete($attributes)
+    public function delete(array $attributes): array
     {
         return [
             'success' => false,

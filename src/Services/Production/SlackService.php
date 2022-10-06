@@ -1,10 +1,10 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Services\SlackServiceInterface;
-use Maknz\Slack\Attachment;
-use Maknz\Slack\Client;
+use JoliCode\Slack\ClientFactory;
 
 class SlackService extends BaseService implements SlackServiceInterface
 {
@@ -17,7 +17,7 @@ class SlackService extends BaseService implements SlackServiceInterface
     {
         $fields = [];
 
-        $addToField = function($name, $value, $short = false) use (&$fields) {
+        $addToField = function ($name, $value, $short = false) use (&$fields) {
             if (!empty($value)) {
                 $fields[] = [
                     'title' => $name,
@@ -41,16 +41,16 @@ class SlackService extends BaseService implements SlackServiceInterface
         $addToField('Request method', request()->method(), true);
         $addToField('Request param', json_encode(request()->all()), true);
 
-        $message    = ':bug: Error Occurs on '.app()->environment();
-        $type       = 'serious-alert';
-        $pretext    = 'Error Occurs on '.app()->environment();
+        $message = ':bug: Error Occurs on ' . app()->environment();
+        $type = 'serious-alert';
+        $pretext = 'Error Occurs on ' . app()->environment();
         $attachment = [
-            'color'    => 'danger',
-            'title'    => $e->getMessage(),
+            'color' => 'danger',
+            'title' => $e->getMessage(),
             'fallback' => !empty($e->getMessage()) ? $e->getMessage() : get_class($e),
-            'pretext'  => $pretext,
-            'fields'   => $fields,
-            'text'     => $e->getTraceAsString(),
+            'pretext' => $pretext,
+            'fields' => $fields,
+            'text' => $e->getTraceAsString(),
         ];
 
         // notify to slack
@@ -60,32 +60,36 @@ class SlackService extends BaseService implements SlackServiceInterface
     /**
      * @param string $message
      * @param string $type
-     * @param array  $attachment
+     * @param array $attachment
      */
-    public function post($message, $type, $attachment = [])
+    public function post(string $message, string $type, array $attachment = [])
     {
-        $type       = config('slack.types.'.strtolower($type), config('slack.default', []));
-        $webHookUrl = config('slack.webHookUrl');
+        $type = config('slack.types.' . strtolower($type), config('slack.default', []));
+        $apiToken = config('slack.apiToken');
         if (empty($webHookUrl)) {
             return;
         }
-        $client     = new Client($webHookUrl, [
-            'username'   => Arr::get($type, 'username', 'FamarryBot'),
-            'channel'    => Arr::get($type, 'channel', '#random'),
+        $client = ClientFactory::create($apiToken);
+        $messageObject = [
+            'username' => Arr::get($type, 'username', 'Alert Bot'),
+            'channel' => Arr::get($type, 'channel', '#random'),
+            'text' => $message,
             'link_names' => true,
-            'icon'       => Arr::get($type, 'icon', ':smile:'),
-        ]);
-        $messageObj = $client->createMessage();
+            'icon' => Arr::get($type, 'icon', ':smile:'),
+        ];
         if (!empty($attachment)) {
-            $attachment = new Attachment([
-                'fallback' => Arr::get($attachment, 'fallback', ''),
-                'text'     => Arr::get($attachment, 'text', ''),
-                'pretext'  => Arr::get($attachment, 'pretext', ''),
-                'color'    => Arr::get($attachment, 'color', 'good'),
-                'fields'   => Arr::get($attachment, 'fields', []),
-            ]);
-            $messageObj->attach($attachment);
+            $attachments = [
+                [
+                    'title' => Arr::get($attachment, 'title', ''),
+                    'fallback' => Arr::get($attachment, 'fallback', ''),
+                    'text' => Arr::get($attachment, 'text', ''),
+                    'pretext' => Arr::get($attachment, 'pretext', ''),
+                    'color' => Arr::get($attachment, 'color', 'good'),
+                    'fields' => Arr::get($attachment, 'fields', []),
+                ]
+            ];
+            $messageObject["attachments"] = $attachments;
         }
-        $messageObj->setText($message)->send();
+        $client->chatPostMessage($messageObject);
     }
 }

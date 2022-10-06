@@ -13,7 +13,7 @@ interface SlackServiceInterface extends BaseServiceInterface
     /**
      * @param string $message
      * @param string $type
-     * @param array  $attachment
+     * @param array $attachment
      */
-    public function post($message, $type, $attachment = []);
+    public function post(string $message, string $type, array $attachment = []);
 }

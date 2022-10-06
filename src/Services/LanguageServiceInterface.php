@@ -8,12 +8,12 @@ interface LanguageServiceInterface extends BaseServiceInterface
      *
      * @return string
      */
-    public function normalize($language);
+    public function normalize(string $language): string;
 
     /**
-     * @param null|string $language
+     * @param ?string $language
      *
      * @return string
      */
-    public function detect($language = null);
+    public function detect(string $language = null): string;
 }

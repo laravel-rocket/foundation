@@ -6,11 +6,9 @@ interface ArrayHelperInterface
     /**
      * @param string $key
      * @param array  $array
-     * @param mixed  $default
-     *
-     * @return mixed
+     * @param mixed|null $default
      */
-    public function popWithKey(string $key, array &$array, $default = null);
+    public function popWithKey(string $key, array &$array, mixed $default = null);
 
     /**
      * @param array $array
@@ -19,5 +17,5 @@ interface ArrayHelperInterface
      *
      * @return array
      */
-    public function filterElements(array $array, array $keys, bool $removeEmptyElements = true);
+    public function filterElements(array $array, array $keys, bool $removeEmptyElements = true): array;
 }

@@ -7,15 +7,15 @@ interface DataHelperInterface
      * @param string $countryCode
      * @param string $default
      *
-     * @return mixed
+     * @return string
      */
-    public function getCountryName(string $countryCode, string $default = '');
+    public function getCountryName(string $countryCode, string $default = ''): string;
 
     /**
      * @param string $currencyCode
      * @param string $default
      *
-     * @return mixed
+     * @return string
      */
-    public function getCurrencyName(string $currencyCode, string $default = '');
+    public function getCurrencyName(string $currencyCode, string $default = ''): string;
 }

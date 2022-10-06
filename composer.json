@@ -10,25 +10,26 @@
         }
     ],
     "require": {
-        "php": "^7.2",
-        "fideloper/proxy": "^4.0",
-        "laravel/tinker": "^1.0",
-        "icanboogie/inflector": "^1.4",
-        "maknz/slack": "^1.7",
+        "php": "^8.0.2",
+        "fideloper/proxy": "^4.4",
+        "laravel/tinker": "^2.7",
+        "icanboogie/inflector": "^2.2",
         "aws/aws-sdk-php": "~3.24",
-        "rainner/restful-php": "^1.0"
+        "rainner/restful-php": "^1.0",
+        "jolicode/slack-php-api": "^4.5",
+        "ext-imagick": "*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
-        "nunomaduro/collision": "~2.0",
-        "phpunit/phpunit": "^8.0",
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.10",
         "symfony/thanks": "^1.0",
         "mockery/mockery": "~1.0",
-        "friendsofphp/php-cs-fixer": "^2.15",
-        "fzaninotto/faker": "^1.8",
-        "laravel/browser-kit-testing": "^5.1",
+        "friendsofphp/php-cs-fixer": "^3.11",
+        "fakerphp/faker": "^1.9.1",
         "maatwebsite/excel": "~3.1.0",
-        "laravel/laravel": "^6.0"
+        "laravel/framework": "^9.19",
+        "laravel/browser-kit-testing": "^6.3"
     },
     "autoload": {
         "psr-4": {
@@ -39,5 +40,10 @@
         "classmap": [
             "tests"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/thanks": true
+        }
     }
 }

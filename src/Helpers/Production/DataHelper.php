@@ -5,7 +5,7 @@ use LaravelRocket\Foundation\Helpers\DataHelperInterface;
 
 class DataHelper implements DataHelperInterface
 {
-    public function getCountryName(string $countryCode, string $default = '')
+    public function getCountryName(string $countryCode, string $default = ''): string
     {
         $countryCode = strtoupper($countryCode);
         $length      = strlen($countryCode);
@@ -21,7 +21,7 @@ class DataHelper implements DataHelperInterface
         return trans('data/countries.'.$key);
     }
 
-    public function getCurrencyName(string $currencyCode, string $default = '')
+    public function getCurrencyName(string $currencyCode, string $default = ''): string
     {
         $currencyCode = strtoupper($currencyCode);
         $length       = strlen($currencyCode);

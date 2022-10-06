@@ -6,7 +6,7 @@ use LaravelRocket\Foundation\Services\MailServiceInterface;
 
 class MailService extends BaseService implements MailServiceInterface
 {
-    public function sendMail($title, $from, $to, $template, $data)
+    public function sendMail(string $title, ?array $from, array $to, string $template, array $data): bool
     {
         if (config('app.offline_mode')) {
             return true;
@@ -41,7 +41,7 @@ class MailService extends BaseService implements MailServiceInterface
         return true;
     }
 
-    public function getDefaultSender()
+    public function getDefaultSender(): array
     {
         return config('mail.from', []);
     }

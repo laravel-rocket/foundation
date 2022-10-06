@@ -7,7 +7,7 @@ use LaravelRocket\Foundation\Services\FileUploadS3ServiceInterface;
 
 class FileUploadS3Service extends FileUploadService implements FileUploadS3ServiceInterface
 {
-    public function upload($srcPath, $mediaType, $filename, $attributes)
+    public function upload(string $srcPath, string $mediaType, string $filename, array $attributes): array
     {
         $region = Arr::get($attributes, 'region', config('file.storage.s3.region'));
         $bucket = $this->decideBucket(Arr::get($attributes, 'buckets', $this->getDefaultBucket()));
@@ -40,7 +40,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         ];
     }
 
-    protected function decideBucket($buckets, $default = null)
+    protected function decideBucket($buckets, string $default = null): ?string
     {
         if (is_array($buckets)) {
             $pos = ord(time() % 10) % count($buckets);
@@ -55,7 +55,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         return $default;
     }
 
-    protected function getDefaultBucket()
+    protected function getDefaultBucket(): ?string
     {
         $buckets = config('file.storage.s3.buckets');
 
@@ -67,7 +67,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
      *
      * @return S3Client
      */
-    protected function getS3Client($region)
+    protected function getS3Client(string $region): S3Client
     {
         $config = config('aws');
 
@@ -81,7 +81,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         ]);
     }
 
-    public function delete($attributes)
+    public function delete(array $attributes): array
     {
         $region = Arr::get($attributes, 'region', config('file.storage.s3.region'));
         $bucket = Arr::get($attributes, 'bucket', $this->getDefaultBucket());
@@ -95,6 +95,7 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
                 'Bucket' => $bucket,
                 'Key'    => $key,
             ]);
+            $success = true;
         }
 
         return [

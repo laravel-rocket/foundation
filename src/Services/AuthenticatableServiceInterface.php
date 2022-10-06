@@ -6,16 +6,16 @@ interface AuthenticatableServiceInterface extends BaseServiceInterface
     /**
      * @param int $id
      *
-     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
+     * @return ?\LaravelRocket\Foundation\Models\AuthenticatableBase
      */
-    public function signInById($id);
+    public function signInById(int $id): ?\LaravelRocket\Foundation\Models\AuthenticatableBase;
 
     /**
      * @param array $input
      *
      * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
      */
-    public function signIn($input);
+    public function signIn($input): \LaravelRocket\Foundation\Models\AuthenticatableBase;
 
     /**
      * @param array $input

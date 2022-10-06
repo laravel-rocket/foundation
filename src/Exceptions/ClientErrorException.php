@@ -6,11 +6,11 @@ use Exception;
 class ClientErrorException extends Exception
 {
     /** @var string */
-    protected $errorName = '';
+    protected string $errorName = '';
 
-    protected $extraData = [];
+    protected array $extraData = [];
 
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * APIErrorException constructor.

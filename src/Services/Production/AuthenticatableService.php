@@ -29,12 +29,12 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         $this->passwordResettableRepository = $passwordResettableRepository;
     }
 
-    public function signInById($id)
+    public function signInById(int $id): ?\LaravelRocket\Foundation\Models\AuthenticatableBase
     {
         /** @var \LaravelRocket\Foundation\Models\AuthenticatableBase $user */
         $user = $this->authenticatableRepository->find($id);
         if (empty($user)) {
-            return;
+            return null;
         }
         $guard = $this->getGuard();
         $guard->login($user);

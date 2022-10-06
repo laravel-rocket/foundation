@@ -5,7 +5,7 @@ use LaravelRocket\Foundation\Services\LanguageServiceInterface;
 
 class LanguageService extends BaseService implements LanguageServiceInterface
 {
-    public function normalize($language)
+    public function normalize(string $language): string
     {
         $language = strtolower($language);
         if (!array_key_exists($language, config('locale.languages'))) {
@@ -15,7 +15,7 @@ class LanguageService extends BaseService implements LanguageServiceInterface
         return $language;
     }
 
-    public function detect($language = null)
+    public function detect(string $language = null): string
     {
         if (isset($language)) {
             $language = strtolower($language);
@@ -56,7 +56,7 @@ class LanguageService extends BaseService implements LanguageServiceInterface
         }
         foreach ($languages as $lang => $val) {
             foreach (array_keys(config('locale.languages')) as $languageCode) {
-                if (strpos($lang, $languageCode) === 0) {
+                if (str_starts_with($lang, $languageCode)) {
                     return $languageCode;
                 }
             }
