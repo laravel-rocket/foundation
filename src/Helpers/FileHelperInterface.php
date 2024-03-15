@@ -4,16 +4,16 @@ namespace LaravelRocket\Foundation\Helpers;
 interface FileHelperInterface
 {
     /**
-     * @param $mimeType
+     * @param string $mimeType
      *
      * @return string
      */
-    public function getFileIconHTML($mimeType);
+    public function getFileIconHTML(string $mimeType): string;
 
     /**
      * @param \Illuminate\Http\UploadedFile $file
      *
      * @return string|null
      */
-    public function detectFileType($file);
+    public function detectFileType(\Illuminate\Http\UploadedFile $file): ?string;
 }

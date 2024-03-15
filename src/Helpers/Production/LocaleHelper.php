@@ -3,10 +3,11 @@ namespace LaravelRocket\Foundation\Helpers\Production;
 
 use Illuminate\Support\Arr;
 use LaravelRocket\Foundation\Helpers\LocaleHelperInterface;
+use LaravelRocket\Foundation\Models\Traits\LocaleStorable;
 
 class LocaleHelper implements LocaleHelperInterface
 {
-    public function getLocale()
+    public function getLocale(): string
     {
         $pieces           = explode('.', request()->getHost());
         $locale           = null;
@@ -39,7 +40,7 @@ class LocaleHelper implements LocaleHelperInterface
         return $locale;
     }
 
-    public function setLocale($locale = null, $user = null)
+    public function setLocale(string $locale = null, LocaleStorable $user = null): string
     {
         if (isset($locale)) {
             $locale = strtolower($locale);
@@ -88,7 +89,7 @@ class LocaleHelper implements LocaleHelperInterface
         }
         foreach ($languages as $lang => $val) {
             foreach (config('locale.languages') as $langCode => $data) {
-                if (strpos(strtolower($lang), $langCode) === 0) {
+                if (str_starts_with(strtolower($lang), $langCode)) {
                     return $langCode;
                 }
             }
@@ -97,7 +98,7 @@ class LocaleHelper implements LocaleHelperInterface
         return config('locale.default');
     }
 
-    public function getLocaleSubDomain()
+    public function getLocaleSubDomain(): string
     {
         $pieces           = explode('.', request()->getHost());
         $locale           = null;
@@ -110,9 +111,9 @@ class LocaleHelper implements LocaleHelperInterface
         return $locale;
     }
 
-    public function getEnableLocales()
+    public function getEnableLocales(): array
     {
-        return array_where(config('locale.languages'), function($value, $key) {
+        return Arr::where(config('locale.languages'), function($value, $key) {
             return $value['status'] == true;
         });
     }
@@ -120,7 +121,7 @@ class LocaleHelper implements LocaleHelperInterface
     /**
      * @return array
      */
-    public function getLocalesForForm()
+    public function getLocalesForForm(): array
     {
         $locales = [];
         foreach (self::getEnableLocales() as $k => $locale) {

@@ -5,7 +5,7 @@ use LaravelRocket\Foundation\Helpers\StringHelperInterface;
 
 class StringHelper implements StringHelperInterface
 {
-    public function randomString($length)
+    public function randomString(int $length): string
     {
         mt_rand();
         $characters = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
@@ -17,7 +17,7 @@ class StringHelper implements StringHelperInterface
         return $result;
     }
 
-    public function randomReadableString($length)
+    public function randomReadableString(int $length): string
     {
         mt_rand();
         $characters = str_split('ABCDEFGHJKLMNPQRSTUVWXYZ23456789');
@@ -29,7 +29,7 @@ class StringHelper implements StringHelperInterface
         return $result;
     }
 
-    public function hasPrefix(string $haystack, array $needles)
+    public function hasPrefix(string $haystack, array $needles): bool
     {
         $elements    = explode('_', $haystack);
         $lastElement = $elements[count($elements) - 1];

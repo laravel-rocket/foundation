@@ -9,12 +9,12 @@ class AdminModelExport implements FromQuery
     use Exportable;
 
     /** @var string $modelName */
-    protected $modelName;
+    protected string $modelName;
 
     /**
      * @var \LaravelRocket\Foundation\Services\ExportServiceInterface
      */
-    protected $exportService;
+    protected \LaravelRocket\Foundation\Services\ExportServiceInterface $exportService;
 
     public function __construct(string $modelName)
     {
@@ -22,7 +22,7 @@ class AdminModelExport implements FromQuery
         $this->exportService = app()->make(\LaravelRocket\Foundation\Services\ExportServiceInterface::class);
     }
 
-    public function query()
+    public function query(): mixed
     {
         $modelInstance = $this->exportService->getModel($this->modelName);
         if (empty($modelInstance)) {
