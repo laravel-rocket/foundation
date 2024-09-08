@@ -7,18 +7,18 @@ use Illuminate\Support\Str;
 class APIRequest extends Request
 {
     /** @var \Restful\Files */
-    protected $fileParser = null;
+    protected ?\Restful\Files $fileParser = null;
 
     /** @var \Restful\Parser */
-    protected $requestParser = null;
+    protected ?\Restful\Parser $requestParser = null;
 
     /**
      * @param string $key     the key
-     * @param mixed  $default the default value if the parameter key does not exist
+     * @param mixed|null $default the default value if the parameter key does not exist
      *
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         if ($this->needParser()) {
             $data = parent::get($key);
@@ -64,7 +64,7 @@ class APIRequest extends Request
      *
      * @return bool
      */
-    public function has($key)
+    public function has($key): bool
     {
         if ($this->needParser()) {
             $this->treatPutRequest();
@@ -80,7 +80,7 @@ class APIRequest extends Request
      *
      * @return bool
      */
-    public function hasFile($key)
+    public function hasFile($key): bool
     {
         if ($this->needParser()) {
             $this->treatPutRequest();
@@ -100,7 +100,7 @@ class APIRequest extends Request
      *
      * @return \Illuminate\Http\UploadedFile|array|null
      */
-    public function file($key = null, $default = null)
+    public function file($key = null, $default = null): array|\Illuminate\Http\UploadedFile|null
     {
         if ($this->needParser()) {
             $this->treatPutRequest();
@@ -130,14 +130,14 @@ class APIRequest extends Request
     /**
      * @return bool
      */
-    protected function needParser()
+    protected function needParser(): bool
     {
         $methods = ['PUT', 'PATCH'];
 
         return app()->environment() !== 'testing' && in_array($_SERVER['REQUEST_METHOD'], $methods);
     }
 
-    protected function treatPutRequest()
+    protected function treatPutRequest(): void
     {
         if (empty($this->requestParser)) {
             $this->requestParser = new \Restful\Parser();

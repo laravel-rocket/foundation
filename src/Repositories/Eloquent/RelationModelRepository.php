@@ -8,32 +8,32 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
     /**
      * @var string
      */
-    protected $parentKey = '';
+    protected string $parentKey = '';
 
     /**
      * @var string
      */
-    protected $childKey = '';
+    protected string $childKey = '';
 
-    public function getRelationKeys()
+    public function getRelationKeys(): array
     {
         return [$this->parentKey, $this->childKey];
     }
 
-    public function findByRelationKeys($parentId, $childId)
+    public function findByRelationKeys($parentKey, $childKey)
     {
         $query = $this->getBaseQuery();
-        $model = $query->where($this->getParentKey(), $parentId)->where($this->getChildKey(), $childId)->first();
+        $model = $query->where($this->getParentKey(), $parentKey)->where($this->getChildKey(), $childKey)->first();
 
         return $model;
     }
 
-    public function getParentKey()
+    public function getParentKey(): string
     {
         return $this->parentKey;
     }
 
-    public function getChildKey()
+    public function getChildKey(): string
     {
         return $this->childKey;
     }

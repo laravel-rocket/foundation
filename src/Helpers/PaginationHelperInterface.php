@@ -11,7 +11,7 @@ interface PaginationHelperInterface
      *
      * @return mixed
      */
-    public function normalize($offset, $limit, $maxLimit, $defaultLimit);
+    public function normalize($offset, $limit, $maxLimit, $defaultLimit): array;
 
     /**
      * @param int    $offset
@@ -23,7 +23,7 @@ interface PaginationHelperInterface
      *
      * @return array
      */
-    public function data($offset, $limit, $count, $path, $query, $paginationNumber = 5);
+    public function data($offset, $limit, $count, $path, $query, $paginationNumber = 5): array;
 
     /**
      * @param int    $offset
@@ -44,5 +44,5 @@ interface PaginationHelperInterface
         $query,
         $paginationNumber = 5,
         $template = 'shared.pagination'
-    );
+    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View;
 }

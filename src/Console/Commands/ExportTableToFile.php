@@ -3,6 +3,7 @@ namespace LaravelRocket\Foundation\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Excel;
 
 class ExportTableToFile extends Command
@@ -13,10 +14,9 @@ class ExportTableToFile extends Command
 
     protected $description = 'Export Database to CSV/Excel';
 
-    /** @var \Illuminate\Filesystem\Filesystem */
-    protected $files;
+    protected Filesystem $files;
 
-    protected $supportFormats = ['csv', 'xlsx'];
+    protected array $supportFormats = ['csv', 'xlsx'];
 
     /**
      * @param \Illuminate\Filesystem\Filesystem $files
@@ -28,12 +28,7 @@ class ExportTableToFile extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return bool|null
-     */
-    public function handle()
+    public function handle(): ?bool
     {
         $tableName  = $this->argument('table');
         $outputPath = $this->argument('output_path');
@@ -49,7 +44,7 @@ class ExportTableToFile extends Command
         if (!empty($this->option('columns'))) {
             $columnNames = explode(',', $this->option('columns'));
         } else {
-            $columnInformation = \DB::select('show columns from '.$tableName);
+            $columnInformation = DB::select('show columns from '.$tableName);
             if ($includeId) {
                 $columnNames[] = 'id';
             }
@@ -61,11 +56,11 @@ class ExportTableToFile extends Command
         }
         $data = [];
 
-        $count  = \DB::table($tableName)->count();
+        $count  = DB::table($tableName)->count();
         $limit  = 1000;
         $offset = 0;
         while ($offset < $count) {
-            $entities = \DB::table($tableName)->offset($offset)->limit($limit)->orderBy('id', 'asc')->get();
+            $entities = DB::table($tableName)->offset($offset)->limit($limit)->orderBy('id', 'asc')->get();
             foreach ($entities as $entity) {
                 $row = [];
                 foreach ($columnNames as $columnName) {

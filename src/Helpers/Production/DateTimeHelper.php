@@ -8,12 +8,12 @@ class DateTimeHelper implements DateTimeHelperInterface
 {
     const PRESENTATION_TIME_ZONE_SESSION_KEY = 'presentation-time-zone';
 
-    public function setPresentationTimeZone(string $timezone = null)
+    public function setPresentationTimeZone(string $timezone = null): void
     {
         session()->put(static::PRESENTATION_TIME_ZONE_SESSION_KEY, $timezone);
     }
 
-    public function clearPresentationTimeZone()
+    public function clearPresentationTimeZone(): void
     {
         session()->remove(static::PRESENTATION_TIME_ZONE_SESSION_KEY);
     }

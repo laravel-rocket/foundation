@@ -6,7 +6,7 @@ use LaravelRocket\Foundation\Repositories\PasswordResettableRepositoryInterface;
 
 class PasswordResettableRepository extends DatabaseTokenRepository implements PasswordResettableRepositoryInterface
 {
-    protected $tableName = 'password_resets';
+    protected string $tableName = 'password_resets';
 
     protected $hashKey   = 'random';
 

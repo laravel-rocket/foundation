@@ -6,7 +6,7 @@ use LaravelRocket\Foundation\Repositories\AuthenticatableRepositoryInterface;
 
 class AuthenticatableRepository extends SingleKeyModelRepository implements AuthenticatableRepositoryInterface
 {
-    public function getBlankModel()
+    public function getBlankModel(): AuthenticatableBase
     {
         return new AuthenticatableBase();
     }

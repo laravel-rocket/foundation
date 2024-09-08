@@ -15,11 +15,11 @@ interface DateTimeHelperInterface
     /**
      * @param string|null $timezone
      */
-    public function setPresentationTimeZone(string $timezone = null);
+    public function setPresentationTimeZone(string $timezone = null): void;
 
     /**
      */
-    public function clearPresentationTimeZone();
+    public function clearPresentationTimeZone(): void;
 
     /**
      * @return string

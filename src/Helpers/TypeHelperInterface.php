@@ -10,7 +10,7 @@ interface TypeHelperInterface
      *
      * @return string
      */
-    public function getColumnTypeNameByValue(string $type, array $types, $default = '');
+    public function getColumnTypeNameByValue(string $type, array $types, string $default = ''): string;
 
     /**
      * @param string $table
@@ -18,5 +18,5 @@ interface TypeHelperInterface
      *
      * @return array
      */
-    public function getColumnTypes(string $table, string $column);
+    public function getColumnTypes(string $table, string $column): array;
 }

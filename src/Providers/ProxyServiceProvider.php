@@ -1,8 +1,9 @@
 <?php
+
 namespace LaravelRocket\Foundation\Providers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProxyServiceProvider extends BaseServiceProvider
 {
@@ -11,16 +12,23 @@ class ProxyServiceProvider extends BaseServiceProvider
      *
      * @var bool
      */
-    protected $defer = false;
+    protected bool $defer = false;
 
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
-        $request          = app('request');
-        $trustedHeaderSet = config('proxy.headerSet', Request::HEADER_X_FORWARDED_ALL);
-        $proxies          = config('proxy.trusted');
+        $headers =
+            Request::HEADER_X_FORWARDED_FOR |
+            Request::HEADER_X_FORWARDED_HOST |
+            Request::HEADER_X_FORWARDED_PORT |
+            Request::HEADER_X_FORWARDED_PROTO |
+            Request::HEADER_X_FORWARDED_AWS_ELB;
+
+        $request = app('request');
+        $trustedHeaderSet = config('proxy.headerSet', $headers);
+        $proxies = config('proxy.trusted');
 
         if (!empty($proxies)) {
             if ($proxies === '*') {

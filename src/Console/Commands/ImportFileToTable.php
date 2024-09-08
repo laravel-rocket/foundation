@@ -4,6 +4,7 @@ namespace LaravelRocket\Foundation\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Excel;
 
 class ImportFileToTable extends Command
@@ -14,14 +15,10 @@ class ImportFileToTable extends Command
 
     protected $description = 'Import Database to CSV/TSV/Excel';
 
-    /** @var \Illuminate\Filesystem\Filesystem */
-    protected $files;
+    protected Filesystem $files;
 
-    protected $supportFormats = ['csv', 'xlsx'];
+    protected array $supportFormats = ['csv', 'xlsx'];
 
-    /**
-     * @param \Illuminate\Filesystem\Filesystem $files
-     */
     public function __construct(
         Filesystem $files
     ) {
@@ -29,12 +26,7 @@ class ImportFileToTable extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return bool|null
-     */
-    public function handle()
+    public function handle(): ?bool
     {
         $tableName = $this->argument('table');
         $filePath  = $this->argument('file_path');
@@ -43,7 +35,7 @@ class ImportFileToTable extends Command
 
         $columnNames = [];
 
-        $columnInformation = \DB::select('show columns from '.$tableName);
+        $columnInformation = DB::select('show columns from '.$tableName);
         if (!empty($this->option('columns'))) {
             $columnNames = explode(',', $this->option('columns'));
         } else {
@@ -79,7 +71,7 @@ class ImportFileToTable extends Command
                         $data[$columnName] = $defaultValues[$columnName];
                     }
                 }
-                \DB::table($tableName)->insert($data);
+                DB::table($tableName)->insert($data);
             }
         });
 

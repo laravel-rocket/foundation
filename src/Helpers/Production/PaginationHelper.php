@@ -13,7 +13,7 @@ class PaginationHelper implements PaginationHelperInterface
         $query,
         $paginationNumber = 5,
         $template = 'shared.pagination'
-    ) {
+    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View {
         $data = $this->data($offset, $limit, $count, $path, $query, $paginationNumber);
 
         return view($template, $data);
@@ -26,7 +26,7 @@ class PaginationHelper implements PaginationHelperInterface
         $path,
         $query,
         $paginationNumber = 5
-    ) {
+    ): array {
         if (empty($query) || !is_array($query)) {
             $query = [];
         }
@@ -101,7 +101,7 @@ class PaginationHelper implements PaginationHelperInterface
         return $data;
     }
 
-    public function normalize($offset, $limit, $maxLimit, $defaultLimit)
+    public function normalize($offset, $limit, $maxLimit, $defaultLimit): array
     {
         if ($limit <= 0 || $limit > $maxLimit) {
             $limit = $defaultLimit;
@@ -115,7 +115,7 @@ class PaginationHelper implements PaginationHelperInterface
         ];
     }
 
-    private function generateLink($page, $path, $query, $limit)
+    private function generateLink($page, $path, $query, $limit): string
     {
         return $path.'?'.http_build_query(array_merge($query, ['offset' => ($page - 1) * $limit, 'limit' => $limit]));
     }

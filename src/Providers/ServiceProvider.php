@@ -12,7 +12,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
         /* Auth */
         \Auth::provider('rocket-eloquent', function($app, array $config) {
@@ -23,7 +23,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Register any application services.
      */
-    public function register()
+    public function register(): void
     {
         /* Services */
         $this->app->singleton(

@@ -6,7 +6,7 @@ use LaravelRocket\Foundation\Helpers\CollectionHelperInterface;
 
 class CollectionHelper implements CollectionHelperInterface
 {
-    public function getSelectOptions(\Illuminate\Database\Eloquent\Collection $collection): array
+    public function getSelectOptions(Collection $collection): array
     {
         return $collection->pluck('name', 'id')->toArray();
     }

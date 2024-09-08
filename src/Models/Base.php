@@ -6,14 +6,20 @@ use LaravelRocket\Foundation\Presenters\BasePresenter;
 
 class Base extends Model
 {
-    protected $presenterInstance;
+    protected ?BasePresenter $presenterInstance;
 
-    protected $presenter = BasePresenter::class;
+    protected string $presenter = BasePresenter::class;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->presenterInstance = null;
+    }
 
     /**
      * @return string
      */
-    public static function getTableName()
+    public static function getTableName(): string
     {
         return with(new static())->getTable();
     }
@@ -21,7 +27,7 @@ class Base extends Model
     /**
      * @return string[]
      */
-    public static function getFillableColumns()
+    public static function getFillableColumns(): array
     {
         return with(new static())->getFillable();
     }
@@ -38,7 +44,7 @@ class Base extends Model
     /**
      * @return string[]
      */
-    public function getEditableColumns()
+    public function getEditableColumns(): array
     {
         return $this->fillable;
     }
@@ -46,7 +52,7 @@ class Base extends Model
     /**
      * @return string
      */
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
         return $this->primaryKey;
     }
@@ -57,7 +63,7 @@ class Base extends Model
      *
      * @return string
      */
-    public function getLocalizedColumn($key, $locale = 'en')
+    public function getLocalizedColumn(string $key, string $locale = 'en'): string
     {
         if (empty($locale)) {
             $locale = 'en';
@@ -75,7 +81,7 @@ class Base extends Model
     /**
      * @return array
      */
-    public function toFillableArray()
+    public function toFillableArray(): array
     {
         $ret = [];
         foreach ($this->fillable as $key) {
@@ -88,7 +94,7 @@ class Base extends Model
     /**
      * @return string[]
      */
-    public function getDateColumns()
+    public function getDateColumns(): array
     {
         return $this->dates;
     }

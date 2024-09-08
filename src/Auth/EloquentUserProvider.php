@@ -13,14 +13,14 @@ class EloquentUserProvider extends BaseEloquentUserProvider
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
-    public function retrieveByToken($identifier, $token)
+    public function retrieveByToken($identifier, $token): ?\Illuminate\Contracts\Auth\Authenticatable
     {
         $model = $this->createModel();
 
         $model = $model->where($model->getAuthIdentifierName(), $identifier)->first();
 
         if (!$model) {
-            return;
+            return null;
         }
 
         $rememberToken = $model->getRememberToken();

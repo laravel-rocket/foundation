@@ -10,7 +10,7 @@ class Request extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -20,17 +20,17 @@ class Request extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [];
     }
 
-    public function onlyExists($keys)
+    public function onlyExists($keys): array
     {
         $keys = is_array($keys) ? $keys : func_get_args();
 

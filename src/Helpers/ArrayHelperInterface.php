@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers;
 
 interface ArrayHelperInterface
@@ -8,7 +9,7 @@ interface ArrayHelperInterface
      * @param array  $array
      * @param mixed|null $default
      */
-    public function popWithKey(string $key, array &$array, mixed $default = null);
+    public function popWithKey(string $key, array &$array, mixed $default = null): mixed;
 
     /**
      * @param array $array
