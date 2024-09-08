@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services;
 
 use LaravelRocket\Foundation\Models\AuthenticatableBase;

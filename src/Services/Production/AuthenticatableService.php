@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Contracts\Auth\Guard;
@@ -24,7 +25,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         AuthenticatableRepositoryInterface $authenticatableRepository,
         PasswordResettableRepositoryInterface $passwordResettableRepository
     ) {
-        $this->authenticatableRepository    = $authenticatableRepository;
+        $this->authenticatableRepository = $authenticatableRepository;
         $this->passwordResettableRepository = $passwordResettableRepository;
     }
 
@@ -49,9 +50,6 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         return Auth::guard($this->getGuardName());
     }
 
-    /**
-     * @return string
-     */
     public function getGuardName(): string
     {
         return '';
@@ -60,8 +58,8 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
     public function signIn(array $input): ?AuthenticatableBase
     {
         $rememberMe = (bool) Arr::get($input, 'remember_me', 0);
-        $guard      = $this->getGuard();
-        if (!$guard->attempt(['email' => $input['email'], 'password' => $input['password']], $rememberMe, true)) {
+        $guard = $this->getGuard();
+        if (! $guard->attempt(['email' => $input['email'], 'password' => $input['password']], $rememberMe, true)) {
             return null;
         }
 
@@ -71,7 +69,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
     public function signUp(array $input): ?AuthenticatableBase
     {
         $existingUser = $this->authenticatableRepository->findByEmail(Arr::get($input, 'email'));
-        if (!empty($existingUser)) {
+        if (! empty($existingUser)) {
             return null;
         }
 
@@ -142,7 +140,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
             $this->resetEmailTemplate,
             [
                 'token' => $token,
-                'user'  => $user,
+                'user' => $user,
             ]
         );
     }
@@ -153,7 +151,7 @@ class AuthenticatableService extends BaseService implements AuthenticatableServi
         if (empty($user)) {
             return false;
         }
-        if (!$this->passwordResettableRepository->exists($user, $token)) {
+        if (! $this->passwordResettableRepository->exists($user, $token)) {
             return false;
         }
         $this->authenticatableRepository->update($user, ['password' => $password]);

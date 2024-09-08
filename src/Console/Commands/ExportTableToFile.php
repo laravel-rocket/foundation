@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -8,9 +9,9 @@ use Maatwebsite\Excel\Excel;
 
 class ExportTableToFile extends Command
 {
-    protected $signature   = 'rocket:export:table {--format=} {--include_id} {--columns=} {table} {output_path}';
+    protected $signature = 'rocket:export:table {--format=} {--include_id} {--columns=} {table} {output_path}';
 
-    protected $name        = 'rocket:export:table';
+    protected $name = 'rocket:export:table';
 
     protected $description = 'Export Database to CSV/Excel';
 
@@ -18,9 +19,6 @@ class ExportTableToFile extends Command
 
     protected array $supportFormats = ['csv', 'xlsx'];
 
-    /**
-     * @param \Illuminate\Filesystem\Filesystem $files
-     */
     public function __construct(
         Filesystem $files
     ) {
@@ -30,18 +28,18 @@ class ExportTableToFile extends Command
 
     public function handle(): ?bool
     {
-        $tableName  = $this->argument('table');
+        $tableName = $this->argument('table');
         $outputPath = $this->argument('output_path');
-        $includeId  = $this->option('include_id');
+        $includeId = $this->option('include_id');
 
         $format = strtolower($this->option('format'));
-        if (!in_array($format, $this->supportFormats)) {
+        if (! in_array($format, $this->supportFormats)) {
             $format = 'csv';
         }
 
         $columnNames = [];
 
-        if (!empty($this->option('columns'))) {
+        if (! empty($this->option('columns'))) {
             $columnNames = explode(',', $this->option('columns'));
         } else {
             $columnInformation = DB::select('show columns from '.$tableName);
@@ -56,8 +54,8 @@ class ExportTableToFile extends Command
         }
         $data = [];
 
-        $count  = DB::table($tableName)->count();
-        $limit  = 1000;
+        $count = DB::table($tableName)->count();
+        $limit = 1000;
         $offset = 0;
         while ($offset < $count) {
             $entities = DB::table($tableName)->offset($offset)->limit($limit)->orderBy('id', 'asc')->get();
@@ -72,9 +70,9 @@ class ExportTableToFile extends Command
         }
 
         /** @var Excel $excel */
-        $excel  = app()->make(Excel::class);
-        $output = $excel->create($outputPath, function($excel) use ($data, $tableName) {
-            $excel->sheet($tableName, function($sheet) use ($data) {
+        $excel = app()->make(Excel::class);
+        $output = $excel->create($outputPath, function ($excel) use ($data, $tableName) {
+            $excel->sheet($tableName, function ($sheet) use ($data) {
                 $sheet->setStyle([
                     'font' => [
                         'name' => 'Arial',

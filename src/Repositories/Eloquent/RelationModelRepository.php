@@ -1,18 +1,13 @@
 <?php
+
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
 use LaravelRocket\Foundation\Repositories\RelationModelRepositoryInterface;
 
 class RelationModelRepository extends SingleKeyModelRepository implements RelationModelRepositoryInterface
 {
-    /**
-     * @var string
-     */
     protected string $parentKey = '';
 
-    /**
-     * @var string
-     */
     protected string $childKey = '';
 
     public function getRelationKeys(): array
@@ -41,8 +36,8 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
     public function updateList($parentId, $childIds)
     {
         $currentChildIds = $this->allByParentKey($parentId)->pluck($this->getChildKey())->toArray();
-        $deletes         = array_diff($currentChildIds, $childIds);
-        $adds            = array_diff($childIds, $currentChildIds);
+        $deletes = array_diff($currentChildIds, $childIds);
+        $adds = array_diff($childIds, $currentChildIds);
 
         if (count($deletes) > 0) {
             $query = $this->getBaseQuery();
@@ -51,11 +46,11 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
 
         if (count($adds) > 0) {
             $parentKey = $this->getParentKey();
-            $childKey  = $this->getChildKey();
+            $childKey = $this->getChildKey();
             foreach ($adds as $childId) {
                 $this->create([
                     $parentKey => $parentId,
-                    $childKey  => $childId,
+                    $childKey => $childId,
                 ]);
             }
         }
@@ -65,7 +60,7 @@ class RelationModelRepository extends SingleKeyModelRepository implements Relati
 
     public function allByParentKey($parentId)
     {
-        $query  = $this->getBaseQuery();
+        $query = $this->getBaseQuery();
         $models = $query->where($this->getParentKey(), $parentId)->get();
 
         return $models;

@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Exports;
 
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -8,17 +9,13 @@ class AdminModelExport implements FromQuery
 {
     use Exportable;
 
-    /** @var string $modelName */
     protected string $modelName;
 
-    /**
-     * @var \LaravelRocket\Foundation\Services\ExportServiceInterface
-     */
     protected \LaravelRocket\Foundation\Services\ExportServiceInterface $exportService;
 
     public function __construct(string $modelName)
     {
-        $this->modelName     = $modelName;
+        $this->modelName = $modelName;
         $this->exportService = app()->make(\LaravelRocket\Foundation\Services\ExportServiceInterface::class);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Http\Requests\Traits;
 
 trait PaginationTrait
@@ -14,8 +15,7 @@ trait PaginationTrait
     }
 
     /**
-     * @param int $default
-     *
+     * @param  int  $default
      * @return int
      */
     public function limit($default = 10)
@@ -35,7 +35,7 @@ trait PaginationTrait
     public function direction($default = 'asc')
     {
         $direction = strtolower($this->get('direction', $default));
-        if (!in_array($direction, ['asc', 'desc'])) {
+        if (! in_array($direction, ['asc', 'desc'])) {
             $direction = 'asc';
         }
 
@@ -47,7 +47,7 @@ trait PaginationTrait
         $filters = [];
         foreach ($keys as $key) {
             $value = $this->get($key);
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $filters[$key] = $value;
             }
         }

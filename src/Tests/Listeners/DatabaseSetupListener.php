@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Tests\Listeners;
 
 use Illuminate\Contracts\Console\Kernel;
@@ -12,29 +13,17 @@ class DatabaseSetupListener implements TestListener
 {
     protected $suites = ['Application Test Suite'];
 
-    public function addError(Test $test, \Throwable $e, float $time): void
-    {
-    }
+    public function addError(Test $test, \Throwable $e, float $time): void {}
 
-    public function addWarning(Test $test, Warning $e, float $time): void
-    {
-    }
+    public function addWarning(Test $test, Warning $e, float $time): void {}
 
-    public function addFailure(Test $test, AssertionFailedError $e, float $time): void
-    {
-    }
+    public function addFailure(Test $test, AssertionFailedError $e, float $time): void {}
 
-    public function addIncompleteTest(Test $test, \Throwable $t, float $time): void
-    {
-    }
+    public function addIncompleteTest(Test $test, \Throwable $t, float $time): void {}
 
-    public function addRiskyTest(Test $test, \Throwable $t, float $time): void
-    {
-    }
+    public function addRiskyTest(Test $test, \Throwable $t, float $time): void {}
 
-    public function addSkippedTest(Test $test, \Throwable $t, float $time): void
-    {
-    }
+    public function addSkippedTest(Test $test, \Throwable $t, float $time): void {}
 
     public function startTestSuite(TestSuite $suite): void
     {
@@ -50,13 +39,9 @@ class DatabaseSetupListener implements TestListener
         }
     }
 
-    public function startTest(Test $test): void
-    {
-    }
+    public function startTest(Test $test): void {}
 
-    public function endTest(Test $test, float $time): void
-    {
-    }
+    public function endTest(Test $test, float $time): void {}
 
     protected function initialize(TestSuite $suite)
     {
@@ -86,9 +71,9 @@ class DatabaseSetupListener implements TestListener
     {
         $setting = config('database.default');
 
-        $driver   = config('database.connections.'.$setting.'.driver');
-        $host     = config('database.connections.'.$setting.'.host');
-        $port     = config('database.connections.'.$setting.'.port');
+        $driver = config('database.connections.'.$setting.'.driver');
+        $host = config('database.connections.'.$setting.'.host');
+        $port = config('database.connections.'.$setting.'.port');
         $username = config('database.connections.'.$setting.'.username');
         $password = config('database.connections.'.$setting.'.password');
 
@@ -99,7 +84,7 @@ class DatabaseSetupListener implements TestListener
 
     protected function getDatabaseName()
     {
-        $setting  = config('database.default');
+        $setting = config('database.default');
         $database = config('database.connections.'.$setting.'.database');
 
         return $database;
@@ -109,7 +94,7 @@ class DatabaseSetupListener implements TestListener
     {
         $this->createApplication();
         $connection = $this->getDatabaseConnection();
-        $database   = $this->getDatabaseName();
+        $database = $this->getDatabaseName();
         $connection->query('DROP DATABASE IF EXISTS '.$database);
         $connection->query('CREATE DATABASE '.$database);
     }
@@ -118,7 +103,7 @@ class DatabaseSetupListener implements TestListener
     {
         $this->createApplication();
         $connection = $this->getDatabaseConnection();
-        $database   = $this->getDatabaseName();
+        $database = $this->getDatabaseName();
         $connection->query('DROP DATABASE '.$database);
     }
 }

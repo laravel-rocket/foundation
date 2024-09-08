@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Support\Arr;
@@ -9,34 +10,34 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
     public function upload(string $srcPath, string $mediaType, string $filename, array $attributes): array
     {
         $uploadDirectory = Arr::get($attributes, 'uploadDirectory', config('file.storage.local.path'));
-        $baseUrl         = Arr::get($attributes, 'baseUrl', config('file.storage.local.url'));
+        $baseUrl = Arr::get($attributes, 'baseUrl', config('file.storage.local.url'));
 
-        $url     = '';
+        $url = '';
         $success = false;
 
         if (file_exists($srcPath)) {
             $dstPath = $uploadDirectory.'/'.$filename;
             copy($srcPath, $dstPath);
-            $url     = $baseUrl.'/'.$filename;
+            $url = $baseUrl.'/'.$filename;
             $success = true;
         }
 
         return [
             'success' => $success,
-            'url'     => $url,
+            'url' => $url,
         ];
     }
 
     public function delete(array $attributes): array
     {
         $uploadDirectory = Arr::get($attributes, 'uploadDirectory', config('file.storage.local.path'));
-        $key             = Arr::get($attributes, 'key');
+        $key = Arr::get($attributes, 'key');
 
         $filePath = $uploadDirectory.'/'.$key;
 
         $success = false;
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             unlink($filePath);
             $success = true;
         }
@@ -67,5 +68,4 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
 
         return $default;
     }
-
 }

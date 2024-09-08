@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Tests\Helpers;
 
 use LaravelRocket\Foundation\Tests\TestCase;

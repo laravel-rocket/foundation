@@ -1,10 +1,11 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use LaravelRocket\Foundation\Helpers\URLHelperInterface;
 
 // http://mio-koduki.blogspot.jp/2012/05/php-httpbuildurl.html
-if (!function_exists('http_build_url')) {
+if (! function_exists('http_build_url')) {
     define('HTTP_URL_REPLACE', 1);
     define('HTTP_URL_JOIN_PATH', 2);
     define('HTTP_URL_JOIN_QUERY', 4);
@@ -73,7 +74,7 @@ if (!function_exists('http_build_url')) {
 
 class URLHelper implements URLHelperInterface
 {
-    public function canonicalizeHost(string $url, string $locale = null): string
+    public function canonicalizeHost(string $url, ?string $locale = null): string
     {
         $host = config('app.host');
 
@@ -89,7 +90,7 @@ class URLHelper implements URLHelperInterface
         return $this->swapHost($url, $host);
     }
 
-    public function getHostWithLocale(string $locale = null, string $host = null): string
+    public function getHostWithLocale(?string $locale = null, ?string $host = null): string
     {
         if (empty($host)) {
             $host = config('app.host');
@@ -121,7 +122,7 @@ class URLHelper implements URLHelperInterface
     public function asset(string $path, string $type = 'user'): string
     {
         $hash = config('asset.hash');
-        $url  = asset('static/'.$type.'/'.$path);
+        $url = asset('static/'.$type.'/'.$path);
 
         if (app()->environment() == 'local' || empty($hash)) {
             return $url;

@@ -3,22 +3,20 @@
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Support\Arr;
-use LaravelRocket\Foundation\Services\SlackServiceInterface;
 use JoliCode\Slack\ClientFactory;
+use LaravelRocket\Foundation\Services\SlackServiceInterface;
 
 class SlackService extends BaseService implements SlackServiceInterface
 {
     /**
      * Report an exception to slack.
-     *
-     * @param \Exception $e
      */
     public function exception(\Exception $e)
     {
         $fields = [];
 
         $addToField = function ($name, $value, $short = false) use (&$fields) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $fields[] = [
                     'title' => $name,
                     'value' => $value,
@@ -41,13 +39,13 @@ class SlackService extends BaseService implements SlackServiceInterface
         $addToField('Request method', request()->method(), true);
         $addToField('Request param', json_encode(request()->all()), true);
 
-        $message = ':bug: Error Occurs on ' . app()->environment();
+        $message = ':bug: Error Occurs on '.app()->environment();
         $type = 'serious-alert';
-        $pretext = 'Error Occurs on ' . app()->environment();
+        $pretext = 'Error Occurs on '.app()->environment();
         $attachment = [
             'color' => 'danger',
             'title' => $e->getMessage(),
-            'fallback' => !empty($e->getMessage()) ? $e->getMessage() : get_class($e),
+            'fallback' => ! empty($e->getMessage()) ? $e->getMessage() : get_class($e),
             'pretext' => $pretext,
             'fields' => $fields,
             'text' => $e->getTraceAsString(),
@@ -57,14 +55,9 @@ class SlackService extends BaseService implements SlackServiceInterface
         $this->post($message, $type, $attachment);
     }
 
-    /**
-     * @param string $message
-     * @param string $type
-     * @param array $attachment
-     */
     public function post(string $message, string $type, array $attachment = [])
     {
-        $type = config('slack.types.' . strtolower($type), config('slack.default', []));
+        $type = config('slack.types.'.strtolower($type), config('slack.default', []));
         $apiToken = config('slack.apiToken');
         if (empty($webHookUrl)) {
             return;
@@ -77,7 +70,7 @@ class SlackService extends BaseService implements SlackServiceInterface
             'link_names' => true,
             'icon' => Arr::get($type, 'icon', ':smile:'),
         ];
-        if (!empty($attachment)) {
+        if (! empty($attachment)) {
             $attachments = [
                 [
                     'title' => Arr::get($attachment, 'title', ''),
@@ -86,9 +79,9 @@ class SlackService extends BaseService implements SlackServiceInterface
                     'pretext' => Arr::get($attachment, 'pretext', ''),
                     'color' => Arr::get($attachment, 'color', 'good'),
                     'fields' => Arr::get($attachment, 'fields', []),
-                ]
+                ],
             ];
-            $messageObject["attachments"] = $attachments;
+            $messageObject['attachments'] = $attachments;
         }
         $client->chatPostMessage($messageObject);
     }

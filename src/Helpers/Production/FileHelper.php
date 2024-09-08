@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use Illuminate\Http\UploadedFile;

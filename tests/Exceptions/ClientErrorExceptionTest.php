@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Tests\Exceptions;
 
 use Illuminate\Support\Str;
@@ -9,7 +10,7 @@ class ClientErrorExceptionTest extends TestCase
 {
     public function testCreateException()
     {
-        $name      = Str::random(10);
+        $name = Str::random(10);
         $exception = new ClientErrorException($name);
         $this->assertNotEmpty($exception);
 

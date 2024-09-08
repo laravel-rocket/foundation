@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use Illuminate\Support\Arr;
@@ -19,7 +20,7 @@ class TypeHelper implements TypeHelperInterface
 
     public function getColumnTypes(string $table, string $column): array
     {
-        $ret   = [];
+        $ret = [];
         $types = config('data.tables.'.$table.'.columns.'.$column.'.options', []);
         foreach ($types as $key => $name) {
             $ret[$key] = trans($name);

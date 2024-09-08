@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,12 +17,9 @@ class Base extends Model
         $this->presenterInstance = null;
     }
 
-    /**
-     * @return string
-     */
     public static function getTableName(): string
     {
-        return with(new static())->getTable();
+        return with(new static)->getTable();
     }
 
     /**
@@ -29,12 +27,12 @@ class Base extends Model
      */
     public static function getFillableColumns(): array
     {
-        return with(new static())->getFillable();
+        return with(new static)->getFillable();
     }
 
     public function present()
     {
-        if (!$this->presenterInstance) {
+        if (! $this->presenterInstance) {
             $this->presenterInstance = new $this->presenter($this);
         }
 
@@ -49,38 +47,26 @@ class Base extends Model
         return $this->fillable;
     }
 
-    /**
-     * @return string
-     */
     public function getPrimaryKey(): string
     {
         return $this->primaryKey;
     }
 
-    /**
-     * @param string $key
-     * @param string $locale
-     *
-     * @return string
-     */
     public function getLocalizedColumn(string $key, string $locale = 'en'): string
     {
         if (empty($locale)) {
             $locale = 'en';
         }
         $localizedKey = $key.'_'.strtolower($locale);
-        $value        = $this->$localizedKey;
+        $value = $this->$localizedKey;
         if (empty($value)) {
             $localizedKey = $key.'_en';
-            $value        = $this->$localizedKey;
+            $value = $this->$localizedKey;
         }
 
         return $value;
     }
 
-    /**
-     * @return array
-     */
     public function toFillableArray(): array
     {
         $ret = [];

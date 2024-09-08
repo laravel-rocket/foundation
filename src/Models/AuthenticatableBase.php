@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Models;
 
 /*

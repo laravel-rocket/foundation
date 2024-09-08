@@ -23,7 +23,7 @@ class ArrayHelper implements ArrayHelperInterface
         $result = [];
         foreach ($array as $key => $item) {
             if (in_array($key, $keys)) {
-                if (!$removeEmptyElements || !empty($item)) {
+                if (! $removeEmptyElements || ! empty($item)) {
                     $result[$key] = $item;
                 }
             }

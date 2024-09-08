@@ -1,5 +1,7 @@
 <?php
+
 namespace LaravelRocket\Foundation\Database;
+
 use Illuminate\Support\Facades\DB;
 
 class Migration extends \Illuminate\Database\Migrations\Migration
@@ -20,7 +22,7 @@ class Migration extends \Illuminate\Database\Migrations\Migration
     public function getCurrentDatabaseDriver()
     {
         $connectionName = config('database.default');
-        $currentDriver  = config('database.connections.'.$connectionName.'.driver', '');
+        $currentDriver = config('database.connections.'.$connectionName.'.driver', '');
 
         return $currentDriver;
     }

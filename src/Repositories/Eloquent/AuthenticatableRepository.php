@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Repositories\Eloquent;
 
 use LaravelRocket\Foundation\Models\AuthenticatableBase;
@@ -8,7 +9,7 @@ class AuthenticatableRepository extends SingleKeyModelRepository implements Auth
 {
     public function getBlankModel(): AuthenticatableBase
     {
-        return new AuthenticatableBase();
+        return new AuthenticatableBase;
     }
 
     public function findByEmail($email)

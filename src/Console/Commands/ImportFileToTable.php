@@ -1,17 +1,18 @@
 <?php
+
 namespace LaravelRocket\Foundation\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Excel;
 
 class ImportFileToTable extends Command
 {
-    protected $signature   = 'rocket:import:file {--include_id} {--columns=} {table} {file_path}';
+    protected $signature = 'rocket:import:file {--include_id} {--columns=} {table} {file_path}';
 
-    protected $name        = 'rocket:import:file';
+    protected $name = 'rocket:import:file';
 
     protected $description = 'Import Database to CSV/TSV/Excel';
 
@@ -29,14 +30,14 @@ class ImportFileToTable extends Command
     public function handle(): ?bool
     {
         $tableName = $this->argument('table');
-        $filePath  = $this->argument('file_path');
+        $filePath = $this->argument('file_path');
 
         $includeId = $this->option('include_id');
 
         $columnNames = [];
 
         $columnInformation = DB::select('show columns from '.$tableName);
-        if (!empty($this->option('columns'))) {
+        if (! empty($this->option('columns'))) {
             $columnNames = explode(',', $this->option('columns'));
         } else {
             if ($includeId) {
@@ -61,11 +62,11 @@ class ImportFileToTable extends Command
         }
 
         $excel = app()->make(Excel::class);
-        $excel->filter('chunk')->load($filePath)->chunk(250, function($results) use ($tableName, $columnNames, $defaultValues) {
+        $excel->filter('chunk')->load($filePath)->chunk(250, function ($results) use ($tableName, $columnNames, $defaultValues) {
             foreach ($results as $row) {
                 $data = [];
                 foreach ($columnNames as $columnName) {
-                    if ($row->has($columnName) && !empty($row->get($columnName))) {
+                    if ($row->has($columnName) && ! empty($row->get($columnName))) {
                         $data[$columnName] = $row->get($columnName);
                     } elseif (array_key_exists($columnName, $defaultValues)) {
                         $data[$columnName] = $defaultValues[$columnName];

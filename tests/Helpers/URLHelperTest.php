@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Helpers;
 
 use LaravelRocket\Foundation\Tests\TestCase;
@@ -32,7 +33,7 @@ class URLHelperTest extends TestCase
     {
         /** @var \LaravelRocket\Foundation\Helpers\URLHelperInterface $helper */
         $helper = app()->make(\LaravelRocket\Foundation\Helpers\URLHelperInterface::class);
-        $hash   = md5(time());
+        $hash = md5(time());
         config()->set('asset.hash', $hash);
         $result = $helper->asset('img/test.png');
         $this->assertEquals('http://:/static/user/img/test.png?'.$hash, $result);

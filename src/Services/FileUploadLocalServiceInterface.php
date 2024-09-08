@@ -1,6 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services;
 
-interface FileUploadLocalServiceInterface extends FileUploadServiceInterface
-{
-}
+interface FileUploadLocalServiceInterface extends FileUploadServiceInterface {}

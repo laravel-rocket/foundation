@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Support\Arr;
@@ -16,20 +17,20 @@ class MailService extends BaseService implements MailServiceInterface
             return true;
         }
 
-        if (!in_array(app()->environment(), config('mail.production_environments', ['production']))) {
+        if (! in_array(app()->environment(), config('mail.production_environments', ['production']))) {
             $title = '['.app()->environment().'] '.$title;
-            $to    = [
+            $to = [
                 'address' => config('mail.tester'),
-                'name'    => app()->environment().' Original: '.$to['address'],
+                'name' => app()->environment().' Original: '.$to['address'],
             ];
         }
 
-        if (!is_array($from) || empty(Arr::get($from, 'address'))) {
+        if (! is_array($from) || empty(Arr::get($from, 'address'))) {
             $from = $this->getDefaultSender();
         }
 
         try {
-            \Mail::send($template, $data, function($m) use ($from, $to, $title) {
+            \Mail::send($template, $data, function ($m) use ($from, $to, $title) {
                 $m->from($from['address'], $from['name']);
 
                 $m->to($to['address'], $to['name'])->subject($title);

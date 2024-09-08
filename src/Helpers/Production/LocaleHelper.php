@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use Illuminate\Support\Arr;
@@ -9,8 +10,8 @@ class LocaleHelper implements LocaleHelperInterface
 {
     public function getLocale(): string
     {
-        $pieces           = explode('.', request()->getHost());
-        $locale           = null;
+        $pieces = explode('.', request()->getHost());
+        $locale = null;
         $availableDomains = config('locale.domains', []);
 
         if (in_array(strtolower($pieces[0]), $availableDomains)) {
@@ -22,8 +23,8 @@ class LocaleHelper implements LocaleHelperInterface
         }
 
         if (request()->has('fb_locale')) {
-            $fbLocale  = request()->get('fb_locale');
-            $languages = array_filter(config('locale.languages'), function($language) use ($fbLocale) {
+            $fbLocale = request()->get('fb_locale');
+            $languages = array_filter(config('locale.languages'), function ($language) use ($fbLocale) {
                 if (Arr::get($language, 'ogp') === $fbLocale) {
                     return true;
                 }
@@ -40,12 +41,12 @@ class LocaleHelper implements LocaleHelperInterface
         return $locale;
     }
 
-    public function setLocale(string $locale = null, LocaleStorable $user = null): string
+    public function setLocale(?string $locale = null, ?LocaleStorable $user = null): string
     {
         if (isset($locale)) {
             $locale = strtolower($locale);
             if (array_key_exists($locale, config('locale.languages'))) {
-                if (!empty($user)) {
+                if (! empty($user)) {
                     $user->setLocale($locale);
                 }
                 session()->put('locale', $locale);
@@ -55,7 +56,7 @@ class LocaleHelper implements LocaleHelperInterface
         }
 
         if (empty($locale)) {
-            if (!empty($user)) {
+            if (! empty($user)) {
                 $locale = $user->getLocale();
             }
             if (empty($locale)) {
@@ -100,8 +101,8 @@ class LocaleHelper implements LocaleHelperInterface
 
     public function getLocaleSubDomain(): string
     {
-        $pieces           = explode('.', request()->getHost());
-        $locale           = null;
+        $pieces = explode('.', request()->getHost());
+        $locale = null;
         $availableDomains = config('locale.domains', []);
 
         if (in_array(strtolower($pieces[0]), $availableDomains)) {
@@ -113,14 +114,11 @@ class LocaleHelper implements LocaleHelperInterface
 
     public function getEnableLocales(): array
     {
-        return Arr::where(config('locale.languages'), function($value, $key) {
+        return Arr::where(config('locale.languages'), function ($value, $key) {
             return $value['status'] == true;
         });
     }
 
-    /**
-     * @return array
-     */
     public function getLocalesForForm(): array
     {
         $locales = [];

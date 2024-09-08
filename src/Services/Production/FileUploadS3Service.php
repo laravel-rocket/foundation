@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Aws\S3\S3Client;
@@ -14,33 +15,33 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
 
         $client = $this->getS3Client($region);
 
-        $url     = '';
+        $url = '';
         $success = false;
 
         if (file_exists($srcPath)) {
             $client->putObject([
-                'Bucket'       => $bucket,
-                'Key'          => $filename,
-                'SourceFile'   => $srcPath,
-                'ContentType'  => $mediaType,
-                'ACL'          => 'public-read',
+                'Bucket' => $bucket,
+                'Key' => $filename,
+                'SourceFile' => $srcPath,
+                'ContentType' => $mediaType,
+                'ACL' => 'public-read',
                 'CacheControl' => 'max-age=604800',
             ]);
 
-            $url     = $client->getObjectUrl($bucket, $filename);
+            $url = $client->getObjectUrl($bucket, $filename);
             $success = true;
         }
 
         return [
             'success' => $success,
-            'url'     => $url,
-            'bucket'  => $bucket,
-            'key'     => $filename,
-            'region'  => $region,
+            'url' => $url,
+            'bucket' => $bucket,
+            'key' => $filename,
+            'region' => $region,
         ];
     }
 
-    protected function decideBucket($buckets, string $default = null): ?string
+    protected function decideBucket($buckets, ?string $default = null): ?string
     {
         if (is_array($buckets)) {
             $pos = ord(time() % 10) % count($buckets);
@@ -62,21 +63,16 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
         return $this->decideBucket($buckets);
     }
 
-    /**
-     * @param string $region
-     *
-     * @return S3Client
-     */
     protected function getS3Client(string $region): S3Client
     {
         $config = config('aws');
 
         return new S3Client([
             'credentials' => [
-                'key'    => Arr::get($config, 'key'),
+                'key' => Arr::get($config, 'key'),
                 'secret' => Arr::get($config, 'secret'),
             ],
-            'region'  => $region,
+            'region' => $region,
             'version' => 'latest',
         ]);
     }
@@ -85,15 +81,15 @@ class FileUploadS3Service extends FileUploadService implements FileUploadS3Servi
     {
         $region = Arr::get($attributes, 'region', config('file.storage.s3.region'));
         $bucket = Arr::get($attributes, 'bucket', $this->getDefaultBucket());
-        $key    = Arr::get($attributes, 'key');
+        $key = Arr::get($attributes, 'key');
 
         $success = false;
 
-        if (!empty($key)) {
+        if (! empty($key)) {
             $client = $this->getS3Client($region);
             $client->deleteObject([
                 'Bucket' => $bucket,
-                'Key'    => $key,
+                'Key' => $key,
             ]);
             $success = true;
         }

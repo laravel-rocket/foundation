@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use LaravelRocket\Foundation\Services\LanguageServiceInterface;
@@ -8,14 +9,14 @@ class LanguageService extends BaseService implements LanguageServiceInterface
     public function normalize(string $language): string
     {
         $language = strtolower($language);
-        if (!array_key_exists($language, config('locale.languages'))) {
+        if (! array_key_exists($language, config('locale.languages'))) {
             $language = config('locale.default', 'en');
         }
 
         return $language;
     }
 
-    public function detect(string $language = null): string
+    public function detect(?string $language = null): string
     {
         if (isset($language)) {
             $language = strtolower($language);

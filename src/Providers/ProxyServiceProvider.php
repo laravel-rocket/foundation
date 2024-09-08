@@ -9,8 +9,6 @@ class ProxyServiceProvider extends BaseServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
      */
     protected bool $defer = false;
 
@@ -30,10 +28,10 @@ class ProxyServiceProvider extends BaseServiceProvider
         $trustedHeaderSet = config('proxy.headerSet', $headers);
         $proxies = config('proxy.trusted');
 
-        if (!empty($proxies)) {
+        if (! empty($proxies)) {
             if ($proxies === '*') {
                 $proxies = [$request->getClientIp()];
-            } elseif (!is_array($proxies)) {
+            } elseif (! is_array($proxies)) {
                 $proxies = [$proxies];
             }
             $request->setTrustedProxies($proxies, $trustedHeaderSet);

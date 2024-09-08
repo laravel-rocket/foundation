@@ -20,7 +20,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getEmptyList(): Collection
     {
-        return new Collection();
+        return new Collection;
     }
 
     public function rules(): array
@@ -36,7 +36,7 @@ class BaseRepository implements BaseRepositoryInterface
     public function all($order = null, $direction = null): Collection|\Illuminate\Support\Collection|iterable
     {
         $query = $this->getBaseQuery();
-        if (!empty($order)) {
+        if (! empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
             $query = $query->orderBy($order, $direction);
         }
@@ -69,7 +69,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function getBlankModel(): Base
     {
-        return new Base();
+        return new Base;
     }
 
     public function getBaseQuery(): Base
@@ -81,7 +81,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $model = $this->getBaseQuery();
         $query = $model->where('is_enabled', '=', true);
-        if (!empty($order)) {
+        if (! empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
             $query = $query->orderBy($order, $direction);
         }
@@ -209,9 +209,9 @@ class BaseRepository implements BaseRepositoryInterface
 
     protected function setBefore(
         Builder|\Illuminate\Database\Eloquent\Builder|Base $query,
-        string                                             $order,
-        string                                             $direction,
-        mixed                                              $before): Builder|\Illuminate\Database\Eloquent\Builder|Base
+        string $order,
+        string $direction,
+        mixed $before): Builder|\Illuminate\Database\Eloquent\Builder|Base
     {
         if ($before == 0) {
             return $query;
@@ -222,9 +222,9 @@ class BaseRepository implements BaseRepositoryInterface
 
     protected function setAfter(
         Builder|\Illuminate\Database\Eloquent\Builder|Base $query,
-        string                                             $order,
-        string                                             $direction,
-        mixed                                              $after): Builder|\Illuminate\Database\Eloquent\Builder|Base
+        string $order,
+        string $direction,
+        mixed $after): Builder|\Illuminate\Database\Eloquent\Builder|Base
     {
         if ($after == 0) {
             return $query;
@@ -234,39 +234,30 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param int[] $ids
-     *
-     * @return string
+     * @param  int[]  $ids
      */
     protected function getCacheKey(array $ids): string
     {
         $key = $this->cachePrefix;
         foreach ($ids as $id) {
-            $key .= '-' . $id;
+            $key .= '-'.$id;
         }
 
         return $key;
     }
 
     /**
-     * @param Builder $query
-     * @param string[] $orderCandidates
-     * @param string $orderDefault
-     * @param string $order
-     * @param string $direction
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return \Illuminate\Support\Collection
+     * @param  Builder  $query
+     * @param  string[]  $orderCandidates
      */
     protected function getWithQueryBuilder(
         Builder|Base $query,
-        array        $orderCandidates,
-        string       $orderDefault,
-        string       $order,
-        string       $direction,
-        int          $offset,
-        int          $limit
+        array $orderCandidates,
+        string $orderDefault,
+        string $order,
+        string $direction,
+        int $offset,
+        int $limit
     ): \Illuminate\Support\Collection {
         $order = strtolower($order);
         $direction = strtolower($direction);
@@ -303,13 +294,13 @@ class BaseRepository implements BaseRepositoryInterface
 
         if (count($this->querySearchTargets) > 0 && array_key_exists('query', $filter)) {
             $searchWord = Arr::get($filter, 'query');
-            if (!empty($searchWord)) {
+            if (! empty($searchWord)) {
                 $query = $query->where(function ($q) use ($searchWord) {
                     foreach ($this->querySearchTargets as $index => $target) {
                         if ($index === 0) {
-                            $q = $q->where($target, 'LIKE', '%' . $searchWord . '%');
+                            $q = $q->where($target, 'LIKE', '%'.$searchWord.'%');
                         } else {
-                            $q = $q->orWhere($target, 'LIKE', '%' . $searchWord . '%');
+                            $q = $q->orWhere($target, 'LIKE', '%'.$searchWord.'%');
                         }
                     }
                 });
@@ -319,9 +310,9 @@ class BaseRepository implements BaseRepositoryInterface
 
         foreach ($filter as $column => $value) {
             if (is_array($value)) {
-                $query = $query->whereIn($tableName . '.' . $column, $value);
+                $query = $query->whereIn($tableName.'.'.$column, $value);
             } else {
-                $query = $query->where($tableName . '.' . $column, $value);
+                $query = $query->where($tableName.'.'.$column, $value);
             }
         }
 
@@ -330,11 +321,11 @@ class BaseRepository implements BaseRepositoryInterface
 
     protected function buildOrder(
         Builder|\Illuminate\Database\Eloquent\Builder|Base $query,
-        array                                              $filter = [],
-        ?string                                            $order = null,
-        ?string                                            $direction = null
+        array $filter = [],
+        ?string $order = null,
+        ?string $direction = null
     ): Builder|\Illuminate\Database\Eloquent\Builder|Base {
-        if (!empty($order)) {
+        if (! empty($order)) {
             $direction = empty($direction) ? 'asc' : $direction;
             $query = $query->orderBy($order, $direction);
         }

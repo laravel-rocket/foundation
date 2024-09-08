@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Tests\Services;
 
 use LaravelRocket\Foundation\Services\FileUploadS3ServiceInterface;
