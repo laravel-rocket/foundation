@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Models;
 
 /*
@@ -20,7 +21,7 @@ class AuthenticatableBase extends Base implements AuthenticatableContract, CanRe
 {
     use Authenticatable, Authorizable, CanResetPassword, LocaleStorable;
 
-    public function setPasswordAttribute($password)
+    public function setPasswordAttribute(string $password): void
     {
         if (empty($password)) {
             $this->attributes['password'] = '';

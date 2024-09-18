@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Tests;
 
 use Illuminate\Events\Dispatcher;
@@ -59,11 +60,11 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function setUpHttpKernel($app)
     {
-        $app->instance('request', (new \Illuminate\Http\Request())->instance());
+        $app->instance('request', (new \Illuminate\Http\Request)->instance());
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
@@ -71,8 +72,8 @@ class TestCase extends BaseTestCase
     {
         \DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $databaseName = \DB::connection()->getDatabaseName();
-        $tables       = \DB::select('SHOW TABLES');
-        $keyName      = 'Tables_in_'.$databaseName;
+        $tables = \DB::select('SHOW TABLES');
+        $keyName = 'Tables_in_'.$databaseName;
         foreach ($tables as $table) {
             if (property_exists($table, $keyName)) {
                 \DB::table($table->$keyName)->truncate();
@@ -86,7 +87,7 @@ class TestCase extends BaseTestCase
      */
     protected function getRouter()
     {
-        $router = new Router(new Dispatcher());
+        $router = new Router(new Dispatcher);
 
         return $router;
     }

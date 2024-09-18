@@ -1,50 +1,48 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use LaravelRocket\Foundation\Services\ImageServiceInterface;
 
 class ImageService extends BaseService implements ImageServiceInterface
 {
-    public function convert($src, $dst, $format, $size, $needExactSize = false, $backgroundColor='#FFFFFF')
+    public function convert(string $src, string $dst, ?string $format, array $size, bool $needExactSize = false, string $backgroundColor = '#FFFFFF'): array
     {
         $image = new \Imagick($src);
         $image = $this->fixImageOrientation($image);
         $image = $this->setImageSize($image, $size, $needExactSize);
-        if (!empty($format)) {
+        if (! empty($format)) {
             $image = $this->setImageFormat($image, $format, $backgroundColor);
         }
         $image->writeImage($dst);
 
         return [
             'height' => $image->getImageHeight(),
-            'width'  => $image->getImageWidth(),
+            'width' => $image->getImageWidth(),
         ];
     }
 
-    public function getImageSize($src)
+    public function getImageSize(string $src): array
     {
         $image = new \Imagick($src);
         $image = $this->fixImageOrientation($image);
 
         return [
             'height' => $image->getImageHeight(),
-            'width'  => $image->getImageWidth(),
+            'width' => $image->getImageWidth(),
         ];
     }
 
     /**
      * @ref http://www.b-prep.com/blog/?p=1764
      *
-     * @param \Imagick $image
-     *
-     * @return \Imagick
+     * @throws \ImagickException
      */
-    private function fixImageOrientation($image)
+    private function fixImageOrientation(\Imagick $image): \Imagick
     {
         $orientation = $image->getImageOrientation();
         switch ($orientation) {
             case \Imagick::ORIENTATION_UNDEFINED:
-                break;
             case \Imagick::ORIENTATION_TOPLEFT:
                 break;
             case \Imagick::ORIENTATION_TOPRIGHT:
@@ -52,30 +50,30 @@ class ImageService extends BaseService implements ImageServiceInterface
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
             case \Imagick::ORIENTATION_BOTTOMRIGHT:
-                $image->rotateImage(new \ImagickPixel(), 180);
+                $image->rotateImage(new \ImagickPixel, 180);
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
             case \Imagick::ORIENTATION_BOTTOMLEFT:
-                $image->rotateImage(new \ImagickPixel(), 180);
+                $image->rotateImage(new \ImagickPixel, 180);
                 $image->flopImage();
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
             case \Imagick::ORIENTATION_LEFTTOP:
-                $image->rotateImage(new \ImagickPixel(), 90);
+                $image->rotateImage(new \ImagickPixel, 90);
                 $image->flopImage();
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
             case \Imagick::ORIENTATION_RIGHTTOP:
-                $image->rotateImage(new \ImagickPixel(), 90);
+                $image->rotateImage(new \ImagickPixel, 90);
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
             case \Imagick::ORIENTATION_RIGHTBOTTOM:
-                $image->rotateImage(new \ImagickPixel(), 270);
+                $image->rotateImage(new \ImagickPixel, 270);
                 $image->flopImage();
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
             case \Imagick::ORIENTATION_LEFTBOTTOM:
-                $image->rotateImage(new \ImagickPixel(), 270);
+                $image->rotateImage(new \ImagickPixel, 270);
                 $image->setimageorientation(\Imagick::ORIENTATION_TOPLEFT);
                 break;
         }
@@ -84,15 +82,9 @@ class ImageService extends BaseService implements ImageServiceInterface
     }
 
     /**
-     * @param \Imagick $image
-     * @param array    $size
-     * @param bool     $needExactSize
-     *
-     * @return \Imagick
-     *
      * @throws \ImagickException
      */
-    private function setImageSize($image, $size, $needExactSize = false)
+    private function setImageSize(\Imagick $image, array $size, bool $needExactSize = false): \Imagick
     {
         if (empty($size)) {
             return $image;
@@ -110,15 +102,9 @@ class ImageService extends BaseService implements ImageServiceInterface
     }
 
     /**
-     * @param \Imagick $image
-     * @param string   $format
-     * @param string   $backgroundColor
-     *
-     * @return \Imagick|bool
-     *
-     * @throws \ImagickException
+     * @throws \ImagickException|\ImagickPixelException
      */
-    private function setImageFormat($image, $format, $backgroundColor='#FFFFFF')
+    private function setImageFormat(\Imagick $image, string $format, string $backgroundColor = '#FFFFFF'): \Imagick
     {
         if ($image->getImageFormat() !== $format) {
             if ($format == 'jpg' || $format == 'jpeg') {

@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use Illuminate\Routing\UrlGenerator;
@@ -15,8 +16,6 @@ class RedirectHelper implements RedirectHelperInterface
 
     /**
      * Create a new Redirector instance.
-     *
-     * @param \Illuminate\Routing\UrlGenerator $generator
      */
     public function __construct(UrlGenerator $generator)
     {

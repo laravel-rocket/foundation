@@ -1,10 +1,11 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
 use LaravelRocket\Foundation\Helpers\URLHelperInterface;
 
 // http://mio-koduki.blogspot.jp/2012/05/php-httpbuildurl.html
-if (!function_exists('http_build_url')) {
+if (! function_exists('http_build_url')) {
     define('HTTP_URL_REPLACE', 1);
     define('HTTP_URL_JOIN_PATH', 2);
     define('HTTP_URL_JOIN_QUERY', 4);
@@ -17,7 +18,7 @@ if (!function_exists('http_build_url')) {
     define('HTTP_URL_STRIP_FRAGMENT', 256);
     define('HTTP_URL_STRIP_ALL', 504);
 
-    function http_build_url($url, $parts = [], $flags = HTTP_URL_REPLACE, &$new_url = [])
+    function http_build_url(string $url, array $parts = [], int $flags = HTTP_URL_REPLACE, &$new_url = []): string
     {
         $key = ['user', 'pass', 'port', 'path', 'query', 'fragment'];
 
@@ -73,7 +74,7 @@ if (!function_exists('http_build_url')) {
 
 class URLHelper implements URLHelperInterface
 {
-    public function canonicalizeHost($url, $locale = null)
+    public function canonicalizeHost(string $url, ?string $locale = null): string
     {
         $host = config('app.host');
 
@@ -89,7 +90,7 @@ class URLHelper implements URLHelperInterface
         return $this->swapHost($url, $host);
     }
 
-    public function getHostWithLocale($locale = null, $host = null)
+    public function getHostWithLocale(?string $locale = null, ?string $host = null): string
     {
         if (empty($host)) {
             $host = config('app.host');
@@ -104,12 +105,12 @@ class URLHelper implements URLHelperInterface
         return $host;
     }
 
-    public function swapHost($url, $host)
+    public function swapHost(string $url, string $host): string
     {
         return http_build_url($url, ['host' => $host, 'port' => null]);
     }
 
-    public function normalizeUrlPath($urlPath)
+    public function normalizeUrlPath(string $urlPath): string
     {
         $urlPath = strtolower($urlPath);
         $urlPath = str_replace('_', '-', $urlPath);
@@ -118,10 +119,10 @@ class URLHelper implements URLHelperInterface
         return $urlPath;
     }
 
-    public function asset($path, $type = 'user')
+    public function asset(string $path, string $type = 'user'): string
     {
         $hash = config('asset.hash');
-        $url  = asset('static/'.$type.'/'.$path);
+        $url = asset('static/'.$type.'/'.$path);
 
         if (app()->environment() == 'local' || empty($hash)) {
             return $url;
@@ -130,7 +131,7 @@ class URLHelper implements URLHelperInterface
         return $url.'?'.$hash;
     }
 
-    public function elixir($path, $type = 'user')
+    public function elixir(string $path, string $type = 'user'): string
     {
         $url = elixir('static/'.$type.'/'.$path);
 

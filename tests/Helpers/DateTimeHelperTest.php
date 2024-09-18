@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Tests\Helpers;
 
 use LaravelRocket\Foundation\Tests\TestCase;
@@ -78,7 +79,7 @@ class DateTimeHelperTest extends TestCase
         $this->assertEquals($timeZone->getName(), $time->getTimezone()->getName());
 
         $newTimeZone = 'Asia/Bangkok';
-        $time        = $helper->dateTime(
+        $time = $helper->dateTime(
             '2018-01-01 10:10:10',
             new \DateTimeZone($newTimeZone),
             new \DateTimeZone($newTimeZone)

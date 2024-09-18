@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Support\Arr;
@@ -6,38 +7,39 @@ use LaravelRocket\Foundation\Services\FileUploadLocalServiceInterface;
 
 class FileUploadLocalService extends FileUploadService implements FileUploadLocalServiceInterface
 {
-    public function upload($srcPath, $mediaType, $filename, $attributes)
+    public function upload(string $srcPath, string $mediaType, string $filename, array $attributes): array
     {
         $uploadDirectory = Arr::get($attributes, 'uploadDirectory', config('file.storage.local.path'));
-        $baseUrl         = Arr::get($attributes, 'baseUrl', config('file.storage.local.url'));
+        $baseUrl = Arr::get($attributes, 'baseUrl', config('file.storage.local.url'));
 
-        $url     = '';
+        $url = '';
         $success = false;
 
         if (file_exists($srcPath)) {
             $dstPath = $uploadDirectory.'/'.$filename;
             copy($srcPath, $dstPath);
-            $url     = $baseUrl.'/'.$filename;
+            $url = $baseUrl.'/'.$filename;
             $success = true;
         }
 
         return [
             'success' => $success,
-            'url'     => $url,
+            'url' => $url,
         ];
     }
 
-    public function delete($attributes)
+    public function delete(array $attributes): array
     {
         $uploadDirectory = Arr::get($attributes, 'uploadDirectory', config('file.storage.local.path'));
-        $key             = Arr::get($attributes, 'key');
+        $key = Arr::get($attributes, 'key');
 
         $filePath = $uploadDirectory.'/'.$key;
 
         $success = false;
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             unlink($filePath);
+            $success = true;
         }
 
         return [
@@ -65,24 +67,5 @@ class FileUploadLocalService extends FileUploadService implements FileUploadLoca
         }
 
         return $default;
-    }
-
-    /**
-     * @param string $region
-     *
-     * @return S3Client
-     */
-    protected function getS3Client($region)
-    {
-        $config = config('aws');
-
-        return new S3Client([
-            'credentials' => [
-                'key'    => Arr::get($config, 'key'),
-                'secret' => Arr::get($config, 'secret'),
-            ],
-            'region'  => $region,
-            'version' => 'latest',
-        ]);
     }
 }

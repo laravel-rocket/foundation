@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -6,29 +7,32 @@ use LaravelRocket\Foundation\Presenters\BasePresenter;
 
 class Base extends Model
 {
-    protected $presenterInstance;
+    protected ?BasePresenter $presenterInstance;
 
-    protected $presenter = BasePresenter::class;
+    protected string $presenter = BasePresenter::class;
 
-    /**
-     * @return string
-     */
-    public static function getTableName()
+    public function __construct(array $attributes = [])
     {
-        return with(new static())->getTable();
+        parent::__construct($attributes);
+        $this->presenterInstance = null;
+    }
+
+    public static function getTableName(): string
+    {
+        return with(new static)->getTable();
     }
 
     /**
      * @return string[]
      */
-    public static function getFillableColumns()
+    public static function getFillableColumns(): array
     {
-        return with(new static())->getFillable();
+        return with(new static)->getFillable();
     }
 
     public function present()
     {
-        if (!$this->presenterInstance) {
+        if (! $this->presenterInstance) {
             $this->presenterInstance = new $this->presenter($this);
         }
 
@@ -38,44 +42,32 @@ class Base extends Model
     /**
      * @return string[]
      */
-    public function getEditableColumns()
+    public function getEditableColumns(): array
     {
         return $this->fillable;
     }
 
-    /**
-     * @return string
-     */
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
         return $this->primaryKey;
     }
 
-    /**
-     * @param string $key
-     * @param string $locale
-     *
-     * @return string
-     */
-    public function getLocalizedColumn($key, $locale = 'en')
+    public function getLocalizedColumn(string $key, string $locale = 'en'): string
     {
         if (empty($locale)) {
             $locale = 'en';
         }
         $localizedKey = $key.'_'.strtolower($locale);
-        $value        = $this->$localizedKey;
+        $value = $this->$localizedKey;
         if (empty($value)) {
             $localizedKey = $key.'_en';
-            $value        = $this->$localizedKey;
+            $value = $this->$localizedKey;
         }
 
         return $value;
     }
 
-    /**
-     * @return array
-     */
-    public function toFillableArray()
+    public function toFillableArray(): array
     {
         $ret = [];
         foreach ($this->fillable as $key) {
@@ -88,7 +80,7 @@ class Base extends Model
     /**
      * @return string[]
      */
-    public function getDateColumns()
+    public function getDateColumns(): array
     {
         return $this->dates;
     }

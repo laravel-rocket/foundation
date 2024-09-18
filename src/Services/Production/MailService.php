@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services\Production;
 
 use Illuminate\Support\Arr;
@@ -6,7 +7,7 @@ use LaravelRocket\Foundation\Services\MailServiceInterface;
 
 class MailService extends BaseService implements MailServiceInterface
 {
-    public function sendMail($title, $from, $to, $template, $data)
+    public function sendMail(string $title, ?array $from, array $to, string $template, array $data): bool
     {
         if (config('app.offline_mode')) {
             return true;
@@ -16,20 +17,20 @@ class MailService extends BaseService implements MailServiceInterface
             return true;
         }
 
-        if (!in_array(app()->environment(), config('mail.production_environments', ['production']))) {
+        if (! in_array(app()->environment(), config('mail.production_environments', ['production']))) {
             $title = '['.app()->environment().'] '.$title;
-            $to    = [
+            $to = [
                 'address' => config('mail.tester'),
-                'name'    => app()->environment().' Original: '.$to['address'],
+                'name' => app()->environment().' Original: '.$to['address'],
             ];
         }
 
-        if (!is_array($from) || empty(Arr::get($from, 'address'))) {
+        if (! is_array($from) || empty(Arr::get($from, 'address'))) {
             $from = $this->getDefaultSender();
         }
 
         try {
-            \Mail::send($template, $data, function($m) use ($from, $to, $title) {
+            \Mail::send($template, $data, function ($m) use ($from, $to, $title) {
                 $m->from($from['address'], $from['name']);
 
                 $m->to($to['address'], $to['name'])->subject($title);
@@ -41,7 +42,7 @@ class MailService extends BaseService implements MailServiceInterface
         return true;
     }
 
-    public function getDefaultSender()
+    public function getDefaultSender(): array
     {
         return config('mail.from', []);
     }

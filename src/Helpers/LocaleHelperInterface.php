@@ -1,35 +1,19 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers;
 
 interface LocaleHelperInterface
 {
     /**
      * Set Locale.
-     *
-     * @param string                                                      $locale
-     * @param \LaravelRocket\Foundation\Models\Traits\LocaleStorable|null $user
-     *
-     * @return string
      */
-    public function setLocale($locale = null, $user = null);
+    public function setLocale(?string $locale = null, ?\LaravelRocket\Foundation\Models\Traits\LocaleStorable $user = null): string;
 
-    /**
-     * @return mixed
-     */
-    public function getLocale();
+    public function getLocale(): string;
 
-    /**
-     * @return mixed
-     */
-    public function getLocaleSubDomain();
+    public function getLocaleSubDomain(): string;
 
-    /**
-     * @return array
-     */
-    public function getEnableLocales();
+    public function getEnableLocales(): array;
 
-    /**
-     * @return array
-     */
-    public function getLocalesForForm();
+    public function getLocalesForForm(): array;
 }

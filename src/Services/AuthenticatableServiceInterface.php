@@ -1,85 +1,34 @@
 <?php
+
 namespace LaravelRocket\Foundation\Services;
+
+use LaravelRocket\Foundation\Models\AuthenticatableBase;
 
 interface AuthenticatableServiceInterface extends BaseServiceInterface
 {
-    /**
-     * @param int $id
-     *
-     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
-     */
-    public function signInById($id);
+    public function signInById(int $id): ?AuthenticatableBase;
 
-    /**
-     * @param array $input
-     *
-     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
-     */
-    public function signIn($input);
+    public function signIn(array $input): ?AuthenticatableBase;
 
-    /**
-     * @param array $input
-     *
-     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
-     */
-    public function signUp($input);
+    public function signUp(array $input): ?AuthenticatableBase;
 
-    /**
-     * @param string $email
-     *
-     * @return bool
-     */
-    public function sendPasswordReset($email);
+    public function sendPasswordReset(string $email): bool;
 
-    /**
-     * @return bool
-     */
-    public function signOut();
+    public function signOut(): bool;
 
-    /**
-     * @return bool
-     */
-    public function resignation();
+    public function resignation(): bool;
 
-    /**
-     * @param \LaravelRocket\Foundation\Models\AuthenticatableBase $user
-     */
-    public function setUser($user);
+    public function setUser(AuthenticatableBase $user): void;
 
-    /**
-     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
-     */
-    public function getUser();
+    public function getUser(): ?AuthenticatableBase;
 
-    /**
-     * @param string $email
-     */
-    public function sendPasswordResetEmail($email);
+    public function sendPasswordResetEmail(string $email): void;
 
-    /**
-     * @param string $email
-     * @param string $password
-     * @param string $token
-     *
-     * @return bool
-     */
-    public function resetPassword($email, $password, $token);
+    public function resetPassword(string $email, string $password, string $token): bool;
 
-    /**
-     * @return bool
-     */
-    public function isSignedIn();
+    public function isSignedIn(): bool;
 
-    /**
-     * @return string
-     */
-    public function getGuardName();
+    public function getGuardName(): string;
 
-    /**
-     * @param array  $input
-     * @param string $imageUrl
-     *
-     * @return \LaravelRocket\Foundation\Models\AuthenticatableBase
-     */
-    public function createWithImageUrl($input, $imageUrl);
+    public function createWithImageUrl(array $input, string $imageUrl): AuthenticatableBase;
 }

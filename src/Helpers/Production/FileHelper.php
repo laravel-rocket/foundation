@@ -1,11 +1,13 @@
 <?php
+
 namespace LaravelRocket\Foundation\Helpers\Production;
 
+use Illuminate\Http\UploadedFile;
 use LaravelRocket\Foundation\Helpers\FileHelperInterface;
 
 class FileHelper implements FileHelperInterface
 {
-    public function getFileIconHTML($mimeType)
+    public function getFileIconHTML(string $mimeType): string
     {
         if (preg_match('/^([^\/]+)\/([^\/]+)$/', $mimeType, $matches)) {
             switch ($mimeType) {
@@ -46,7 +48,7 @@ class FileHelper implements FileHelperInterface
         return '<i class="far fa-file"></i>';
     }
 
-    public function detectFileType($file)
+    public function detectFileType(UploadedFile $file): ?string
     {
         $mimeType = $file->getMimeType();
 
@@ -57,6 +59,6 @@ class FileHelper implements FileHelperInterface
             }
         }
 
-        return;
+        return null;
     }
 }
