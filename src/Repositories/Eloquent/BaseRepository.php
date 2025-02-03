@@ -60,6 +60,14 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->get();
     }
 
+    public function allByFilterWithTrashed($filter, $order = null, $direction = null): Collection|\Illuminate\Support\Collection|iterable
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->buildOrder($query, $filter, $order, $direction);
+
+        return $query->withTrashed()->get();
+    }
+
     public function getModelClassName(): string
     {
         $model = $this->getBlankModel();
@@ -112,6 +120,16 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->skip($offset)->take($limit)->get();
     }
 
+    public function getByFilterWithTrashed($filter, $order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0): Collection|\Traversable|array|\Illuminate\Support\Collection
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+        $query = $this->setBefore($query, $order, $direction, $before);
+        $query = $this->setAfter($query, $order, $direction, $after);
+        $query = $this->buildOrder($query, $filter, $order, $direction);
+
+        return $query->withTrashed()->skip($offset)->take($limit)->get();
+    }
+
     public function getEnabled($order = 'id', $direction = 'asc', $offset = 0, $limit = 20, $before = 0, $after = 0): array|\Illuminate\Support\Collection
     {
         $query = $this->getBaseQuery();
@@ -148,6 +166,13 @@ class BaseRepository implements BaseRepositoryInterface
         $query = $this->buildQueryByFilter($this->getBaseQuery(), $filter);
 
         return $query->first();
+    }
+
+    public function firstByFilterWithTrashed($filter): \Illuminate\Database\Eloquent\Model|array|Base|Builder|\Illuminate\Database\Eloquent\Builder|null
+    {
+        $query = $this->buildQueryByFilter($this->getBlankModel(), $filter);
+
+        return $query->withTrashed()->first();
     }
 
     public function updateByFilter($filter, $values): int

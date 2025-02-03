@@ -50,6 +50,17 @@ interface BaseRepositoryInterface
     public function allByFilter($filter, $order = null, $direction = null);
 
     /**
+     * Get All Models including Trashed with filter conditions.
+     *
+     * @param array  $filter
+     * @param string $order
+     * @param string $direction
+     *
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
+     */
+    public function allByFilterWithTrashed($filter, $order = null, $direction = null);
+
+    /**
      * Get Models with Order.
      *
      * @param  string  $order
@@ -75,6 +86,21 @@ interface BaseRepositoryInterface
      * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array|\Illuminate\Database\Eloquent\Collection
      */
     public function getByFilter($filter, $order, $direction, $offset, $limit, $before = 0, $after = 0);
+
+    /**
+     * Get Models including Trashed with Order.
+     *
+     * @param array  $filter
+     * @param string $order
+     * @param string $direction
+     * @param int    $offset
+     * @param int    $limit
+     * @param mixed  $before
+     * @param mixed  $after
+     *
+     * @return \LaravelRocket\Foundation\Models\Base[]|\Traversable|array
+     */
+    public function getByFilterWithTrashed($filter, $order, $direction, $offset, $limit, $before = 0, $after = 0);
 
     /**
      * Get Models with Order.
@@ -112,8 +138,16 @@ interface BaseRepositoryInterface
     public function firstByFilter($filter);
 
     /**
-     * @param  array  $filter
-     * @param  array  $values
+     * @param array $filter
+     *
+     * @return \LaravelRocket\Foundation\Models\Base|null
+     */
+    public function firstByFilterWithTrashed($filter);
+
+    /**
+     * @param array $filter
+     * @param array $values
+     *
      * @return int
      */
     public function updateByFilter($filter, $values);
