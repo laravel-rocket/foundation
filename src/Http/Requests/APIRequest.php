@@ -122,6 +122,12 @@ class APIRequest extends Request
     {
         $methods = ['PUT', 'PATCH'];
 
+        // Don't use a custom parser for multipart/form-data - Laravel handles these correctly
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+        if (str_starts_with($contentType, 'multipart/form-data')) {
+            return false;
+        }
+
         return app()->environment() !== 'testing' && in_array($_SERVER['REQUEST_METHOD'], $methods);
     }
 
